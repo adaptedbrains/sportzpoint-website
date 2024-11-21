@@ -1,13 +1,15 @@
 'use client'
+import Image from "next/image";
 import React from "react";
 
 const ArticleCard = () => {
   return (
     <div className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-      <img
+      <Image
         src="https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/media_files/2024/11/19/TH4xd5muwXkG5NPMCjxM.png" // Replace with actual image source
         alt="Indian Batting Lineup"
-        className="w-full h-80 object-cover"
+        width={800}
+        height={700}
       />
       <div className="p-4">
         <p className="text-sm text-green-600 font-semibold">Cricket</p>

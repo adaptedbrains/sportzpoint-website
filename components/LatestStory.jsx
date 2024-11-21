@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { FaTrophy } from 'react-icons/fa';
 
@@ -33,7 +34,14 @@ const LatestStories = () => {
         {stories.map((story, index) => (
           <li key={index} className="mb-4 flex">
             {story.image && (
-              <img src={story.image} alt={story.title} className="w-[40%]" />
+              <Image
+              src={story.image} 
+              alt={story.title} 
+              className='object-contain'
+              width={130} 
+              height={20} 
+             
+            />
             )}
             <div className="flex items-center mb-2 w-[60%]">
               <FaTrophy className="text-gray-500 mr-2" />

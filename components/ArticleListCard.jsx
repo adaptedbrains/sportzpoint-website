@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const ArticleListCard = ({
@@ -9,11 +10,13 @@ const ArticleListCard = ({
   readTime,
 }) => {
   return (
-    <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center">
-      <img
+    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center">
+      <Image
         src={imageUrl} // Dynamic image source
         alt="Article"
-        className=" h-32 object-contain "
+        width={230}
+        height={50}
+        className=" object-contain "
       />
       <div className="w-[80%] ">
         <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { dummyStory } from '../util/headerScore';
+import Image from 'next/image';
 
 const WebStory = ({ story = dummyStory[0] }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,10 +23,12 @@ const WebStory = ({ story = dummyStory[0] }) => {
     <div className="h-screen bg-black text-white relative overflow-hidden w-1/3 mx-auto">
       {/* Current Page */}
       <div className="absolute inset-0 flex justify-center items-center">
-        <img
+        <Image
           src={story.pages[currentPage].image}
           alt={story.pages[currentPage].heading}
-          className="w-full h-full object-cover rounded-lg shadow-lg"
+          className="object-cover rounded-lg shadow-lg"
+          layout='fill'
+
         />
 
         {/* Overlay for clickable areas */}

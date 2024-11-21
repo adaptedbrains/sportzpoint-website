@@ -56,9 +56,9 @@ const page = () => {
 
 
       {/* Last Div */}
-      <div className="col-span-3">
-        <LatestStories/>
-      </div>
+      <div className="col-span-3  start-0 top-0 h-[100vh] sticky">
+  <LatestStories />
+</div>
     </div>
 
   )
