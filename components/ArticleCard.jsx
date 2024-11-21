@@ -14,7 +14,7 @@ const ArticleCard = () => {
       <div className="p-4">
         <p className="text-sm text-green-600 font-semibold">Cricket</p>
         <h2 className="text-lg font-bold text-gray-800 mt-1">
-          Border-Gavaskar Trophy: Here is how India's batting lineup might look in the first test
+          Border-Gavaskar Trophy: Here is how India`&apos` batting lineup might look in the first test
         </h2>
         <p className="text-sm text-gray-600 mt-2">
           Since Rohit Sharma is out of this test match, the captaincy will be in the hands of Jasprit Bumrah. In such a situation, here is how India can line up their batting order in the first test of Border-Gavaskar Trophy.

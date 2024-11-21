@@ -8,6 +8,7 @@ import LoginSignUp from '@/components/LoginSignUp'
 import FeaturedEvents from '@/components/FeaturedEvents'
 import Follow from '@/components/Follow'
 import LatestStories from '@/components/LatestStory'
+import Image from 'next/image'
 const page = () => {
   
   return (
@@ -34,10 +35,12 @@ const page = () => {
               <div key={i} className="relative">
                 <Link href={`/webStory`} className="block">
               <div className="relative">
-                <img 
+                <Image 
                   src={web.pages[0].image} 
-                  alt={web.title} 
-                  className="w-full h-full object-cover" 
+                  alt={web.title}
+                  width={200} 
+                  height={70}
+                  // className="w-full h-full object-cover" 
                 />
                 {/* Black gradient overlay */}
                 <div className="absolute inset-0 bg-black opacity-50"></div>
