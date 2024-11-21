@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       <body
         className={`bg-gray-100 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div>
+        <div className=" sticky -top-16 z-20">
           <TopEventsHeader />
           <NavigationBar />
         </div>

@@ -23,9 +23,9 @@ const NavigationBar = () => {
       x: "200%", // Enter left to right
       opacity: 0,
     },
-  };
+};
   return (
-    <div className="bg-zinc-800 text-white flex justify-between items-center px-28 py-1  sticky top-0">
+    <div className="bg-zinc-800 text-white flex justify-between items-center px-28 py-1  sticky top-0 ">
       <div className="flex items-center gap-4">
         <div className="font-bold text-xl bg-white px-3 m-0 ">
           {" "}
