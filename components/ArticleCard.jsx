@@ -1,30 +1,41 @@
-'use client'
+"use client";
+
+import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
 
-const ArticleCard = () => {
+
+
+const ArticleCard = ({ post }) => {
+  if (!post) {
+    return (
+      <div className="text-center text-red-600 font-semibold">
+        Data is missing
+      </div>
+    );
+  }
+
   return (
-    <div className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-      <Image
-        src="https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/media_files/2024/11/19/TH4xd5muwXkG5NPMCjxM.png" // Replace with actual image source
-        alt="Indian Batting Lineup"
-        width={800}
-        height={700}
-      />
+    <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      {post.banner_image && (
+        <Image
+          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}
+          alt="Article"
+          width={800}
+          height={700}
+          className="object-contain"
+        />
+      )}
       <div className="p-4">
         <p className="text-sm text-green-600 font-semibold">Cricket</p>
-        <h2 className="text-lg font-bold text-gray-800 mt-1">
-          Border-Gavaskar Trophy: Here is how India`&apos` batting lineup might look in the first test
-        </h2>
-        <p className="text-sm text-gray-600 mt-2">
-          Since Rohit Sharma is out of this test match, the captaincy will be in the hands of Jasprit Bumrah. In such a situation, here is how India can line up their batting order in the first test of Border-Gavaskar Trophy.
-        </p>
+        <h2 className="text-lg font-bold text-gray-800 mt-1">{post.title}</h2>
+        <p className="text-sm text-gray-600 mt-2">{post.summary}</p>
         <div className="mt-3 flex items-center text-gray-500 text-sm">
-          <p>By Payal Debnath</p>
+          <p>{post.author.name || "Unknown Author"}</p>
           <span className="mx-2">•</span>
-          <p>Nov 19, 2024 20:42 IST</p>
+          <p>{formatDate(post.updated_at_datetime)}</p>
           <span className="mx-2">•</span>
-          <p>2 Min read</p>
+          <p>{post.readTime || "2 Min read"}</p>
         </div>
       </div>
     </div>

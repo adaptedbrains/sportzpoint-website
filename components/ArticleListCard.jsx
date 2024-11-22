@@ -1,35 +1,51 @@
+import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
 
-const ArticleListCard = ({
-  imageUrl,
-  category,
-  title,
-  author,
-  date,
-  readTime,
-}) => {
+
+
+const ArticleListCard = ({ post }) => {
+  if (!post) {
+    return (
+      <div className="text-center text-red-600 font-semibold">
+        Data is missing
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center">
-      <Image
-        src={imageUrl} // Dynamic image source
-        alt="Article"
-        width={230}
-        height={50}
-        className="object-contain"
-      />
+      {post.banner_image ? (
+        <Image
+          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}
+          alt="Article"
+          width={230}
+          height={50}
+          className="object-contain"
+        />
+      ) : (
+        <div className="flex items-center justify-center bg-gray-200 w-[230px] h-[50px] text-gray-400">
+          No Image Available
+        </div>
+      )}
       <div className="w-[80%]">
         <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
-          {category}
+          {post.category?.[0]?.name || "Uncategorized"}
         </span>
         <h3 className="mt-2 text-sm font-bold text-gray-800 leading-snug">
-          {title}
+          {post.title || "No Title Available"}
         </h3>
-        <p className="text-xs text-gray-600 mt-2">By&nbsp;{author}</p>
+        <p className="text-xs text-gray-600 mt-2">
+          By {post.author.name || "Unknown Author"}
+        </p>
         <div className="flex items-center text-xs text-gray-500 mt-2">
-          <span>{date}</span>
+          <span>
+            {post.updated_at_datetime
+              ? formatDate(post.updated_at_datetime)
+              : "No Date"}
+          </span>
           <span className="mx-2">•</span>
-          <span>{readTime}</span>
+          <span>{post.readTime || "2 min read"}</span>
         </div>
       </div>
     </div>

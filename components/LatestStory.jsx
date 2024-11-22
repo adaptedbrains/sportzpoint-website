@@ -2,55 +2,50 @@ import Image from 'next/image';
 import React from 'react';
 import { FaTrophy } from 'react-icons/fa';
 
-const LatestStories = () => {
-  const stories = [
-    {
-      title: "Japan remain top of Group C after defeating China in World Cup Qualifiers",
-      description: "Brief description of the story",
-      image: "https://img-cdn.thepublive.com/fit-in/300x0/filters:format(webp)/sportzpoint/media/media_files/2024/11/20/w3M23TMKTWazI5OCEvMu.jpg" // Add image path if available
-    },
-    {
-      title: "Border-Gavaskar Trophy: Here is how India's battling lineup might look in the first test",
-      description: "Brief description of the story",
-      image: "https://img-cdn.thepublive.com/fit-in/300x0/filters:format(webp)/sportzpoint/media/media_files/2024/11/20/w3M23TMKTWazI5OCEvMu.jpg" // Add image path if available
-    },
-    {
-      title: "'You challenged me in ways no one else could': Roger Federer's special message on Rafael...",
-      description: "Brief description of the story",
-      image: "https://img-cdn.thepublive.com/fit-in/300x0/filters:format(webp)/sportzpoint/media/media_files/2024/11/20/w3M23TMKTWazI5OCEvMu.jpg" // Add image path if available
-    },
-  ];
-
+const LatestStories = ({ stories }) => {
   return (
-    <div className="bg-white  rounded shadow p-4">
-        <div className='flex justify-between items-center'>
-
-      <h2 className="text-xl font-bold mb-4 text-green-800">Latest Stories</h2>
-      <div className='w-32 mb-2 h-[1px] bg-green-800'>
-
+    <div className="bg-white rounded shadow p-4">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-green-800">Latest Stories</h2>
+        <div className="w-32 h-[1px] bg-green-800"></div>
       </div>
-        </div>
-      <ul className="list-none">
-        {stories.map((story, index) => (
-          <li key={index} className="mb-4 flex">
-            {story.image && (
-              <Image
-              src={story.image} 
-              alt={story.title} 
-              className='object-contain'
-              width={130} 
-              height={20} 
-             
-            />
-            )}
-            <div className="flex items-center mb-2 w-[60%]">
-              <FaTrophy className="text-gray-500 mr-2" />
-              <h3 className="text-sm font-bold">{story.title}</h3>
-            </div>
-            {/* <p>{story.description}</p> */}
-          </li>
-        ))}
-      </ul>
+
+      {/* Check if stories exist */}
+      {!stories || stories.length === 0 ? (
+        <p className="text-center text-gray-500">Data is missing</p>
+      ) : (
+        <ul className="space-y-4">
+          {stories.map((story, index) => (
+            <li
+              key={index}
+              className="flex items-start gap-4 border-b pb-4 last:border-b-0"
+            >
+              {/* Story Image */}
+              {story.banner_image && (
+                <Image
+                  src={`https://img-cdn.thepublive.com/fit-in/600x200/filters:format(webp)/${story.banner_image}`}
+                  alt={story.title}
+                  className="rounded object-cover"
+                  width={150}
+                  height={100}
+                />
+              )}
+
+              {/* Story Details */}
+              <div className="flex-1">
+                <div className="flex items-center mb-1">
+                 
+                  <h3 className="text-sm font-bold text-gray-800">
+                    {story.title.slice(0,40)}
+                  </h3>
+                </div>
+                <p className="text-xs text-gray-600">{story.summary.slice(0,50)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
