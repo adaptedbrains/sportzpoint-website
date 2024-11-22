@@ -9,14 +9,16 @@ import Link from "next/link";
 const NavigationBar = () => {
   const [search, setSearch] = useState("remove");
   const navigationItems = [
-    { name: "Football", slugName: "/football" },
     { name: "Cricket", slugName: "/cricket" },
-    { name: "Chess", slugName: "/chess" },
-    { name: "ISL", slugName: "/isl" },
-    { name: "F1", slugName: "/f1" },
-    { name: "NBA", slugName: "/nba" },
+    { name: "Football", slugName: "/football" },
     { name: "Hockey", slugName: "/hockey" },
-    { name: "More Sports", slugName: "/more-sports" },
+    // { name: "ICC WT20 WC 24", slugName: "/tags/icc-womens-t20-world-cup-2024" },
+    { name: "ISL 2024-25", slugName: "/tags/isl-2024-25" },
+    // { name: "Premier League 2024-25", slugName: "/tags/sportz-point-speaks" },
+    { name: "Women In Sports", slugName: "/tags/women-in-sports" },
+    { name: "Athletics", slugName: "/athletics" },
+    { name: "Tennis", slugName: "/tennis" },
+    
   ];
   const variants = {
     enter: {

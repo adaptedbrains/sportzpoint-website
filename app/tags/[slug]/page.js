@@ -14,24 +14,23 @@ import LatestStories from "@/components/LatestStory";
 
 const Page = () => {
     const pathname = usePathname(); // Get the current route path
-    const slug = pathname.split("/")[1]; // Extract the slug from the path
+    const slug = pathname.split("/")[2]; // Extract the slug from the path
 
     const [currentPage, setCurrentPage] = useState(1); // State to manage the current page
     const { posts, loading, error, fetchPosts, totalPages } = usePostStore();
-    console.log("postspostsposts", posts);
 
     // Fetch posts when slug or page changes
     useEffect(() => {
         if (slug) {
             setCurrentPage(1); // Reset page to 1 when slug changes
-            const url = `http://localhost:8000/articles/category/${slug}?limit=20&page=1`;
+            const url = `http://localhost:8000/articles/tags/${slug}?limit=20&page=1`;
             fetchPosts(url);
         }
     }, [slug]);
 
     useEffect(() => {
         if (slug) {
-            const url = `http://localhost:8000/articles/category/${slug}?limit=20&page=${currentPage}`;
+            const url = `http://localhost:8000/articles/tags/${slug}?limit=20&page=${currentPage}`;
             fetchPosts(url);
         }
     }, [slug, currentPage]);
@@ -136,69 +135,6 @@ const Page = () => {
                     <LatestStories stories={posts.slice(0,3)} />
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </>
     );

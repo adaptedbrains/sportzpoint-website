@@ -1,10 +1,14 @@
+'use client'
+
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
 
 
 const ArticleGridCard = ({ post }) => {
+  const router = useRouter();
   if (!post) {
     return (
       <div className="text-center text-red-600 font-semibold">
@@ -12,9 +16,12 @@ const ArticleGridCard = ({ post }) => {
       </div>
     );
   }
+  const handleClick = () => {
+    router.push(`/${post.categories[0].slug}/${post._id}`); // Adjust the route as needed
+  };
 
   return (
-    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md">
+    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md  cursor-pointer"  onClick={handleClick} >
       <div className="relative w-full h-[100px]">
         {post.banner_image ? (
           <Image

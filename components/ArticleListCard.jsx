@@ -1,10 +1,14 @@
+'use client'
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
 
 
 const ArticleListCard = ({ post }) => {
+  const router = useRouter();
+
   if (!post) {
     return (
       <div className="text-center text-red-600 font-semibold">
@@ -12,9 +16,13 @@ const ArticleListCard = ({ post }) => {
       </div>
     );
   }
+  const handleClick = () => {
+    router.push(`/${post.categories[0].slug}/${post._id}`); // Adjust the route as needed
+  };
+
 
   return (
-    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center">
+    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center  cursor-pointer"onClick={handleClick} >
       {post.banner_image ? (
         <Image
           src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}
