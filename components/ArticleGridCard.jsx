@@ -41,8 +41,8 @@ const ArticleGridCard = ({ post }) => {
       <div className="relative w-full h-[150px]">
         {post.banner_image ? (
           <Image
-            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
-            alt="Article"
+          src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
+                      alt="Article"
             layout="fill"
             objectFit="cover"
             objectPosition="center"

@@ -1,5 +1,5 @@
 
-export async function olympics(url) {
+export async function latestPublishPostByCategories(url) {
     const result = await fetch(url);
     
     if (!result.ok) {

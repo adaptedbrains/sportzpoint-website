@@ -1,4 +1,3 @@
-// components/BlogPost.js
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,9 +5,8 @@ import React from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
-import IframeComponent from "./IframeComponent";
 import { sanitizeContent } from "@/utils/sanitize";
-import Script from 'next/script';
+import Script from "next/script";
 
 const socialMedia = [
   {
@@ -34,17 +32,17 @@ const BlogPost = ({ postData }) => {
     // Function to load Instagram embeds
     const loadInstagramEmbeds = () => {
       // Remove any existing Instagram script first
-      const existingScript = document.getElementById('instagram-embed-script');
+      const existingScript = document.getElementById("instagram-embed-script");
       if (existingScript) {
         existingScript.remove();
       }
 
       // Create and add the script
-      const script = document.createElement('script');
-      script.id = 'instagram-embed-script';
-      script.src = '//www.instagram.com/embed.js';
+      const script = document.createElement("script");
+      script.id = "instagram-embed-script";
+      script.src = "//www.instagram.com/embed.js";
       script.async = true;
-      
+
       // Add onload handler
       script.onload = () => {
         if (window.instgrm) {
@@ -69,7 +67,7 @@ const BlogPost = ({ postData }) => {
     // Cleanup
     return () => {
       clearInterval(interval);
-      const script = document.getElementById('instagram-embed-script');
+      const script = document.getElementById("instagram-embed-script");
       if (script) {
         script.remove();
       }
@@ -148,10 +146,10 @@ const BlogPost = ({ postData }) => {
         </div>
       )}
 
-      <article 
+      <article
         className="blog-content"
-        dangerouslySetInnerHTML={{ 
-          __html: sanitizeContent(postData.content)
+        dangerouslySetInnerHTML={{
+          __html: sanitizeContent(postData.content),
         }}
       />
 

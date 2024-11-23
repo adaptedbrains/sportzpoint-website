@@ -7,8 +7,9 @@ import ArticleCard from "@/components/ArticleCard";
 import ArticleGridCard from "@/components/ArticleGridCard";
 // import LatestStories from "@/components/LatestStory";
 import { latestPost } from "@/lib/latestPost";
-import { olympics } from "@/lib/olympics"; // Assuming you have a separate olympics API function
-// import LatestStory from "@/components/LatestStory";
+import { latestPublishPostByCategories } from "@/lib/latestPublishPost";
+import LastestPostForRootPage from "@/components/LastestPostForRootPage";
+// import LatestPostCardList from "@/components/LatestPostCard";
 
 
 const Sidebar = () => (
@@ -24,17 +25,17 @@ const Page = async () => {
   // Fetch data for both latest posts and olympics
   const latestPostsData = latestPost();
   // process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}
-  const olympicsLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/olympics?limit=5&page=1`);
-  const cricketLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/cricket?limit=5&page=1`);
-  const footballLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/football?limit=5&page=1`);
-  const tennisLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/tennis?limit=5&page=1`);
-  const hockeyLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/hockey?limit=5&page=1`);
-  const women_in_sportsLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/women-in-sports?limit=5&page=1`);
-  const eSportsLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/e-sports?limit=5&page=1`);
-  const athleticsLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/athletics?limit=5&page=1`);
-  // const transfer_newsLatest = olympics(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/transfer_news?limit=5&page=1`);
-  // mmmmm
-  // Wait for both promises to resolve
+  const olympicsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/olympics?limit=5&page=1`);
+  const cricketLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/cricket?limit=5&page=1`);
+  const footballLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/football?limit=5&page=1`);
+  const tennisLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/tennis?limit=5&page=1`);
+  const hockeyLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/hockey?limit=5&page=1`);
+  const badmintonLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/badminton?limit=5&page=1`);
+  
+  const women_in_sportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/women-in-sports?limit=5&page=1`);
+  const eSportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/e-sports?limit=5&page=1`);
+  const athleticsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/athletics?limit=5&page=1`);
+  
   const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics] = await Promise.all([
     latestPostsData,
     olympicsLatest,
@@ -42,11 +43,13 @@ const Page = async () => {
     footballLatest,
     tennisLatest,
     hockeyLatest,
+    badmintonLatest,
     women_in_sportsLatest,
     eSportsLatest,
     athleticsLatest,
   ]);
-
+  console.log("athleticsathletics",athletics);
+  
   return (
     <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
       {/* Sidebar hidden on small screens */}
@@ -243,7 +246,7 @@ const Page = async () => {
         <div className="olympic ">
           <div className="flex items-center gap-4 my-7">
 
-            <h1 className="text-3xl text-green-700 font-semibold">badminton
+            <h1 className="text-3xl text-green-700 font-semibold">Badminton
             </h1>
             <div className="w-20 h-[2px] bg-green-800 mt-1">
 
@@ -399,7 +402,7 @@ const Page = async () => {
       </div>
 
       <div className="col-span-1 lg:col-span-3 sticky top-20 h-screen overflow-y-auto hidden lg:block">
-
+      <LastestPostForRootPage/>
       </div>
     </div>
   );

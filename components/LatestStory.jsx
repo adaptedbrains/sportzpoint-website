@@ -26,10 +26,10 @@ const LatestStories = () => {
     }
   }, [fetchPosts]);
 
-  const handleClick = (category, id) => {
+  const handleClick = (category,slug, id) => {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles?excludeId=${id}`;
     fetchPosts(url); // Fetch excluding the clicked story's ID
-    router.push(`/${category}/${id}`); // Navigate to the story's page
+    router.push(`/${category}/${slug}`); // Navigate to the story's page
   };
 
   const truncatedStories = useMemo(() => {
@@ -57,7 +57,7 @@ const LatestStories = () => {
             <li
               key={index}
               className="flex items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer"
-              onClick={() => handleClick(story.categories[0].slug, story.slug)}
+              onClick={() => handleClick(story.categories[0].slug, story.slug,story._id)}
             >
               {/* Story Image */}
               {story.banner_image && (
