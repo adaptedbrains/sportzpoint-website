@@ -6,3 +6,66 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Add these styles for blog post content */
+.blog-content {
+  @apply text-base leading-relaxed text-gray-800;
+}
+
+.blog-content p {
+  @apply mb-4;
+}
+
+.blog-content h2 {
+  @apply text-2xl font-bold my-6;
+}
+
+.blog-content h3 {
+  @apply text-xl font-bold my-4;
+}
+
+.blog-content ul, .blog-content ol {
+  @apply ml-6 mb-4;
+}
+
+.blog-content ul {
+  @apply list-disc;
+}
+
+.blog-content ol {
+  @apply list-decimal;
+}
+
+.blog-content li {
+  @apply mb-2;
+}
+
+.blog-content img {
+  @apply my-6 rounded-lg mx-auto;
+}
+
+.blog-content a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+
+.blog-content blockquote {
+  @apply pl-4 border-l-4 border-gray-300 italic my-4;
+}
+
+/* Add these styles for Twitter embeds */
+.twitter-tweet {
+  margin: 1em auto !important;
+  max-width: 550px !important;
+}
+
+.blog-content blockquote.twitter-tweet {
+  border: none;
+  padding: 0;
+  margin: 1em auto;
+}
+
+.blog-content blockquote.twitter-tweet p {
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 1em;
+}

@@ -7,6 +7,8 @@ import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import IframeComponent from "./IframeComponent";
+import { sanitizeContent } from "@/utils/sanitize";
+import Script from 'next/script';
 
 const socialMedia = [
   {
@@ -28,6 +30,31 @@ const socialMedia = [
 ];
 
 const BlogPost = ({ postData }) => {
+  React.useEffect(() => {
+    // Load Twitter widgets
+    const loadTwitterWidget = () => {
+      if (window.twttr) {
+        window.twttr.widgets.load();
+      } else {
+        const script = document.createElement('script');
+        script.src = "https://platform.twitter.com/widgets.js";
+        script.async = true;
+        script.charset = "utf-8";
+        document.head.appendChild(script);
+      }
+    };
+
+    loadTwitterWidget();
+
+    return () => {
+      // Cleanup if needed
+      const script = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]');
+      if (script) {
+        script.remove();
+      }
+    };
+  }, [postData.content]);
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
       <Link
@@ -101,12 +128,11 @@ const BlogPost = ({ postData }) => {
       )}
 
       <article 
-        className="prose prose-lg max-w-none mt-6"
+        className="blog-content"
         dangerouslySetInnerHTML={{ 
-          __html: postData.content
+          __html: sanitizeContent(postData.content)
         }}
       />
-
     </div>
   );
 };

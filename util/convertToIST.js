@@ -1,4 +1,4 @@
-export const formatDate = (dateString) => {
+export const convertToIST = (dateString) => {
   const date = new Date(dateString);
   const options = {
     day: "numeric",
@@ -8,9 +8,5 @@ export const formatDate = (dateString) => {
     minute: "numeric",
     hour12: true,
   };
-
   return date.toLocaleDateString("en-US", options);
-};
-  
- 
-  
+}; 
