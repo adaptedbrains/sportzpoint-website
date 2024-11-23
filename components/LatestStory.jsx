@@ -1,8 +1,35 @@
-import Image from 'next/image';
-import React from 'react';
-import { FaTrophy } from 'react-icons/fa';
+import usePostStore from "@/store/postStore";
+import Image from "next/image";
+import React, { useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
-const LatestStories = ({ stories }) => {
+const LatestStories = () => {
+  const router = useRouter();
+  const { fetchLatestStory, latestStory } = usePostStore();
+
+  const fetchPosts = useCallback(async (url) => {
+    await fetchLatestStory(url); // Assuming `fetchLatestStory` fetches and updates the store
+  }, [fetchLatestStory]);
+
+  useEffect(() => {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles`;
+    fetchPosts(url);
+  }, [latestStory]);
+
+  const handleClick = (category, id) => {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles?excludeId=${id}`;
+    fetchPosts(url);
+    router.push(`/${category}/${id}`);
+  };
+
+  const truncatedStories = useMemo(() => {
+    return latestStory.map((story) => ({
+      ...story,
+      title: story.title.slice(0, 40),
+      summary: story.summary.slice(0, 50),
+    }));
+  }, [latestStory]);
+
   return (
     <div className="bg-white rounded shadow p-4">
       {/* Header */}
@@ -12,14 +39,15 @@ const LatestStories = ({ stories }) => {
       </div>
 
       {/* Check if stories exist */}
-      {!stories || stories.length === 0 ? (
+      {!latestStory || latestStory.length === 0 ? (
         <p className="text-center text-gray-500">Data is missing</p>
       ) : (
         <ul className="space-y-4">
-          {stories.map((story, index) => (
+          {truncatedStories.map((story, index) => (
             <li
               key={index}
-              className="flex items-start gap-4 border-b pb-4 last:border-b-0"
+              className="flex items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer"
+              onClick={() => handleClick(story.categories[0].slug, story._id)}
             >
               {/* Story Image */}
               {story.banner_image && (
@@ -35,12 +63,11 @@ const LatestStories = ({ stories }) => {
               {/* Story Details */}
               <div className="flex-1">
                 <div className="flex items-center mb-1">
-                 
                   <h3 className="text-sm font-bold text-gray-800">
-                    {story.title.slice(0,40)}
+                    {story.title}
                   </h3>
                 </div>
-                <p className="text-xs text-gray-600">{story.summary.slice(0,50)}</p>
+                <p className="text-xs text-gray-600">{story.summary}</p>
               </div>
             </li>
           ))}

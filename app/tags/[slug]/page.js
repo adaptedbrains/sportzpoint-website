@@ -23,14 +23,14 @@ const Page = () => {
     useEffect(() => {
         if (slug) {
             setCurrentPage(1); // Reset page to 1 when slug changes
-            const url = `http://localhost:8000/articles/tags/${slug}?limit=20&page=1`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=1`;
             fetchPosts(url);
         }
     }, [slug]);
 
     useEffect(() => {
         if (slug) {
-            const url = `http://localhost:8000/articles/tags/${slug}?limit=20&page=${currentPage}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=${currentPage}`;
             fetchPosts(url);
         }
     }, [slug, currentPage]);
@@ -65,33 +65,26 @@ const Page = () => {
     };
 
     return (
-
-
         <>
-
-            <div className="grid grid-cols-10 gap-4 px-28 mt-7">
-                {/* First Div */}
-                <div className="col-span-2 flex flex-col gap-4 sticky -top-40 h-[120vh] ">
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-4 px-4 md:px-28 mt-7">
+                {/* First Div (Sidebar) */}
+                <div className="hidden md:flex col-span-2 flex-col gap-4 sticky -top-40 h-[120vh]">
                     <LoginSignUp />
                     <FeaturedEvents />
                     <Follow />
                 </div>
 
-                {/* Middle Div */}
-                <div className="col-span-5">
+                {/* Middle Div (Main Content) */}
+                <div className="col-span-10 md:col-span-5">
                     <ArticleCard post={posts && posts[0]} />
                     <div className="grid grid-cols-1 gap-3">
-                        {posts.slice(1,11).map((article, index) => (
+                        {posts.slice(1, 11).map((article, index) => (
                             <ArticleListCard key={index} post={article} />
                         ))}
                     </div>
 
-
-
-
-
-                    <div className="grid grid-cols-3 gap-3">
-                        {posts && posts.slice(11,20).map((article, index) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {posts && posts.slice(11, 20).map((article, index) => (
                             <ArticleGridCard key={index} post={article} />
                         ))}
                     </div>
@@ -126,16 +119,13 @@ const Page = () => {
                             Next
                         </button>
                     </div>
-
-
                 </div>
 
-                {/* Last Div */}
-                <div className="col-span-3 sticky top-20 h-screen overflow-y-auto">
-                    <LatestStories stories={posts.slice(0,3)} />
+                {/* Last Div (Latest Stories Sidebar) */}
+                <div className="hidden md:flex col-span-3 sticky top-20 h-screen overflow-y-auto">
+                    <LatestStories stories={posts.slice(0, 3)} />
                 </div>
             </div>
-
         </>
     );
 };

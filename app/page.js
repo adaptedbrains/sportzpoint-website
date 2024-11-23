@@ -1,77 +1,107 @@
-'use client';
-import ArticleCard from '@/components/ArticleCard';
-import ArticleListCard from '@/components/ArticleListCard';
-import React from 'react';
-import { dummyStory, CricketArticles } from '../util/headerScore';
-import Link from 'next/link';
-import LoginSignUp from '@/components/LoginSignUp';
-import FeaturedEvents from '@/components/FeaturedEvents';
-import Follow from '@/components/Follow';
-import LatestStories from '@/components/LatestStory';
-import Image from 'next/image';
-import ArticleGridCard from '@/components/ArticleGridCard';
+"use client";
+
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import usePostStore from "@/store/postStore";
+import FeaturedEvents from "@/components/FeaturedEvents";
+import LoginSignUp from "@/components/LoginSignUp";
+import Follow from "@/components/Follow";
+import ArticleListCard from "@/components/ArticleListCard";
+import ArticleCard from "@/components/ArticleCard";
+import ArticleGridCard from "@/components/ArticleGridCard";
+import LatestStories from "@/components/LatestStory";
+
+const Sidebar = () => (
+    <div className="col-span-2  flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
+        {/* Sidebar is hidden on screens smaller than 'lg' */}
+        <LoginSignUp />
+        <FeaturedEvents />
+        <Follow />
+    </div>
+);
+
+const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }) => {
+    const pageButtons = useMemo(() => {
+        if (!totalPages) return [];
+        const buttons = [1];
+        if (currentPage > 1) buttons.push(currentPage - 1);
+        buttons.push(currentPage);
+        if (currentPage < totalPages) buttons.push(currentPage + 1);
+        if (currentPage !== totalPages) buttons.push(totalPages);
+        return [...new Set(buttons)].sort((a, b) => a - b);
+    }, [currentPage, totalPages]);
+
+    const handlePageChange = useCallback((page) => {
+        setCurrentPage(page);
+    }, []);
+
+    return (
+        <div className="flex items-center justify-center gap-2 mt-6">
+            <button
+                className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                disabled={currentPage === 1 || loading}
+            >
+                Previous
+            </button>
+            {pageButtons.map((page) => (
+                <button
+                    key={page}
+                    className={`px-4 py-2 rounded ${
+                        page === currentPage ? "bg-blue-500 text-white" : "bg-gray-200"
+                    }`}
+                    onClick={() => handlePageChange(page)}
+                >
+                    {page}
+                </button>
+            ))}
+            <button
+                className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                onClick={() => handlePageChange(totalPages ? Math.min(currentPage + 1, totalPages) : currentPage + 1)}
+                disabled={currentPage === totalPages || loading}
+            >
+                Next
+            </button>
+        </div>
+    );
+};
 
 const Page = () => {
-  return (
-    // <div className="grid grid-cols-10 gap-4 px-28 mt-7">
-    //   {/* First Div */}
-    //   <div className="col-span-2 flex flex-col gap-4 sticky -top-40 h-[120vh] ">
-    //     <LoginSignUp />
-    //     <FeaturedEvents />
-    //     <Follow />
-    //   </div>
+    const [currentPage, setCurrentPage] = useState(1);
+    const { posts, loading, fetchPosts, totalPages } = usePostStore();
 
-    //   {/* Middle Div */}
-    //   <div className="col-span-5">
-    //     <ArticleCard />
-    //     <div className="grid grid-cols-1 gap-3">
-    //       {CricketArticles.map((article, index) => (
-    //         <ArticleListCard key={index} {...article} />
-    //       ))}
-    //     </div>
-    //     <div className="grid grid-cols-3 gap-2 mt-7 bg-black p-3">
-    //       {dummyStory &&
-    //         dummyStory.map((web, i) => {
-    //           return (
-    //             <div key={i} className="relative">
-    //               <Link href={`/webStory`} className="block">
-    //                 <div className="relative">
-    //                   <Image
-    //                     src={web.pages[0].image}
-    //                     alt={web.title}
-    //                     width={200}
-    //                     height={70}
-    //                   />
-    //                   {/* Black gradient overlay */}
-    //                   <div className="absolute inset-0 bg-black opacity-50"></div>
-    //                   <div className="absolute bottom-0 left-0 right-0 p-4">
-    //                     <h4 className="text-white font-semibold">{web.title}</h4>
-    //                     <p className="text-white">{web.description}</p>
-    //                   </div>
-    //                 </div>
-    //               </Link>
-    //             </div>
-    //           );
-    //         })}
-    //     </div>
-    //     <div className="grid grid-cols-3 gap-3">
-    //       {CricketArticles.map((article, index) => (
-    //         <ArticleGridCard key={index} {...article} />
-    //       ))}
-    //     </div>
-        
-       
-    //   </div>
+    useEffect(() => {
+        fetchPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/cricket?limit=20&page=${currentPage}`);
+    }, [currentPage]);
 
-    //   {/* Last Div */}
-    //   <div className="col-span-3 sticky top-20 h-screen overflow-y-auto">
-    //     <LatestStories />
-    //   </div>
-    // </div>
-    <div>
-      Hi
-    </div>
-  );
+    return (
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
+            {/* Sidebar hidden on small screens */}
+            <Sidebar />
+            <div className="col-span-1 lg:col-span-5">
+                {posts?.[0] && <ArticleCard post={posts[0]} />}
+                <div className="grid grid-cols-1 gap-3">
+                    {posts?.slice(1, 11).map((article, index) => (
+                        <ArticleListCard key={index} post={article} />
+                    ))}
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {posts?.slice(11, 20).map((article, index) => (
+                        <ArticleGridCard key={index} post={article} />
+                    ))}
+                </div>
+                <PaginationControls
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    totalPages={totalPages}
+                    loading={loading}
+                />
+            </div>
+            <div className="col-span-1 lg:col-span-3 sticky top-20 h-screen overflow-y-auto">
+                {/* Latest Stories hidden on small screens */}
+                <LatestStories />
+            </div>
+        </div>
+    );
 };
 
 export default Page;
