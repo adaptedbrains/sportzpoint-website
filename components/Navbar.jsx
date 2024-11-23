@@ -48,7 +48,8 @@ const NavigationBar = () => {
           >
             {!isMenuOpen && <RiMenu2Line size={25} color="black" />}
           </button>
-          <Image src={"/logo/logo.webp"} alt="logo" width={150} height={30} />
+          <Link href={"/"} >
+          <Image src={"/logo/logo.webp"} alt="logo" width={150} height={30} /></Link>
         </div>
 
         {/* Hamburger Icon for mobile */}

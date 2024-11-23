@@ -1,25 +1,34 @@
 import usePostStore from "@/store/postStore";
 import Image from "next/image";
-import React, { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const LatestStories = () => {
   const router = useRouter();
   const { fetchLatestStory, latestStory } = usePostStore();
+  const isFirstLoad = useRef(true); // Ref to track first load
 
-  const fetchPosts = useCallback(async (url) => {
-    await fetchLatestStory(url); // Assuming `fetchLatestStory` fetches and updates the store
-  }, [fetchLatestStory]);
+  // Function to fetch posts with optional excludeId
+  const fetchPosts = useCallback(
+    async (url) => {
+      await fetchLatestStory(url); // Fetch and update the store
+    },
+    [fetchLatestStory]
+  );
 
+  // Only fetch the posts on the initial render
   useEffect(() => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles`;
-    fetchPosts(url);
-  }, [latestStory]);
+    if (isFirstLoad.current) {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles`;
+      fetchPosts(url);
+      isFirstLoad.current = false; // Prevent fetching again on re-renders
+    }
+  }, [fetchPosts]);
 
   const handleClick = (category, id) => {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/article/latest-articles?excludeId=${id}`;
-    fetchPosts(url);
-    router.push(`/${category}/${id}`);
+    fetchPosts(url); // Fetch excluding the clicked story's ID
+    router.push(`/${category}/${id}`); // Navigate to the story's page
   };
 
   const truncatedStories = useMemo(() => {
@@ -63,9 +72,7 @@ const LatestStories = () => {
               {/* Story Details */}
               <div className="flex-1">
                 <div className="flex items-center mb-1">
-                  <h3 className="text-sm font-bold text-gray-800">
-                    {story.title}
-                  </h3>
+                  <h3 className="text-sm font-bold text-gray-800">{story.title}</h3>
                 </div>
                 <p className="text-xs text-gray-600">{story.summary}</p>
               </div>
