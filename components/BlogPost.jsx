@@ -76,12 +76,22 @@ const BlogPost = ({ postData }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-      <Link
-        href={`/${postData.categories[0].slug}`}
-        className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
-      >
-        {postData.categories[0].name}
-      </Link>
+      <div className="flex gap-2">
+
+      {postData.categories.length &&
+        postData.categories !== 0 &&
+        postData.categories.map((c, i) => (
+          <Link
+          href={`/${c.slug}`}
+          key={i}
+          className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
+          >
+            {c.name}
+          </Link>
+        ))}
+
+        </div>
+      
       <h2 className="text-3xl font-semibold text-start my-4">
         {postData.title}
       </h2>

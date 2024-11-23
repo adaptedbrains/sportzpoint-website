@@ -56,9 +56,13 @@ const ArticleGridCard = ({ post }) => {
         )}
       </div>
       <div className="w-full p-2">
-        <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
-          {post.categories?.[0]?.name || "Uncategorized"}
-        </span>
+        <div className="flex gap-1">
+
+      {post.categories.length && post.categories!==0 && post.categories.map((c,i)=><span key={i} className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
+          {c?.name || "Uncategorized"}
+        </span>)}
+        </div>
+        
         <h3 className="mt-2 text-sm font-bold text-gray-800 leading-snug">
           {post.title || "No Title Available"}
         </h3>

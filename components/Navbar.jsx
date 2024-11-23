@@ -15,6 +15,8 @@ const NavigationBar = () => {
     { name: "Cricket", slugName: "/cricket" },
     { name: "Football", slugName: "/football" },
     { name: "Hockey", slugName: "/hockey" },
+    { name: "Icc Wt20 Wc 24", slugName: "/tags/icc-womens-t20-world-cup-2024" },
+    
     { name: "ISL 2024-25", slugName: "/tags/isl-2024-25" },
     { name: "Women In Sports", slugName: "/tags/women-in-sports" },
     { name: "Athletics", slugName: "/athletics" },
