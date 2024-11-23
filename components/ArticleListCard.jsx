@@ -38,7 +38,7 @@ const ArticleListCard = ({ post }) => {
       )}
       <div className="w-[80%]">
         <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
-          {post.category?.[0]?.name || "Uncategorized"}
+          {post.categories?.[0]?.name || "Uncategorized"} 
         </span>
         <h3 className="mt-2 text-sm font-bold text-gray-800 leading-snug">
           {post.title || "No Title Available"}

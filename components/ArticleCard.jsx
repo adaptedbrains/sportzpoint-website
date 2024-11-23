@@ -36,7 +36,7 @@ const ArticleCard = ({ post }) => {
         />
       )}
       <div className="p-4">
-        <p className="text-sm text-green-600 font-semibold">Cricket</p>
+        <p className="text-sm text-green-600 font-semibold">{post.categories?.[0]?.name || "Uncategorized"} </p>
         <h2 className="text-lg font-bold text-gray-800 mt-1">{post.title}</h2>
         <p className="text-sm text-gray-600 mt-2">{post.summary}</p>
         <div className="mt-3 flex items-center text-gray-500 text-sm">

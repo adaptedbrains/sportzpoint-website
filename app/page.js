@@ -68,9 +68,8 @@ const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }
 const Page = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { posts, loading, fetchPosts, totalPages } = usePostStore();
-
     useEffect(() => {
-        fetchPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/cricket?limit=20&page=${currentPage}`);
+        fetchPosts(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=${currentPage}`);
     }, [currentPage]);
 
     return (
