@@ -9,7 +9,7 @@ import { RiMenu2Line } from "react-icons/ri";
 
 const NavigationBar = () => {
   const [search, setSearch] = useState("remove");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control the menu
+  // const [isMenuOpen, setIsMenuOpen] = useState(false); /
 
   const navigationItems = [
     { name: "Cricket", slugName: "/cricket" },
@@ -19,6 +19,9 @@ const NavigationBar = () => {
     { name: "Women In Sports", slugName: "/tags/women-in-sports" },
     { name: "Athletics", slugName: "/athletics" },
     { name: "Tennis", slugName: "/tennis" },
+    { name: "Premier League 2024-25", slugName: "/tags/english-premier-league-2024-25" },
+    { name: "Sportz Point Speaks", slugName: "/tags/sportz-point-speaks" },
+    
   ];
 
   const variants = {
@@ -39,18 +42,19 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="bg-green-800 text-white flex justify-between items-center px-4 lg:px-28 py-1 sticky top-0">
-      <div className="flex items-center  gap-4 w-full">
-        <div className="font-bold text-xl bg-white px-3 m-0 flex gap-1 items-center">
-          <button
+    <div className="border-t border-b border-[#E6E8EA] bg-gray-100 text-black flex justify-center items-center px-4 lg:px-28 py-1 sticky top-0">
+      <div className="flex items-center justify-center  gap-4 w-full">
+          {/* <button
             className="lg:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {!isMenuOpen && <RiMenu2Line size={25} color="black" />}
-          </button>
-          <Link href={"/"} >
-          <Image src={"/logo/logo.webp"} alt="logo" width={150} height={30} /></Link>
+          </button> */}
+          {/* <Link href={"/"} >
+        <div className="font-bold text-xl bg-white px-3 m-0 flex gap-1 items-center">
+          <Image src={"/logo/logo.webp"} alt="logo" width={150} height={30} />
         </div>
+          </Link> */}
 
         {/* Hamburger Icon for mobile */}
 
@@ -64,7 +68,7 @@ const NavigationBar = () => {
             >
               <Link
                 href={nav.slugName}
-                className="hover:text-white text-zinc-300"
+                className="hover:text-black text-zinc-900 font-bold"
               >
                 {nav.name}
               </Link>
@@ -77,7 +81,7 @@ const NavigationBar = () => {
       </div>
 
       {/* Hamburger Menu for Mobile */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             className="fixed top-0 left-0 w-3/4 bg-green-800 h-full z-50 p-4"
@@ -109,7 +113,7 @@ const NavigationBar = () => {
         )}
       </AnimatePresence>
 
-      {/* Search Input */}
+     
       <div className="flex items-center gap-4 relative">
         <div className="overflow-hidden">
           <AnimatePresence>
@@ -143,7 +147,7 @@ const NavigationBar = () => {
           )}
         </button>
         <FaUser className="border p-1 rounded-full" size={25} />
-      </div>
+      </div> */}
     </div>
   );
 };

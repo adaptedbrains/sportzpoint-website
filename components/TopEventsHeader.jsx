@@ -2,7 +2,9 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { events } from "../util/headerScore"; // Import events from the provided file
-import { FaChevronRight } from "react-icons/fa"; // Importing React Icon
+import { FaChevronRight, FaSearch,FaUser } from "react-icons/fa"; // Importing React Icon
+import Image from "next/image";
+import { AnimatePresence } from "framer-motion";
 
 const EventSection = () => {
   const [visibleMatches, setVisibleMatches] = useState([]);
@@ -41,64 +43,108 @@ const EventSection = () => {
       return updated;
     });
   };
+  const [search, setSearch] = useState("remove");
 
   return (
-    <div className="flex mx-auto  gap-4 overflow-hidden w-[85%]">
-      <div className="flex items-center">
-        <select className="border border-zinc-400 focus:outline-none min-w-28 rounded-full px-2 py-1 text-zinc-700 font-semibold text-sm">
-          <option value="">Jhon</option>
-          <option value="">Chin</option>
-          <option value="">India</option>
-          <option value="">l</option>
-          <option value="">l</option>
-          <option value="">l</option>
-        </select>
+    // <div className="flex mx-auto  gap-4 overflow-hidden bg-[#2B2C2D] text-white">
+    //   <div className="flex items-center">
+    //     <select className="border border-zinc-400 focus:outline-none min-w-28 rounded-full px-2 py-1 text-zinc-100  text-sm">
+    //       <option value="">Jhon</option>
+    //       <option value="">Chin</option>
+    //       <option value="">India</option>
+    //       <option value="">l</option>
+    //       <option value="">l</option>
+    //       <option value="">l</option>
+    //     </select>
+    //   </div>
+    //   <div className="event-section flex">
+    //     {visibleMatches.map((event, index) => (
+    //       <div key={index} className="event flex items-center relative">
+    //         {/* Event Title */}
+    //         <div className="text-xs  px-2  flex justify-center items-center h-full border-l border-zinc-600">
+    //           <h1 className="whitespace-nowrap">{event.title}</h1>
+    //         </div>
+
+    //         {/* Matches Display */}
+    //         <div className="matches-container flex border-r">
+    //           {event.visible.map((match, matchIndex) => (
+    //             <div
+    //               key={matchIndex}
+    //               className="match px-4 border-l border-zinc-600 min-w-[200px]"
+    //             >
+    //               <p className="text-zinc-100text-xs ">
+    //                 {match.time || "Full Time"}
+    //               </p>
+    //               <div className="flex justify-between">
+    //                 <span className="text-xs  text-zinc-100">
+    //                   {match.homeTeam}
+    //                 </span>
+    //                 <span className="">{match.homeScore}</span>
+    //               </div>
+    //               <div className="flex justify-between">
+    //                 <span className="text-xs  text-zinc-100">
+    //                   {match.awayTeam}
+    //                 </span>
+    //                 <span className="">{match.awayScore}</span>
+    //               </div>
+    //             </div>
+    //           ))}
+    //         </div>
+
+    //         {/* Show More Button */}
+    //         {event.remaining > 0 && (
+    //           <button
+    //             onClick={() => handleShowMore(index)}
+    //             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 shadow"
+    //           >
+    //             <FaChevronRight className="text-gray-600" />
+    //           </button>
+    //         )}
+    //       </div>
+    //     ))}
+    //   </div>
+    // </div>
+    <div className="py-5 relative">
+      <div className="flex justify-center ">
+        <Image src={"/logo/logo.webp"} alt="logo" width={150} height={100} />
       </div>
-      <div className="event-section flex">
-        {visibleMatches.map((event, index) => (
-          <div key={index} className="event flex items-center relative">
-            {/* Event Title */}
-            <div className="text-xs font-semibold px-2 bg-gray-100 flex justify-center items-center h-full border-l border-zinc-600">
-              <h1 className="whitespace-nowrap">{event.title}</h1>
-            </div>
+      <div className=" absolute top-3 end-2">
+     
 
-            {/* Matches Display */}
-            <div className="matches-container flex border-r">
-              {event.visible.map((match, matchIndex) => (
-                <div
-                  key={matchIndex}
-                  className="match px-4 border-l border-zinc-600 min-w-[200px]"
+        <div className="flex items-center gap-4 relative">
+          <div className="overflow-hidden">
+            <AnimatePresence>
+              {search === "search" && (
+                <motion.div
+                  className="relative flex items-center px-2 bg-white h-full py-1 overflow-hidden"
+                  initial="initialHidden"
+                  animate="enter"
+                  exit="exit"
+                  variants={variants}
                 >
-                  <p className="text-zinc-700 text-xs font-semibold">
-                    {match.time || "Full Time"}
-                  </p>
-                  <div className="flex justify-between">
-                    <span className="text-xs font-bold text-zinc-800">
-                      {match.homeTeam}
-                    </span>
-                    <span className="font-bold">{match.homeScore}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs font-bold text-zinc-800">
-                      {match.awayTeam}
-                    </span>
-                    <span className="font-bold">{match.awayScore}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Show More Button */}
-            {event.remaining > 0 && (
-              <button
-                onClick={() => handleShowMore(index)}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 rounded-full p-2 shadow"
-              >
-                <FaChevronRight className="text-gray-600" />
-              </button>
-            )}
+                  <FaSearch size={20} color="black" />
+                  <input
+                    type="text"
+                    placeholder="Search Sports, Teams, Players..."
+                    className="border-0 outline-none focus:outline-none text-black ml-2 w-60"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        ))}
+          <button
+            type="button"
+            className="p-2"
+            onClick={() => setSearch(search === "search" ? "remove" : "search")}
+          >
+            {search === "search" ? (
+              <RxCross2 size={20} />
+            ) : (
+              <FaSearch size={20} />
+            )}
+          </button>
+          <FaUser className="border p-1 rounded-full" size={25} />
+        </div>
       </div>
     </div>
   );

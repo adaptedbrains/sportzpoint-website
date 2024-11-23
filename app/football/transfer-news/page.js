@@ -64,12 +64,12 @@ const Page = () => {
     const slug = pathname.split("/")[1];
     const [currentPage, setCurrentPage] = useState(1);
     const { posts, loading, fetchPosts, totalPages } = usePostStore();
-
+   
     const url = useMemo(() => {
         if (!slug) return null;
         return `${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}`;
     }, [slug, currentPage]);
-
+    
     useEffect(() => {
         if (url) fetchPosts(url);
     }, [url]);
@@ -77,7 +77,7 @@ const Page = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
             {/* Sidebar - on mobile, it will stack at the top */}
-            <Sidebar />
+           <Sidebar />
 
             {/* Main Content */}
             <div className="lg:col-span-5 col-span-1">
@@ -102,7 +102,7 @@ const Page = () => {
 
             {/* Latest Stories - on mobile, will stack under the content */}
             <div className="lg:col-span-3 col-span-1 sticky lg:top-20 top-0 h-auto lg:h-screen overflow-y-auto mb-4 lg:mb-0">
-                <LatestStories />
+                <LatestStories  />
             </div>
         </div>
     );

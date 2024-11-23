@@ -18,9 +18,11 @@ const ArticleCard = ({ post }) => {
 
   // Function to handle routing when the card is clicked
   const handleClick = () => {
-    router.push(`/${post.categories[0].slug}/${post._id}`); // Adjust the route as needed
+   
+    
+    router.push(`/${post.categories[0].slug}/${post.slug}`); // Adjust the route as needed
   };
-
+  
   return (
     <div
       className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"

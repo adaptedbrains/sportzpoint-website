@@ -123,7 +123,7 @@ const Page = () => {
 
                 {/* Last Div (Latest Stories Sidebar) */}
                 <div className="hidden md:flex col-span-3 sticky top-20 h-screen overflow-y-auto">
-                    <LatestStories stories={posts.slice(0, 3)} />
+                    <LatestStories />
                 </div>
             </div>
         </>

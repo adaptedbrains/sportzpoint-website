@@ -17,12 +17,12 @@ const ArticleGridCard = ({ post }) => {
     );
   }
   const handleClick = () => {
-    router.push(`/${post.categories[0].slug}/${post._id}`); // Adjust the route as needed
+    router.push(`/${post.categories[0].slug}/${post.slug}`) // Adjust the route as needed
   };
 
   return (
     <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md  cursor-pointer"  onClick={handleClick} >
-      <div className="relative w-full h-[100px]">
+      <div className="relative w-full h-[150px]">
         {post.banner_image ? (
           <Image
             src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}

@@ -1,3 +1,4 @@
+'use client'
 import usePostStore from "@/store/postStore";
 import Image from "next/image";
 import React, { useEffect, useCallback, useMemo, useRef } from "react";
@@ -56,7 +57,7 @@ const LatestStories = () => {
             <li
               key={index}
               className="flex items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer"
-              onClick={() => handleClick(story.categories[0].slug, story._id)}
+              onClick={() => handleClick(story.categories[0].slug, story.slug)}
             >
               {/* Story Image */}
               {story.banner_image && (

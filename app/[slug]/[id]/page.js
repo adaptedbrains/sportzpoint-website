@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
 import BlogPost from '@/components/BlogPost';
-import LatestStories from '@/components/LatestStory';
 import LoginSignUp from '@/components/LoginSignUp';
 import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
 import { BlinkBlur } from 'react-loading-indicators';
+import LatestStories from "@/components/LatestStory";
+
 
 const BlogPage = () => {
     const pathname = usePathname();
@@ -21,7 +22,7 @@ const BlogPage = () => {
         if (id) {  // Ensure ID is available before fetching data
             const fetchPost = async () => {
                 try {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/${id}`);
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`);
                     const data = await response.json();
                     setPost(data);  // Assuming API returns a single post object
                 } catch (error) {

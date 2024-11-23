@@ -6,6 +6,7 @@ import React from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
+import IframeComponent from "./IframeComponent";
 
 const socialMedia = [
   {
@@ -99,10 +100,12 @@ const BlogPost = ({ postData }) => {
         </div>
       )}
 
-      <div
+      {/* <div
         className="post-description text-lg text-gray-800 overflow-hidden"
         dangerouslySetInnerHTML={{ __html: postData.content }}
-      />
+        
+      /> */}
+      <IframeComponent content={postData.content} />
     </div>
   );
 };

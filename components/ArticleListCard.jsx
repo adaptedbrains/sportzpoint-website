@@ -17,7 +17,7 @@ const ArticleListCard = ({ post }) => {
     );
   }
   const handleClick = () => {
-    router.push(`/${post.categories[0].slug}/${post._id}`); // Adjust the route as needed
+    router.push(`/${post.categories[0].slug}/${post.slug}`) // Adjust the route as needed
   };
 
 
