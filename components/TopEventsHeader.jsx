@@ -2,7 +2,6 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { events } from "../util/headerScore"; // Import events from the provided file
-import { FaChevronRight, FaSearch,FaUser } from "react-icons/fa"; // Importing React Icon
 import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 
@@ -108,7 +107,7 @@ const EventSection = () => {
       <div className="flex justify-center ">
         <Image src={"/logo/logo.webp"} alt="logo" width={150} height={100} />
       </div>
-      <div className=" absolute top-3 end-2">
+      {/* <div className=" absolute top-3 end-2">
      
 
         <div className="flex items-center gap-4 relative">
@@ -145,7 +144,7 @@ const EventSection = () => {
           </button>
           <FaUser className="border p-1 rounded-full" size={25} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

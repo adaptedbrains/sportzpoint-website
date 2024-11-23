@@ -48,7 +48,6 @@ const Page = async () => {
     eSportsLatest,
     athleticsLatest,
   ]);
-  console.log("athleticsathletics",athletics);
   
   return (
     <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">

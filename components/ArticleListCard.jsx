@@ -1,10 +1,8 @@
-'use client'
+"use client";
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
-
-
 
 const ArticleListCard = ({ post }) => {
   const router = useRouter();
@@ -17,18 +15,21 @@ const ArticleListCard = ({ post }) => {
     );
   }
   const handleClick = () => {
-    router.push(`/${post.categories[0].slug}/${post.slug}`) // Adjust the route as needed
+    router.push(`/${post.categories[0].slug}/${post.slug}`); // Adjust the route as needed
   };
 
-
   return (
-    <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center  cursor-pointer"onClick={handleClick} >
+    <div
+      className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center  cursor-pointer"
+      onClick={handleClick}
+    >
       {post.banner_image ? (
         <Image
-        src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
-                  alt="Article"
+          src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
+          alt="Article"
           width={230}
           height={50}
+          priority
           className="object-contain"
         />
       ) : (
@@ -38,7 +39,7 @@ const ArticleListCard = ({ post }) => {
       )}
       <div className="w-[80%]">
         <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
-          {post.categories?.[0]?.name || "Uncategorized"} 
+          {post.categories?.[0]?.name || "Uncategorized"}
         </span>
         <h3 className="mt-2 text-sm font-bold text-gray-800 leading-snug">
           {post.title || "No Title Available"}

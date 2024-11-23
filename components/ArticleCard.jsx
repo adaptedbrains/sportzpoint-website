@@ -35,6 +35,7 @@ const ArticleCard = ({ post }) => {
           width={800}
           height={700}
           className="object-contain"
+          priority
         />
       )}
       <div className="p-4">

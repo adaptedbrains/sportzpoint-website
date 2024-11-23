@@ -116,6 +116,7 @@ const BlogPost = ({ postData }) => {
               alt="google icon"
               width={15}
               height={15}
+              priority
             />
             Follow Us
           </Link>

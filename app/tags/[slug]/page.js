@@ -26,14 +26,14 @@ const Page = () => {
             const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=1`;
             fetchPosts(url);
         }
-    }, [slug]);
-
+    }, [slug, fetchPosts]);
+    
     useEffect(() => {
         if (slug) {
             const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=${currentPage}`;
             fetchPosts(url);
         }
-    }, [slug, currentPage]);
+    }, [slug, currentPage, fetchPosts]);
 
     // Generate the page buttons for pagination
     const generatePageButtons = () => {

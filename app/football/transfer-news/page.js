@@ -72,7 +72,7 @@ const Page = () => {
     
     useEffect(() => {
         if (url) fetchPosts(url);
-    }, [url]);
+    }, [url, fetchPosts]);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
