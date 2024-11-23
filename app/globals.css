@@ -69,3 +69,61 @@
   line-height: 1.4;
   margin-bottom: 1em;
 }
+
+/* Instagram embed styles */
+.instagram-media {
+  max-width: 540px !important;
+  width: 100% !important;
+  min-width: 326px !important;
+  margin: 0 auto 12px auto !important;
+  padding: 0 !important;
+}
+
+.instagram-media-rendered {
+  margin-bottom: 2rem !important;
+}
+
+/* Force Instagram iframe to be visible */
+iframe.instagram-media {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.blog-content blockquote.instagram-media {
+  border: none;
+  padding: 0;
+  margin: 1em auto;
+  background: #FFF;
+  border-radius: 3px;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
+}
+
+/* YouTube embed container styles */
+.blog-content iframe[src*="youtube.com"],
+.blog-content iframe[src*="youtu.be"] {
+  aspect-ratio: 16/9;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 1.5rem auto;
+  display: block;
+}
+
+/* Responsive container for YouTube videos */
+.blog-content .youtube-embed-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 1.5rem auto;
+}
+
+.blog-content .youtube-embed-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

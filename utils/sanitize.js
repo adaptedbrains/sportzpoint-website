@@ -1,17 +1,11 @@
 import DOMPurify from 'isomorphic-dompurify';
 
 export const sanitizeContent = (content) => {
-  // First find and replace Twitter text patterns
-  const twitterTextPattern = /(.*?pic\.twitter\.com\/\w+)\s*\?ref_src=.*?(\d{4})/g;
-  let processedContent = content.replace(twitterTextPattern, (match, text, year) => {
-    // Extract the tweet text and create proper embed
-    return `
-      <blockquote class="twitter-tweet">
-        <p lang="en" dir="ltr">${text}</p>
-        &mdash; beIN SPORTS USA (@beINSPORTSUSA) <a href="https://twitter.com/beINSPORTSUSA/status/">April 7, ${year}</a>
-      </blockquote>
-    `;
-  });
+  // Wrap YouTube iframes in a container div
+  const processedContent = content.replace(
+    /(<iframe[^>]*youtube[^>]*>.*?<\/iframe>)/g,
+    '<div class="youtube-embed-container">$1</div>'
+  );
 
   return DOMPurify.sanitize(processedContent, {
     ALLOWED_TAGS: [
@@ -23,10 +17,9 @@ export const sanitizeContent = (content) => {
     ALLOWED_ATTR: [
       'href', 'src', 'alt', 'title', 'class', 'target',
       'rel', 'style', 'width', 'height', 'frameborder',
-      'allowfullscreen', 'data-tweet-id', 'data-twitter-extracted-i',
-      'data-widget-id', 'data-lang', 'data-dnt'
+      'allowfullscreen', 'allow'
     ],
-    ADD_TAGS: ['blockquote', 'twitter-widget'],
-    ADD_ATTR: ['class']
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allowfullscreen', 'frameborder', 'allow']
   });
 }; 

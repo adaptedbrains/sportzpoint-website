@@ -31,24 +31,45 @@ const socialMedia = [
 
 const BlogPost = ({ postData }) => {
   React.useEffect(() => {
-    // Load Twitter widgets
-    const loadTwitterWidget = () => {
-      if (window.twttr) {
-        window.twttr.widgets.load();
-      } else {
-        const script = document.createElement('script');
-        script.src = "https://platform.twitter.com/widgets.js";
-        script.async = true;
-        script.charset = "utf-8";
-        document.head.appendChild(script);
+    // Function to load Instagram embeds
+    const loadInstagramEmbeds = () => {
+      // Remove any existing Instagram script first
+      const existingScript = document.getElementById('instagram-embed-script');
+      if (existingScript) {
+        existingScript.remove();
       }
+
+      // Create and add the script
+      const script = document.createElement('script');
+      script.id = 'instagram-embed-script';
+      script.src = '//www.instagram.com/embed.js';
+      script.async = true;
+      
+      // Add onload handler
+      script.onload = () => {
+        if (window.instgrm) {
+          window.instgrm.Embeds.process();
+        }
+      };
+
+      // Add the script to document
+      document.body.appendChild(script);
     };
 
-    loadTwitterWidget();
+    // Initial load
+    loadInstagramEmbeds();
 
+    // Set up an interval to reprocess embeds
+    const interval = setInterval(() => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    }, 1000); // Check every second
+
+    // Cleanup
     return () => {
-      // Cleanup if needed
-      const script = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]');
+      clearInterval(interval);
+      const script = document.getElementById('instagram-embed-script');
       if (script) {
         script.remove();
       }
@@ -131,6 +152,17 @@ const BlogPost = ({ postData }) => {
         className="blog-content"
         dangerouslySetInnerHTML={{ 
           __html: sanitizeContent(postData.content)
+        }}
+      />
+
+      {/* Add a hidden script to ensure Instagram script loads */}
+      <Script
+        src="//www.instagram.com/embed.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          if (window.instgrm) {
+            window.instgrm.Embeds.process();
+          }
         }}
       />
     </div>
