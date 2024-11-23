@@ -90,7 +90,7 @@ const BlogPost = ({ postData }) => {
       {postData.banner_image && (
         <div className="w-full h-[340px] relative my-6">
           <Image
-            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${postData.banner_image}`}
+            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
             alt={postData.title || "Banner Image"}
             layout="fill"
             objectFit="cover"
@@ -100,12 +100,13 @@ const BlogPost = ({ postData }) => {
         </div>
       )}
 
-      {/* <div
-        className="post-description text-lg text-gray-800 overflow-hidden"
-        dangerouslySetInnerHTML={{ __html: postData.content }}
-        
-      /> */}
-      <IframeComponent content={postData.content} />
+      <article 
+        className="prose prose-lg max-w-none mt-6"
+        dangerouslySetInnerHTML={{ 
+          __html: postData.content
+        }}
+      />
+
     </div>
   );
 };

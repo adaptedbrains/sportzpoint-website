@@ -62,7 +62,7 @@ const LatestStories = () => {
               {/* Story Image */}
               {story.banner_image && (
                 <Image
-                  src={`https://img-cdn.thepublive.com/fit-in/600x200/filters:format(webp)/${story.banner_image}`}
+                  src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
                   alt={story.title}
                   className="rounded object-cover"
                   width={150}

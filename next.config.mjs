@@ -3,13 +3,13 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-              protocol: 'https',
-              hostname: 'img-cdn.thepublive.com',
-              port: '', // Leave empty for default ports (80 for HTTP, 443 for HTTPS)
-              pathname: '/**', // Matches all paths
-            },
-          ],
-      },
+                protocol: 'https',
+                hostname: 'sportzpoint-media.s3.ap-south-1.amazonaws.com',
+                port: '',
+                pathname: '/**',
+            }
+        ],
+    },
 };
 
 export default nextConfig;

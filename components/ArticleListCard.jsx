@@ -25,7 +25,7 @@ const ArticleListCard = ({ post }) => {
     <div className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md flex gap-2 items-center  cursor-pointer"onClick={handleClick} >
       {post.banner_image ? (
         <Image
-          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}
+          src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
           alt="Article"
           width={230}
           height={50}

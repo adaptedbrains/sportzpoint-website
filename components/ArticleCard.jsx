@@ -30,7 +30,7 @@ const ArticleCard = ({ post }) => {
     >
       {post.banner_image && (
         <Image
-          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/${post.banner_image}`}
+          src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
           alt="Article"
           width={800}
           height={700}
