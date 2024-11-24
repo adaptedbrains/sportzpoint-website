@@ -3,7 +3,10 @@ import LatestStories from './LatestStory'
 
 const LatestPostCardList = () => {
   return (
-    <LatestStories/>
+    // <LatestStories/>
+    <div>
+      hi
+    </div>
   )
 }
 

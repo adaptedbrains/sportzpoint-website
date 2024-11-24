@@ -1,14 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { dummyStory } from '../util/headerScore';
 import Image from 'next/image';
 
-const WebStory = ({ story = dummyStory[0] }) => {
+const WebStory = ({ story}) => {
   const [currentPage, setCurrentPage] = useState(0);
-
+  console.log(story);
+  
   const handleNext = () => {
-    if (currentPage < story.pages.length - 1) {
+    if (currentPage < story.length - 1) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -23,14 +23,14 @@ const WebStory = ({ story = dummyStory[0] }) => {
     <div className="h-screen bg-black text-white relative overflow-hidden w-1/3 mx-auto">
       {/* Current Page */}
       <div className="absolute inset-0 flex justify-center items-center">
-        <Image
-          src={story.pages[currentPage].image}
-          alt={story.pages[currentPage].heading}
+       {story[currentPage] && <Image
+          src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${story[currentPage].pages[0].image}`}
+          alt={story[currentPage].pages[0].heading}
           className="object-cover rounded-lg shadow-lg"
           layout='fill'
 
         />
-
+}
         {/* Overlay for clickable areas */}
         <div className="absolute inset-0 flex">
           {/* Left part for previous */}
@@ -55,13 +55,15 @@ const WebStory = ({ story = dummyStory[0] }) => {
         transition={{ duration: 0.5, ease: 'easeInOut' }} // Smooth transition
         className="bg-[rgba(0,0,0,0.5)] left-0 w-[80%] ml-[10%]   bottom-20 absolute mx-auto rounded p-2"
       >
-        <h1 className="mt-4 text-3xl font-bold">{story.pages[currentPage].heading}</h1>
-        <p className="mt-2 text-lg">{story.pages[currentPage].description}</p>
+       {story[currentPage] &&  <>
+        <h1 className="mt-4 text-3xl font-bold">{story[currentPage].pages[0].heading}</h1>
+        <p className="mt-2 text-lg">{story[currentPage].pages[0].description}</p>
+        </>}
       </motion.div>
 
       {/* Progress Indicator */}
       <div className="absolute top-0 left-0 right-0 flex justify-center space-x-2">
-        {story.pages.map((_, index) => (
+        {story.map((_, index) => (
           <span
             key={index}
             className={`h-2 w-10 flex-1 rounded-full ${

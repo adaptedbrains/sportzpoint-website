@@ -47,7 +47,7 @@ const ArticleCard = ({ post }) => {
         <h2 className="text-lg font-bold text-gray-800 mt-1">{post.title}</h2>
         <p className="text-sm text-gray-600 mt-2">{post.summary}</p>
         <div className="mt-3 flex items-center text-gray-500 text-sm">
-          <p>{post.author.name || "Unknown Author"}</p>
+          <p>{post && post.author && post.author.name &&  post.author.name || "Unknown Author"}</p>
           <span className="mx-2">•</span>
           <p>{formatDate(post.updated_at_datetime)}</p>
           <span className="mx-2">•</span>

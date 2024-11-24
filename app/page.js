@@ -9,6 +9,8 @@ import ArticleGridCard from "@/components/ArticleGridCard";
 import { latestPost } from "@/lib/latestPost";
 import { latestPublishPostByCategories } from "@/lib/latestPublishPost";
 import LastestPostForRootPage from "@/components/LastestPostForRootPage";
+import WebStory from "@/components/WebStory";
+import WebStoriesList from "@/components/WebStoryList";
 // import LatestPostCardList from "@/components/LatestPostCard";
 
 
@@ -26,17 +28,20 @@ const Page = async () => {
   const latestPostsData = latestPost();
   // process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}
   const olympicsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/olympics?limit=5&page=1`);
+
   const cricketLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/cricket?limit=5&page=1`);
   const footballLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/football?limit=5&page=1`);
   const tennisLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/tennis?limit=5&page=1`);
   const hockeyLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/hockey?limit=5&page=1`);
   const badmintonLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/badminton?limit=5&page=1`);
-  
+
   const women_in_sportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/women-in-sports?limit=5&page=1`);
   const eSportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/e-sports?limit=5&page=1`);
   const athleticsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/athletics?limit=5&page=1`);
-  
-  const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics] = await Promise.all([
+
+  const webStoryLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/type/Web Story?limit=3&page=1`);
+
+  const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics,webStory] = await Promise.all([
     latestPostsData,
     olympicsLatest,
     cricketLatest,
@@ -47,8 +52,9 @@ const Page = async () => {
     women_in_sportsLatest,
     eSportsLatest,
     athleticsLatest,
+    webStoryLatest
   ]);
-  
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
       {/* Sidebar hidden on small screens */}
@@ -135,6 +141,9 @@ const Page = async () => {
 
         </div>
 
+
+
+        <WebStoriesList webStories={webStory} />
 
 
 
@@ -394,14 +403,14 @@ const Page = async () => {
 
 
 
-       
+
 
 
 
       </div>
 
       <div className="col-span-1 lg:col-span-3 sticky top-20 h-screen overflow-y-auto hidden lg:block">
-      <LastestPostForRootPage/>
+        <LastestPostForRootPage />
       </div>
     </div>
   );

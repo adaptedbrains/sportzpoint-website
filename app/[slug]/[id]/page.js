@@ -8,7 +8,7 @@ import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
 import { BlinkBlur } from 'react-loading-indicators';
 import LatestStories from "@/components/LatestStory";
-
+import WebStoriesJson from '@/components/WebstoeyJson';
 
 const BlogPage = () => {
     const pathname = usePathname();
@@ -17,14 +17,13 @@ const BlogPage = () => {
     const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Fetch data from the API based on the ID
     useEffect(() => {
-        if (id) {  // Ensure ID is available before fetching data
+        if (id) {
             const fetchPost = async () => {
                 try {
                     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`);
                     const data = await response.json();
-                    setPost(data);  // Assuming API returns a single post object
+                    setPost(data); // Assuming API returns a single post object
                 } catch (error) {
                     console.error('Error fetching post:', error);
                 } finally {
@@ -34,7 +33,39 @@ const BlogPage = () => {
 
             fetchPost();
         }
-    }, [id]); // Fetch when the `id` changes
+    }, [id]);
+
+    const renderMainContent = () => {
+        if (!post || !post.article) return null;
+
+        switch (post.article.type) {
+            case "Web Story":
+                return (
+                    <WebStoriesJson post={post.article}/>
+                );
+            // case "Live Blog":
+            //     return (
+            //         <div>
+            //             <h1 className="text-2xl font-bold">Live Blog</h1>
+            //             <p>{post.article.content}</p>
+            //         </div>
+            //     );
+            default:
+                return (
+                    <div>
+                        <BlogPost postData={post.article} />
+                        <div className='grid grid-cols-5 justify-between items-center mb-5'>
+                            <div className='bg-green-800 h-[1px] col-span-2'></div>
+                            <p className='border col-span-1 border-green-800 text-center px-2'>Next Article</p>
+                            <div className='bg-green-800 h-[1px] col-span-2'></div>
+                        </div>
+                        {post.latestArticles.map((p, index) => (
+                            <BlogPost postData={p} key={p._id || index} />
+                        ))}
+                    </div>
+                );
+        }
+    };
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
@@ -52,17 +83,7 @@ const BlogPage = () => {
                         <BlinkBlur color="#32cd32" size="medium" />
                     </div>
                 ) : (
-                    <div>
-                        <BlogPost postData={post.article} />
-                        <div className='grid grid-cols-5 justify-between items-center mb-5'>
-                            <div className='bg-green-800 h-[1px] col-span-2'></div>
-                            <p className='border col-span-1 border-green-800 text-center px-2'>Next Article</p>
-                            <div className='bg-green-800 h-[1px] col-span-2'></div>
-                        </div>
-                        {post.latestArticles.map((p, index) => (
-                            <BlogPost postData={p} key={p._id || index} />
-                        ))}
-                    </div>
+                    renderMainContent()
                 )}
             </div>
 

@@ -36,7 +36,7 @@ const LatestStories = () => {
     return latestStory.map((story) => ({
       ...story,
       title: story.title.slice(0, 40),
-      summary: story.summary.slice(0, 50),
+      summary:story.summary? story.summary.slice(0, 50):"",
     }));
   }, [latestStory]);
 
@@ -82,6 +82,7 @@ const LatestStories = () => {
         </ul>
       )}
     </div>
+   
   );
 };
 
