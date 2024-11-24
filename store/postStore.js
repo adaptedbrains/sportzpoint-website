@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const usePostStore = create((set) => ({
   posts: [],
+  webstory:[],
   latestStory: [],
   loading: false,
   error: null,
@@ -55,6 +56,34 @@ const usePostStore = create((set) => ({
       });
     }
   },
+
+  fetchWebPosts: async (url) => {
+   
+    set({ loading: true, error: null }); // Set loading to true at the start
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
+      }
+
+      const data = await response.json();
+      
+      set({
+        webstory: data.articles || [], // Assuming 'articles' is the key for posts
+        totalPages: data.pagination?.totalPages || 1, // Extract totalPages from API response
+        loading: false, // Set loading to false after successful fetch
+      });
+    } catch (error) {
+      set({
+        error: error.message,
+        loading: false, // Set loading to false in case of an error
+      });
+    }
+  },
+
+
+
 }));
 
 export default usePostStore;

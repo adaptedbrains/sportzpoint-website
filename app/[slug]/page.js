@@ -10,6 +10,7 @@ import ArticleListCard from "@/components/ArticleListCard";
 import ArticleCard from "@/components/ArticleCard";
 import ArticleGridCard from "@/components/ArticleGridCard";
 import LatestStories from "@/components/LatestStory";
+import WebStoriesList from "@/components/WebStoryList";
 
 const Sidebar = () => (
     <div className="col-span-2  flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
@@ -62,8 +63,9 @@ const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }
 const Page = () => {
     const pathname = usePathname();
     const slug = pathname.split("/")[1];
+   
     const [currentPage, setCurrentPage] = useState(1);
-    const { posts, loading, fetchPosts, totalPages } = usePostStore();
+    const { posts, loading, fetchPosts, totalPages,fetchWebPosts,webstory } = usePostStore();
 
     const url = useMemo(() => {
         if (!slug) return null;
@@ -72,8 +74,16 @@ const Page = () => {
 
     useEffect(() => {
         if (url) fetchPosts(url);
+        if(posts.length!==0){
+
+        }
+        fetchWebPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}/type/Web Story?limit=3&page=1`)
+
     }, [url, fetchPosts]);
 
+    
+   
+    
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
             {/* Sidebar - on mobile, it will stack at the top */}
@@ -98,6 +108,7 @@ const Page = () => {
                     totalPages={totalPages}
                     loading={loading}
                 />
+                 {webstory.length!==0 && <WebStoriesList webStories={webstory} />}
             </div>
 
             {/* Latest Stories - on mobile, will stack under the content */}

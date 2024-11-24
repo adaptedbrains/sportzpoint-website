@@ -143,7 +143,7 @@ const Page = async () => {
 
 
 
-        <WebStoriesList webStories={webStory} />
+       {webStory.length!==0 && <WebStoriesList webStories={webStory} />}
 
 
 
