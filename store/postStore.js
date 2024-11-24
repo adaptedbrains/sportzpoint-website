@@ -10,6 +10,7 @@ const usePostStore = create((set) => ({
 
   // Function to fetch posts
   fetchPosts: async (url) => {
+ 
     set({ loading: true, error: null }); // Set loading to true at the start
     try {
       const response = await fetch(url);

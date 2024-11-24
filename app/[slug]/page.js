@@ -63,34 +63,41 @@ const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }
 const Page = () => {
     const pathname = usePathname();
     const slug = pathname.split("/")[1];
-   
+
     const [currentPage, setCurrentPage] = useState(1);
-    const { posts, loading, fetchPosts, totalPages,fetchWebPosts,webstory } = usePostStore();
+    const { posts, loading, fetchPosts, totalPages, fetchWebPosts, webstory } = usePostStore();
 
     const url = useMemo(() => {
         if (!slug) return null;
-        return `${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}`;
+        if (slug === "live") {
+            return `${process.env.NEXT_PUBLIC_API_URL}/articles/type/LiveBlog?limit=20&page=${currentPage}`;
+
+        } else {
+
+            return `${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}`;
+        }
     }, [slug, currentPage]);
 
     useEffect(() => {
         if (url) fetchPosts(url);
-        if(posts.length!==0){
+        if (posts.length !== 0) {
 
         }
-        fetchWebPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}/type/Web Story?limit=3&page=1`)
+        if (slug !== "live"){ fetchWebPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}/type/Web Story?limit=3&page=1`)
+        }
 
     }, [url, fetchPosts]);
 
-    
-   
-    
+
+
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
             {/* Sidebar - on mobile, it will stack at the top */}
             <Sidebar />
 
             {/* Main Content */}
-            <div className="lg:col-span-5 col-span-1">
+            <div className="lg:col-span-5 col-span-1 mb-4">
                 {posts && posts[0] && <ArticleCard post={posts[0]} />}
                 <div className="grid grid-cols-1 gap-3">
                     {posts.slice(1, 11).map((article, index) => (
@@ -102,13 +109,14 @@ const Page = () => {
                         <ArticleGridCard key={index} post={article} />
                     ))}
                 </div>
+                {webstory.length !== 0 &&slug !== "live" && <WebStoriesList webStories={webstory} />}
                 <PaginationControls
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     totalPages={totalPages}
                     loading={loading}
                 />
-                 {webstory.length!==0 && <WebStoriesList webStories={webstory} />}
+
             </div>
 
             {/* Latest Stories - on mobile, will stack under the content */}
