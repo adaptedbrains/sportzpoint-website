@@ -2,16 +2,16 @@ import { create } from "zustand";
 
 const usePostStore = create((set) => ({
   posts: [],
-  webstory:[],
+  webstory: [],
   liveBlogs: [],
-  blogUpdates:[],
+  blogUpdates: [],
   loading: false,
   error: null,
   totalPages: 0,
 
-  
+
   fetchPosts: async (url) => {
- 
+
     set({ loading: true, error: null }); // Set loading to true at the start
     try {
       const response = await fetch(url);
@@ -60,7 +60,7 @@ const usePostStore = create((set) => ({
   },
 
   fetchWebPosts: async (url) => {
-   
+
     set({ loading: true, error: null }); // Set loading to true at the start
     try {
       const response = await fetch(url);
@@ -70,7 +70,7 @@ const usePostStore = create((set) => ({
       }
 
       const data = await response.json();
-      
+
       set({
         webstory: data.articles || [], // Assuming 'articles' is the key for posts
         totalPages: data.pagination?.totalPages || 1, // Extract totalPages from API response
@@ -85,35 +85,35 @@ const usePostStore = create((set) => ({
   },
 
   liveBlogFunction: (data, type) => {
-    
-     
-        if (Array.isArray(data)) {
-          set(() => ({
-            liveBlogs: data, // Replace liveBlogs with the new array
-          }));
-         
-          
-        } else if (typeof data === "object" && data !== null) {
 
-          set((state) => ({
-            liveBlogs: [
-              data,
-              ...state.liveBlogs.filter((blog) => blog._id !== data._id)
-            ], 
-          }));
 
-          
-          set(() => ({
-            liveBlogs: uniqueLiveBlogs, // Replace liveBlogs with the new array
-          }));
+    if (Array.isArray(data)) {
+      set(() => ({
+        liveBlogs: data, // Replace liveBlogs with the new array
+      }));
 
-          
-        } else {
-          console.warn("Invalid data format for live blog updates");
-          return state;
-        }
-      
-    
+
+    } else if (typeof data === "object" && data !== null) {
+
+      set((state) => ({
+        liveBlogs: [
+          data,
+          ...state.liveBlogs.filter((blog) => blog._id !== data._id)
+        ],
+      }));
+
+
+      set(() => ({
+        liveBlogs: uniqueLiveBlogs, // Replace liveBlogs with the new array
+      }));
+
+
+    } else {
+      console.warn("Invalid data format for live blog updates");
+      return state;
+    }
+
+
   }
 
 

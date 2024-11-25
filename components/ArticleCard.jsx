@@ -39,8 +39,8 @@ const ArticleCard = ({ post }) => {
         />
       )}
       <div className="p-4">
-        <div className="flex gap-1">
-
+        <div className="flex gap-1 items-center">
+        {post.isLive && <div className="text text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
         {post.categories.length && post.categories!==0 && post.categories.map((c,i)=><p key={i} className="text-sm text-green-600 font-semibold">{c.name || "Uncategorized"} </p>)}
         </div>
         

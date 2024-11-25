@@ -57,7 +57,7 @@ const ArticleGridCard = ({ post }) => {
       </div>
       <div className="w-full p-2">
         <div className="flex gap-1">
-
+        {post.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
       {post.categories.length && post.categories!==0 && post.categories.map((c,i)=><span key={i} className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
           {c?.name || "Uncategorized"}
         </span>)}
