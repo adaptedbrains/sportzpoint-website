@@ -1,5 +1,5 @@
-export async function latestPost() {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=1`,{next:{revalidate:200}});
+export async function latestPost(url) {
+    const result = await fetch(`${url}`,{next:{revalidate:200}});
     
     if (!result.ok) {
         throw new Error('Failed to fetch posts');
