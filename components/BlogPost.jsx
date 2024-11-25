@@ -6,6 +6,7 @@ import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
 import Script from "next/script";
+import { useWebSocket } from "@/utils/websocket"
 
 const socialMedia = [
   { icon: <FaWhatsapp size={20} />, href: "https://api.whatsapp.com/send?text=YOUR_LINK" },
