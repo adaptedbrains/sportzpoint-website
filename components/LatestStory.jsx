@@ -32,13 +32,13 @@ const LatestStories = () => {
     router.push(`/${category}/${slug}`); // Navigate to the story's page
   };
 
-  const truncatedStories = useMemo(() => {
-    return latestStory.map((story) => ({
-      ...story,
-      title: story.title,
-      summary:story.summary? story.summary:"",
-    }));
-  }, [latestStory]);
+  // const truncatedStories = useMemo(() => {
+  //   return latestStory &&  latestStory.map((story) => ({
+  //     ...story,
+  //     title: story.title,
+  //     summary:story.summary? story.summary:"",
+  //   }));
+  // }, [latestStory]);
 
   return (
     <div className="bg-white rounded-lg p-4 w-full">
@@ -49,7 +49,7 @@ const LatestStories = () => {
         </div>
 
         <div className="flex flex-col space-y-3 w-full">
-          {latestStory.slice(0, 4).map((story, index) => (
+          {latestStory && latestStory.slice(0, 4).map((story, index) => (
             <article
               key={index}
               onClick={() => handleClick(story.categories[0]?.slug, story.slug, story._id)}

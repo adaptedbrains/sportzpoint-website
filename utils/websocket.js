@@ -20,6 +20,7 @@
 // };
 
 
+import usePostStore from "@/store/postStore"
 import { useEffect, useState } from "react"
 
 // import { useCycleItemStore } from "../lib/store/cycle.store"
@@ -30,8 +31,9 @@ export const useWebSocket = () => {
   const [socket, setSocket] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
   const [messages, setMessages] = useState([])
-//   const { updateStateWithNewItem } = useCycleItemStore()   // ekahne sate ta ke import korte hobe
-
+   const { liveBlogFunction } = usePostStore()   // ekahne sate ta ke import korte hobe
+  
+  
   useEffect(() => {
     const newSocket = new WebSocket(WEBSOCKET_URL)
 
@@ -43,12 +45,12 @@ export const useWebSocket = () => {
     newSocket.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data.toString())
-        console.log("mes saj...: ", message)
+        
         if (message.type === "ADD_LIVEBLOG_UPDATE" && message.data) {
-          setMessages((prevMessages) => [...prevMessages, message.data])
+          liveBlogFunction(message.data,"ADD_LIVEBLOG_UPDATE")
         //   updateStateWithNewItem(message.item)  // need to change here ekhane sate update hobe
         }
-        console.log("Received message:", message)
+        console.log("Received message:", message,liveBlogs)
       } catch (error) {
         console.error("Error parsing WebSocket message:", error)
       }

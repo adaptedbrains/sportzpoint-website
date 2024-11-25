@@ -3,12 +3,13 @@ import { create } from "zustand";
 const usePostStore = create((set) => ({
   posts: [],
   webstory:[],
-  latestStory: [],
+  liveBlogs: [],
+  blogUpdates:[],
   loading: false,
   error: null,
   totalPages: 0,
 
-  // Function to fetch posts
+  
   fetchPosts: async (url) => {
  
     set({ loading: true, error: null }); // Set loading to true at the start
@@ -82,6 +83,39 @@ const usePostStore = create((set) => ({
       });
     }
   },
+
+  liveBlogFunction: (data, type) => {
+    
+     
+        if (Array.isArray(data)) {
+          set(() => ({
+            liveBlogs: data, // Replace liveBlogs with the new array
+          }));
+         
+          
+        } else if (typeof data === "object" && data !== null) {
+
+          set((state) => ({
+            liveBlogs: [
+              data,
+              ...state.liveBlogs.filter((blog) => blog._id !== data._id)
+            ], 
+          }));
+
+          
+          set(() => ({
+            liveBlogs: uniqueLiveBlogs, // Replace liveBlogs with the new array
+          }));
+
+          
+        } else {
+          console.warn("Invalid data format for live blog updates");
+          return state;
+        }
+      
+    
+  }
+
 
 
 

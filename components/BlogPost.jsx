@@ -7,6 +7,7 @@ import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
 import Script from "next/script";
 import { useWebSocket } from "@/utils/websocket"
+import usePostStore from "@/store/postStore";
 
 const socialMedia = [
   {
@@ -30,12 +31,12 @@ const socialMedia = [
 
 const BlogPost = ({ postData, index }) => {
  
-  const [liveBlog, setLiveBlog] = useState([]);
+ const {liveBlogs,liveBlogFunction}=usePostStore()
   const { messages } = useWebSocket()
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
-      setLiveBlog(postData.live_blog_updates || []);
+      liveBlogFunction(postData && postData.live_blog_updates && postData.live_blog_updates || []);
     }
 
     const loadInstagramEmbeds = () => {
@@ -153,18 +154,8 @@ const BlogPost = ({ postData, index }) => {
         onLoad={() => window.instgrm?.Embeds.process()}
       />
 
-      {postData.type === "LiveBlog" && liveBlog.length > 0 && (
-        <>
-          <div className="grid grid-cols-5 justify-between items-center mb-5">
-            <div className="bg-green-800 h-[1px] col-span-2"></div>
-            <p className="border col-span-1 border-green-800 text-center px-2">
-              Live Updates
-            </p>
-            <div className="bg-green-800 h-[1px] col-span-2"></div>
-          </div>
-
           <div className="rounded   flex flex-col gap-7">
-            {liveBlog.map((live, i) => (
+            {liveBlogs && liveBlogs.map((live, i) => (
               <div key={i} className="shadow-md bg-gray-100 p-4 flex flex-col">
                 <h1 className="font-semibold text-xl">{live.title}</h1>
                 <article
@@ -176,6 +167,16 @@ const BlogPost = ({ postData, index }) => {
               </div>
             ))}
           </div>
+      {postData.live_blog_updates === "LiveBlog" && postData.live_blog_updates.length > 0 && (
+        <>
+          <div className="grid grid-cols-5 justify-between items-center mb-5">
+            <div className="bg-green-800 h-[1px] col-span-2"></div>
+            <p className="border col-span-1 border-green-800 text-center px-2">
+              Live Updates
+            </p>
+            <div className="bg-green-800 h-[1px] col-span-2"></div>
+          </div>
+
         </>
       )}
 
