@@ -25,21 +25,21 @@ const Sidebar = () => (
 
 const Page = async () => {
   // Fetch data for both latest posts and olympics
-  const latestPostsData = latestPost();
+  const latestPostsData = latestPost(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=1`);
   // process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}
-  const olympicsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/olympics?limit=5&page=1`);
+  const olympicsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/olympics?limit=5&page=1`);
 
-  const cricketLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/cricket?limit=5&page=1`);
-  const footballLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/football?limit=5&page=1`);
-  const tennisLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/tennis?limit=5&page=1`);
-  const hockeyLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/hockey?limit=5&page=1`);
-  const badmintonLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/badminton?limit=5&page=1`);
+  const cricketLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/cricket?limit=5&page=1`);
+  const footballLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/football?limit=5&page=1`);
+  const tennisLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/tennis?limit=5&page=1`);
+  const hockeyLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/hockey?limit=5&page=1`);
+  const badmintonLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/badminton?limit=5&page=1`);
 
-  const women_in_sportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/women-in-sports?limit=5&page=1`);
-  const eSportsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/e-sports?limit=5&page=1`);
-  const athleticsLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/category/athletics?limit=5&page=1`);
+  const women_in_sportsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/women-in-sports?limit=5&page=1`);
+  const eSportsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/e-sports?limit=5&page=1`);
+  const athleticsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/athletics?limit=5&page=1`);
 
-  const webStoryLatest = latestPublishPostByCategories(`https://sportzpoint-be.onrender.com/articles/type/Web Story?limit=3&page=1`);
+  const webStoryLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/type/Web Story?limit=3&page=1`);
 
   const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics,webStory] = await Promise.all([
     latestPostsData,
