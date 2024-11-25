@@ -75,12 +75,16 @@ const Page = () => {
     }, [url, fetchPosts]);
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
-            {/* Sidebar - on mobile, it will stack at the top */}
-           <Sidebar />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 px-4 lg:px-16 mt-7">
+            {/* Sidebar */}
+            <div className="col-span-2 flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
+                <LoginSignUp />
+                <FeaturedEvents />
+                <Follow />
+            </div>
 
             {/* Main Content */}
-            <div className="lg:col-span-5 col-span-1">
+            <div className="col-span-1 lg:col-span-6">
                 {posts && posts[0] && <ArticleCard post={posts[0]} />}
                 <div className="grid grid-cols-1 gap-3">
                     {posts.slice(1, 11).map((article, index) => (
@@ -100,9 +104,40 @@ const Page = () => {
                 />
             </div>
 
-            {/* Latest Stories - on mobile, will stack under the content */}
-            <div className="lg:col-span-3 col-span-1 sticky lg:top-20 top-0 h-auto lg:h-screen overflow-y-auto mb-4 lg:mb-0">
-                <LatestStories  />
+            {/* Right sidebar with Latest stories and Newsletter */}
+            <div className="lg:col-span-4 col-span-1">
+                {/* Latest Stories - scrollable */}
+                <div className="mb-6">
+                    <LatestStories />
+                </div>
+                
+                {/* Newsletter - fixed position */}
+                <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
+                    <div className="flex flex-col items-start">
+                        <h2 className="text-xl font-bold text-green-800 mb-2">Subscribe Newsletter</h2>
+                        <div className="w-10 h-[1px] bg-green-800 mb-4"></div>
+                        
+                        <p className="text-sm text-gray-600 mb-4">
+                            Get the latest sports updates and news delivered directly to your inbox.
+                        </p>
+                        
+                        <form className="w-full space-y-3">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-sm"
+                                required
+                            />
+                            
+                            <button
+                                type="submit"
+                                className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+                            >
+                                Subscribe Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     );
