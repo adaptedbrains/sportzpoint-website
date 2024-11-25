@@ -13,20 +13,19 @@ import WebStoriesJson from '@/components/WebstoeyJson';
 
 const BlogPage = () => {
     const pathname = usePathname();
-    const id = pathname.split('/')[2]; // Extract the slug from the path
-    const [livBlog, setLivBlog] = useState([]);
+    const id = pathname.split('/')[2];
+    const category = pathname.split('/')[1] || null;
     const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentSlug, setCurrentSlug] = useState(""); // State for the current slug
 
     useEffect(() => {
-        if (id) {
+        // Fetch post data only if id changes (initial load)
+        if (id && currentSlug !== id) {
             const fetchPost = async () => {
                 try {
                     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`);
                     const data = await response.json();
-                    if (data.article?.live_blog_updates?.length) {
-                        setLivBlog(data.article.live_blog_updates);
-                    }
                     setPost(data);
                 } catch (error) {
                     console.error('Error fetching post:', error);
@@ -36,8 +35,46 @@ const BlogPage = () => {
             };
 
             fetchPost();
+            setCurrentSlug(id); // Set currentSlug to prevent re-fetching the same post
         }
-    }, [id]);
+    }, [id, currentSlug]); // Ensure this runs when id or currentSlug changes
+
+    // Handle scroll event to update the slug of the div that occupies the most visible height
+    const handleScroll = () => {
+        const posts = document.querySelectorAll('.blog-post');
+        let maxVisibleHeight = 0;
+        let largestVisibleSlug = id;
+
+        posts.forEach((postElement) => {
+            const rect = postElement.getBoundingClientRect();
+
+            // Calculate visible height of the element
+            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+            // If the visible height is greater than the current max, update the slug
+            if (visibleHeight > maxVisibleHeight) {
+                maxVisibleHeight = visibleHeight;
+                largestVisibleSlug = postElement.getAttribute('data-slug') || '';
+            }
+        });
+
+        // Only update the URL if it is different from the current slug
+        const newUrl = category ? `/${category}/${largestVisibleSlug}` : `/${largestVisibleSlug}`;
+        if (largestVisibleSlug !== currentSlug && window.location.pathname !== newUrl) {
+            window.history.replaceState(null, '', newUrl); // Update the browser URL
+            setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
+        }
+    };
+
+    useEffect(() => {
+        // Listen for scroll events
+        window.addEventListener('scroll', handleScroll);
+
+        // Cleanup the event listener on unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []); // Dependency on currentSlug
 
     const renderMainContent = () => {
         if (!post || !post.article) return null;
@@ -46,41 +83,25 @@ const BlogPage = () => {
             case 'Web Story':
                 return <WebStoriesJson post={post.article} />;
 
-            case 'LiveBlog':
-                return (
-                    <div>
-                        <BlogPost postData={post.article} />
-                        <div className="grid grid-cols-5 justify-between items-center mb-5">
-                            <div className="bg-green-800 h-[1px] col-span-2"></div>
-                            <p className="border col-span-1 border-green-800 text-center px-2">Live Updates</p>
-                            <div className="bg-green-800 h-[1px] col-span-2"></div>
-                        </div>
-
-                        <div className="rounded  bg-white">
-                            {livBlog.map((live, i) => (
-                                <div key={i} className=" p-4 flex flex-col">
-                                    <h1 className="font-semibold text-xl pb-2">{live.title}</h1>
-                                    <hr/>
-                                    <div dangerouslySetInnerHTML={{ __html: live.content }} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-
             default:
                 return (
                     <div>
-                        <BlogPost postData={post.article} />
-                        <div className="grid grid-cols-5 justify-between items-center mb-5">
+                        {/* <div className="blog-post" data-slug={id}>
+                            <BlogPost postData={post.article} />
+                        </div> */}
+                        {/* <div className="grid grid-cols-5 justify-between items-center mb-5">
                             <div className="bg-green-800 h-[1px] col-span-2"></div>
                             <p className="border col-span-1 border-green-800 text-center px-2">Next Article</p>
                             <div className="bg-green-800 h-[1px] col-span-2"></div>
-                        </div>
-                        {livBlog.length !== 0 &&
-                            livBlog.map((p, index) => (
-                                <BlogPost postData={p} key={p._id || index} />
-                            ))}
+                        </div> */}
+
+                        {post.latestArticles.length !== 0 &&
+                            [post.article, ...post.latestArticles].map((p, index) => (
+                                <div className="blog-post" key={p.index || index} data-slug={p.slug}  >
+                                    <BlogPost postData={p} index={index} />
+                                </div>
+                            ))
+                        }
                     </div>
                 );
         }
