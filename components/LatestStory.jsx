@@ -41,54 +41,47 @@ const LatestStories = () => {
   }, [latestStory]);
 
   return (
-    <div className=" rounded shadow ">
-      {/* Header */}
-      <div className="flex gap-2 items-center mb-4">
-        <h2 className="text-xl font-bold text-green-800">Latest Stories</h2>
-        <div className="w-10 mt-2 h-[1px] bg-green-800"></div>
-      </div>
+    <div className="bg-white rounded-lg p-4 w-full">
+      <div className="w-full">
+        <div className="flex gap-2 items-center mb-4">
+          <h2 className="text-lg font-bold text-green-800">Latest Stories</h2>
+          <div className="w-10 mt-2 h-[1px] bg-green-800"></div>
+        </div>
 
-      {/* Check if stories exist */}
-      {!latestStory || latestStory.length === 0 ? (
-        <p className="text-center text-gray-500">Data is missing</p>
-      ) : (
-        <ul className="space-y-4">
-          {truncatedStories.map((story, index) => (
-            <li
+        <div className="flex flex-col space-y-3 w-full">
+          {latestStory.slice(0, 4).map((story, index) => (
+            <article
               key={index}
-              className="flex flex-col items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer bg-white p-2 shadow-md"
-              onClick={() => handleClick(story.categories[0].slug, story.slug,story._id)}
+              onClick={() => handleClick(story.categories[0]?.slug, story.slug, story._id)}
+              className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors duration-200 w-full"
             >
-              {/* Story Image */}
-              {story.banner_image && (
-                <div className="w-full relative h-40">
-
-                <Image
-                  src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
-                  alt={story.title}
-                  className="rounded"
-                 layout="fill"
-                 objectFit="cover"
-                 objectPosition="center"
-                 priority
-                 
+              <div className="w-20 h-16 relative flex-shrink-0">
+                {story.banner_image && (
+                  <Image
+                    src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
+                    alt={story.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded"
+                    priority={index === 0}
                   />
-                  </div>
-              )}
-
-              {/* Story Details */}
-              <div className="flex-1">
-                <div className="flex items-center mb-1">
-                  <h3 className="text-sm font-bold text-gray-800">{story.title}</h3>
-                </div>
-                <p className="text-xs text-gray-600">{story.summary}</p>
+                )}
               </div>
-            </li>
+
+              <div className="flex flex-col h-16 justify-between flex-1">
+                <span className="text-xs font-medium text-green-700 mb-1">
+                  {story.categories?.[0]?.name || 'Sports'}
+                </span>
+
+                <h3 className="text-sm font-medium text-gray-800 line-clamp-2 flex-1">
+                  {story.title}
+                </h3>
+              </div>
+            </article>
           ))}
-        </ul>
-      )}
+        </div>
+      </div>
     </div>
-   
   );
 };
 

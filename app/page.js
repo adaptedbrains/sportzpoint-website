@@ -56,9 +56,14 @@ const Page = async () => {
   ]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
-      {/* Sidebar hidden on small screens */}
-      <Sidebar />
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 px-4 lg:px-16 mt-7">
+      {/* Sidebar */}
+      <div className="col-span-2 flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
+        <FeaturedEvents />
+        <Follow />
+      </div>
+
+      {/* Main content */}
       <div className="col-span-1 lg:col-span-6">
         {latestUploadPost?.[0] && <ArticleCard post={latestUploadPost[0]} />}
         <div className="grid grid-cols-1 gap-3">
@@ -409,8 +414,9 @@ const Page = async () => {
 
       </div>
 
-      <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
-      <LastestPostForRootPage />
+      {/* Latest stories section - increase to 4 columns and reduce right padding */}
+      <div className="lg:col-span-4 col-span-1 sticky lg:top-20 top-0 h-auto pr-0">
+        <LastestPostForRootPage />
       </div>
     </div>
   );
