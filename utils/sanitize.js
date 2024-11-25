@@ -2,20 +2,26 @@ import DOMPurify from "isomorphic-dompurify";
 
 export const sanitizeContent = (type, content) => {
   if (!content || typeof content !== "string") {
-    return ""; // Return an empty string if content is invalid
+    return "";
   }
 
   let processedContent = content;
 
-  // Only process YouTube iframes if not a live blog
+  // Process Twitter embeds - preserve the original blockquote structure
+  processedContent = processedContent.replace(
+    /(<blockquote class="twitter-tweet".*?<\/blockquote>)/g,
+    '<div class="twitter-embed-container">$1</div>'
+  );
+
+  // Process YouTube iframes
   if (type !== "liveBlog") {
-    processedContent = content.replace(
+    processedContent = processedContent.replace(
       /(<iframe[^>]*youtube[^>]*>.*?<\/iframe>)/g,
       '<div class="youtube-embed-container">$1</div>'
     );
   }
 
-  return DOMPurify.sanitize(processedContent, {
+  const clean = DOMPurify.sanitize(processedContent, {
     ALLOWED_TAGS: [
       "p",
       "br",
@@ -54,8 +60,24 @@ export const sanitizeContent = (type, content) => {
       "frameborder",
       "allowfullscreen",
       "allow",
+      "data-tweet-id",
+      "data-lang",
+      "data-dnt",
+      "data-theme",
+      "charset",
     ],
-    ADD_TAGS: ["iframe"],
-    ADD_ATTR: ["allowfullscreen", "frameborder", "allow"],
+    ADD_TAGS: ["iframe", "blockquote"],
+    ADD_ATTR: [
+      "allowfullscreen",
+      "frameborder",
+      "allow",
+      "data-tweet-id",
+      "data-lang",
+      "data-dnt",
+      "data-theme",
+      "charset",
+    ],
   });
+
+  return clean;
 };
