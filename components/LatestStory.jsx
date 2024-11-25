@@ -35,17 +35,17 @@ const LatestStories = () => {
   const truncatedStories = useMemo(() => {
     return latestStory.map((story) => ({
       ...story,
-      title: story.title.slice(0, 40),
-      summary:story.summary? story.summary.slice(0, 50):"",
+      title: story.title,
+      summary:story.summary? story.summary:"",
     }));
   }, [latestStory]);
 
   return (
-    <div className="bg-white rounded shadow p-4">
+    <div className=" rounded shadow ">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex gap-2 items-center mb-4">
         <h2 className="text-xl font-bold text-green-800">Latest Stories</h2>
-        <div className="w-32 h-[1px] bg-green-800"></div>
+        <div className="w-10 mt-2 h-[1px] bg-green-800"></div>
       </div>
 
       {/* Check if stories exist */}
@@ -56,18 +56,24 @@ const LatestStories = () => {
           {truncatedStories.map((story, index) => (
             <li
               key={index}
-              className="flex items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer"
+              className="flex flex-col items-start gap-4 border-b pb-4 last:border-b-0 cursor-pointer bg-white p-2 shadow-md"
               onClick={() => handleClick(story.categories[0].slug, story.slug,story._id)}
             >
               {/* Story Image */}
               {story.banner_image && (
+                <div className="w-full relative h-40">
+
                 <Image
                   src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
                   alt={story.title}
-                  className="rounded object-cover"
-                  width={150}
-                  height={100}
-                />
+                  className="rounded"
+                 layout="fill"
+                 objectFit="cover"
+                 objectPosition="center"
+                 priority
+                 
+                  />
+                  </div>
               )}
 
               {/* Story Details */}

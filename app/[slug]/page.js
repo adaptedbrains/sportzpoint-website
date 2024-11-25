@@ -97,7 +97,7 @@ const Page = () => {
             <Sidebar />
 
             {/* Main Content */}
-            <div className="lg:col-span-5 col-span-1 mb-4">
+            <div className="lg:col-span-6 col-span-1 mb-4">
                 {posts && posts[0] && <ArticleCard post={posts[0]} />}
                 <div className="grid grid-cols-1 gap-3">
                     {posts.slice(1, 11).map((article, index) => (
@@ -120,7 +120,7 @@ const Page = () => {
             </div>
 
             {/* Latest Stories - on mobile, will stack under the content */}
-            <div className="lg:col-span-3 col-span-1 sticky lg:top-20 top-0 h-auto lg:h-screen overflow-y-auto mb-4 lg:mb-0">
+            <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
                 <LatestStories />
             </div>
         </div>

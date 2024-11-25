@@ -59,7 +59,7 @@ const Page = async () => {
     <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
       {/* Sidebar hidden on small screens */}
       <Sidebar />
-      <div className="col-span-1 lg:col-span-5">
+      <div className="col-span-1 lg:col-span-6">
         {latestUploadPost?.[0] && <ArticleCard post={latestUploadPost[0]} />}
         <div className="grid grid-cols-1 gap-3">
           {latestUploadPost?.slice(1, 11).map((article, index) => (
@@ -409,8 +409,8 @@ const Page = async () => {
 
       </div>
 
-      <div className="col-span-1 lg:col-span-3 sticky top-20 h-screen overflow-y-auto hidden lg:block">
-        <LastestPostForRootPage />
+      <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
+      <LastestPostForRootPage />
       </div>
     </div>
   );

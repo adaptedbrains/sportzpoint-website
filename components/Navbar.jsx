@@ -21,7 +21,7 @@ const NavigationBar = () => {
     { name: "Women In Sports", slugName: "/tags/women-in-sports" },
     { name: "Athletics", slugName: "/athletics" },
     { name: "Tennis", slugName: "/tennis" },
-    { name: "Live", slugName: "/live" },
+    // { name: "Live", slugName: "/live" },
   ];
 
   const variants = {

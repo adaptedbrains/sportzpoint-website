@@ -117,7 +117,7 @@ const BlogPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className="lg:col-span-5 col-span-1">
+            <div className="lg:col-span-6 col-span-1">
                 {isLoading ? (
                     <div className="flex justify-center mt-20">
                         <BlinkBlur color="#32cd32" size="medium" />
@@ -128,7 +128,7 @@ const BlogPage = () => {
             </div>
 
             {/* Latest Stories - sticky on large screens, normal block on mobile */}
-            <div className="hidden lg:block lg:col-span-3 sticky top-20 h-screen overflow-y-auto mb-4 lg:mb-0">
+            <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
                 <LatestStories />
             </div>
         </div>
