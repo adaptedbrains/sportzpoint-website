@@ -22,13 +22,11 @@ const BlogPost = ({ postData, index }) => {
     if (postData.type === "LiveBlog" && postData.liveBlog && index===0) {
       const ws = new WebSocket(`${process.env.NEXT_PUBLIC_API_URL}/article/slug/${postData.slug}`);
 
-<<<<<<< HEAD
     const loadTwitterWidgets = () => {
       const existingScript = document.getElementById('twitter-widget-script');
       if (existingScript) {
         existingScript.remove();
       }
-=======
       ws.onopen = () => {
         console.log("WebSocket connection established");
       };
@@ -56,7 +54,6 @@ const BlogPost = ({ postData, index }) => {
     const loadInstagramEmbeds = () => {
       const existingScript = document.getElementById("instagram-embed-script");
       if (existingScript) existingScript.remove();
->>>>>>> d529349445b18c68360485177cd4b44f2c7f94f7
 
       const script = document.createElement('script');
       script.id = 'twitter-widget-script';
