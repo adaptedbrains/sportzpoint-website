@@ -24,13 +24,13 @@ import { useEffect, useState } from "react"
 
 // import { useCycleItemStore } from "../lib/store/cycle.store"
 
-const WEBSOCKET_URL = "ws://localhost:8080"
+const WEBSOCKET_URL = "ws://localhost:8000"
 
 export const useWebSocket = () => {
-  const [socket, setSocket] = useState<WebSocket | null>(null)
+  const [socket, setSocket] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
   const [messages, setMessages] = useState([])
-//   const { updateStateWithNewItem } = useCycleItemStore()   // gping to be chenage
+//   const { updateStateWithNewItem } = useCycleItemStore()   // ekahne sate ta ke import korte hobe
 
   useEffect(() => {
     const newSocket = new WebSocket(WEBSOCKET_URL)
@@ -44,9 +44,9 @@ export const useWebSocket = () => {
       try {
         const message = JSON.parse(event.data.toString())
         console.log("mes saj...: ", message)
-        if (message.type === "linear" && message.item) {
-          setMessages((prevMessages) => [...prevMessages, message.item])
-        //   updateStateWithNewItem(message.item)  // need to change here
+        if (message.type === "ADD_LIVEBLOG_UPDATE" && message.data) {
+          setMessages((prevMessages) => [...prevMessages, message.data])
+        //   updateStateWithNewItem(message.item)  // need to change here ekhane sate update hobe
         }
         console.log("Received message:", message)
       } catch (error) {

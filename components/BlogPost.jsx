@@ -27,9 +27,11 @@ const socialMedia = [
   },
 ];
 
+
 const BlogPost = ({ postData, index }) => {
  
   const [liveBlog, setLiveBlog] = useState([]);
+  const { messages } = useWebSocket()
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
