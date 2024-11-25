@@ -41,19 +41,19 @@ const LatestStories = () => {
   }, [latestStory]);
 
   return (
-    <div className="bg-white rounded-lg p-4 w-full">
-      <div className="w-full">
+    <div className="bg-white rounded-lg p-4 min-w-[300px] max-w-full lg:w-[350px] flex-shrink-0">
+      <div className="relative">
         <div className="flex gap-2 items-center mb-4">
           <h2 className="text-lg font-bold text-green-800">Latest Stories</h2>
           <div className="w-10 mt-2 h-[1px] bg-green-800"></div>
         </div>
 
-        <div className="flex flex-col space-y-3 w-full">
+        <div className="flex flex-col space-y-3">
           {latestStory.slice(0, 4).map((story, index) => (
             <article
               key={index}
               onClick={() => handleClick(story.categories[0]?.slug, story.slug, story._id)}
-              className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors duration-200 w-full"
+              className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors duration-200"
             >
               <div className="w-20 h-16 relative flex-shrink-0">
                 {story.banner_image && (
@@ -68,12 +68,12 @@ const LatestStories = () => {
                 )}
               </div>
 
-              <div className="flex flex-col h-16 justify-between flex-1">
-                <span className="text-xs font-medium text-green-700 mb-1">
+              <div className="flex flex-col h-16 justify-between flex-1 min-w-0">
+                <span className="text-xs font-medium text-green-700 mb-1 truncate">
                   {story.categories?.[0]?.name || 'Sports'}
                 </span>
 
-                <h3 className="text-sm font-medium text-gray-800 line-clamp-2 flex-1">
+                <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                   {story.title}
                 </h3>
               </div>
