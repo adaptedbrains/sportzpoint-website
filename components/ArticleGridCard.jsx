@@ -9,11 +9,11 @@ const ArticleGridCard = ({ post }) => {
   const router = useRouter();
 
   // Add this debug log
-  console.log("Post data:", {
-    slug: post.slug,
-    categories: post.categories,
-    firstCategory: post.categories?.[0],
-  });
+  // console.log("Post data:", {
+  //   slug: post.slug,
+  //   categories: post.categories,
+  //   firstCategory: post.categories?.[0],
+  // });
 
   if (!post) {
     return (
