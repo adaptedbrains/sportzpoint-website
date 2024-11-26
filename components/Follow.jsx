@@ -25,13 +25,13 @@ const Follow = () => {
     },
     {
       icon: <FaTwitter className="opacity-80" />,
-      text: 'Share on Twitter',
+      text: 'Twitter',
       href: 'http://www.twitter.com/intent/tweet?url=https://sportzpoint.com/cricket/ipl-2025-squads-of-every-ipl-team-after-the-auction-7608832',
       className: 'text-sky-500'
     },
     {
       icon: <FaWhatsapp className="opacity-80" />,
-      text: 'Share on WhatsApp',
+      text: 'WhatsApp',
       href: 'https://api.whatsapp.com/send?text=https://sportzpoint.com/cricket/ipl-2025-squads-of-every-ipl-team-after-the-auction-7608832',
       className: 'text-green-600'
     },
