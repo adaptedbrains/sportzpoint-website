@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+import Head from 'next/head';
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { apiUrl, siteUrl, imgCdn } from '@/config/environment';
 
 const socialMedia = [
   {
@@ -45,20 +48,22 @@ const FullWidthArticleCard = ({ article }) => (
         />
       </div>
       <div className="p-4">
-        <div className="flex gap-2 mb-2">
-          {article.categories && article.categories.map((category, index) => (
-            <Link
-              key={index}
-              href={`/${category.slug}`}
-              className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
+        {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
+          <div className="flex gap-2 mb-2">
+            {article.categories.map((category, index) => (
+              <Link
+                key={index}
+                href={`/category/${category.slug}`}
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+              >
+                {category.name}
+              </Link>
+            ))}
+          </div>
+        )}
         
         <Link 
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
+          href={`/news/${article.categories?.[0]?.slug}/${article.slug}`}
           className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
@@ -66,6 +71,20 @@ const FullWidthArticleCard = ({ article }) => (
         <p className="text-sm text-gray-500 mt-2">
           {convertToIST(article.published_at_datetime)}
         </p>
+
+        {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {article.tags.map((tag, idx) => (
+              <Link
+                key={idx}
+                href={`/tags/${tag.slug}`}
+                className="px-2 py-0.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-xs transition-colors duration-200 font-medium"
+              >
+                {tag.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   </div>
@@ -84,20 +103,22 @@ const RelatedArticleCard = ({ article }) => (
         />
       </div>
       <div className="p-4">
-        <div className="flex gap-2 mb-2">
-          {article.categories && article.categories.map((category, index) => (
-            <Link
-              key={index}
-              href={`/${category.slug}`}
-              className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
+        {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
+          <div className="flex gap-2 mb-2">
+            {article.categories.map((category, index) => (
+              <Link
+                key={index}
+                href={`/category/${category.slug}`}
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+              >
+                {category.name}
+              </Link>
+            ))}
+          </div>
+        )}
         
         <Link 
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
+          href={`/news/${article.categories?.[0]?.slug}/${article.slug}`}
           className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
@@ -105,6 +126,20 @@ const RelatedArticleCard = ({ article }) => (
         <p className="text-sm text-gray-500 mt-2">
           {convertToIST(article.published_at_datetime)}
         </p>
+
+        {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {article.tags.map((tag, idx) => (
+              <Link
+                key={idx}
+                href={`/tags/${tag.slug}`}
+                className="px-2 py-0.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-xs transition-colors duration-200 font-medium"
+              >
+                {tag.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   </div>
@@ -206,14 +241,53 @@ const BlogPost = ({ postData, index }) => {
     ]
   };
 
+  const imageUrl = `${imgCdn}/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${postData.banner_image}`;
+  
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": postData.title,
+    "image": [imageUrl],
+    "datePublished": postData.published_at_datetime,
+    "dateModified": postData.updated_at || postData.published_at_datetime,
+    "author": [{
+      "@type": "Person",
+      "name": postData.author?.name,
+    }],
+    "publisher": {
+      "@type": "Organization",
+      "name": "SportzPoint",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/logo.png`
+      }
+    },
+    "description": postData.seo_desc || postData.summary
+  };
+
   return (
     <>
+      <Head>
+        <title>{postData.seo_title || postData.title} | SportzPoint</title>
+        <meta name="description" content={postData.seo_desc || postData.summary} />
+        <meta property="og:title" content={postData.seo_title || postData.title} />
+        <meta property="og:description" content={postData.seo_desc || postData.summary} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={`${siteUrl}/${postData.categories[0]?.slug}/${postData.slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={postData.seo_title || postData.title} />
+        <meta name="twitter:description" content={postData.seo_desc || postData.summary} />
+        <meta name="twitter:image" content={imageUrl} />
+        <script type="application/ld+json">
+          {JSON.stringify(articleSchema)}
+        </script>
+      </Head>
       <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="flex gap-2">
           {postData.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
           {postData.categories.map((category, index) => (
             <Link
-              href={`/${category.slug}`}
+              href={`/category/${category.slug}`}
               key={index}
               className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
             >
@@ -275,9 +349,9 @@ const BlogPost = ({ postData, index }) => {
         </div>
 
         {postData.banner_image && (
-          <div className="w-full h-[340px] relative my-6">
+          <div className="relative h-[340px] w-full my-6">
             <Image
-              src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${postData.banner_image}`}
+              src={imageUrl}
               alt={postData.title || "Banner Image"}
               layout="fill"
               objectFit="cover"
