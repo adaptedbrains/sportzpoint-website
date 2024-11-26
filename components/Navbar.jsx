@@ -12,16 +12,15 @@ const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control the menu
 
   const navigationItems = [
-    { name: "Cricket", slugName: "/cricket" },
-    { name: "Football", slugName: "/football" },
-    { name: "Hockey", slugName: "/hockey" },
-    { name: "Icc Wt20 Wc 24", slugName: "/tags/icc-womens-t20-world-cup-2024" },
-    
+    { name: "CRICKET", slugName: "/cricket" },
+    { name: "FOOTBALL", slugName: "/football" },
+    { name: "HOCKEY", slugName: "/hockey" },
+    { name: "ICC WT20 WC 24", slugName: "/tags/icc-womens-t20-world-cup-2024" },
     { name: "ISL 2024-25", slugName: "/tags/isl-2024-25" },
-    { name: "Women In Sports", slugName: "/tags/women-in-sports" },
-    { name: "Athletics", slugName: "/athletics" },
-    { name: "Tennis", slugName: "/tennis" },
-    // { name: "Live", slugName: "/live" },
+    { name: "WOMEN IN SPORTS", slugName: "/tags/women-in-sports" },
+    { name: "ATHLETICS", slugName: "/athletics" },
+    { name: "TENNIS", slugName: "/tennis" },
+    // { name: "LIVE", slugName: "/live" },
   ];
 
   const variants = {
@@ -67,7 +66,7 @@ const NavigationBar = () => {
             >
               <Link
                 href={nav.slugName}
-                className="hover:text-white text-zinc-300"
+                className="hover:text-white text-zinc-300 uppercase tracking-wide"
               >
                 {nav.name}
               </Link>
@@ -102,7 +101,7 @@ const NavigationBar = () => {
                 <Link
                   key={nav.slugName}
                   href={nav.slugName}
-                  className="text-white text-lg"
+                  className="text-white text-lg uppercase tracking-wide"
                 >
                   {nav.name}
                 </Link>
