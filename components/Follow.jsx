@@ -20,39 +20,43 @@ const Follow = () => {
     {
       icon: <FaFacebookF className="opacity-80" />,
       text: 'Facebook',
-      href: 'http://www.facebook.com/sharer/sharer.php?u=https://sportzpoint.com/cricket/ipl-2025-squads-of-every-ipl-team-after-the-auction-7608832',
+      href: 'https://www.facebook.com/sportzpoint',
       className: 'text-blue-600'
     },
     {
       icon: <FaTwitter className="opacity-80" />,
       text: 'Twitter',
-      href: 'http://www.twitter.com/intent/tweet?url=https://sportzpoint.com/cricket/ipl-2025-squads-of-every-ipl-team-after-the-auction-7608832',
+      href: 'https://twitter.com/sportzpoint',
       className: 'text-sky-500'
     },
     {
       icon: <FaWhatsapp className="opacity-80" />,
       text: 'WhatsApp',
-      href: 'https://api.whatsapp.com/send?text=https://sportzpoint.com/cricket/ipl-2025-squads-of-every-ipl-team-after-the-auction-7608832',
+      href: 'https://api.whatsapp.com/send?text=https://sportzpoint.com',
       className: 'text-green-600'
     },
   ];
 
   return (
-    <div className="bg-white rounded shadow sticky top-20">
-      <h2 className="text-xl font-bold mb-4 pt-2 px-4">Follow Us</h2>
-      <div className="px-2">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+      <div className="p-3 border-b border-gray-100">
+        <h2 className="text-lg font-semibold text-gray-800">Follow Us</h2>
+      </div>
+      <div className="py-1">
         {socialLinks.map((link, index) => (
           <Link 
             href={link.href}
             key={index}
             target="_blank"
             rel="noopener noreferrer"
-            className="mb-2 flex items-center hover:shadow-md hover:bg-zinc-100 px-2 py-1 rounded transition-all duration-100 text-zinc-900 cursor-pointer"
+            className="flex items-center px-2 py-2 hover:bg-gray-50 transition-colors duration-200 group"
           >
-            <span className="w-5 h-5 flex items-center justify-center">
+            <span className={`w-5 h-5 flex items-center justify-center ${link.className}`}>
               {link.icon}
             </span>
-            <span className="ml-2 text-sm">{link.text}</span>
+            <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
+              {link.text}
+            </span>
           </Link>
         ))}
       </div>

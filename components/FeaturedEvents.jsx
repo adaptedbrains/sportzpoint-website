@@ -1,16 +1,15 @@
 import React from "react";
 import { PiCricketDuotone } from "react-icons/pi";
 import { MdOutlineSportsTennis } from "react-icons/md";
-
 import {
-  FaMedal, // For Olympics
-  FaFutbol, // For Football
-  FaHockeyPuck, // For Hockey
+  FaMedal,
+  FaFutbol,
+  FaHockeyPuck,
   FaThermometer,
-  FaFemale, // For Women in Sports
-  FaGamepad, // For E-Sports
-  FaRunning, // For Athletics
-  FaExchangeAlt, // For Transfer News
+  FaFemale,
+  FaGamepad,
+  FaRunning,
+  FaExchangeAlt,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -18,74 +17,79 @@ const FeaturedEvents = ({ toggleMenu }) => {
   const events = [
     {
       title: "Olympics",
-      icon: <FaMedal color="rgba(0,0,0,0.8)" />,
+      icon: <FaMedal size={18} />,
       slug: "/olympics",
     },
     {
       title: "Cricket",
-      icon: <PiCricketDuotone color="rgba(0,0,0,0.8)" />,
+      icon: <PiCricketDuotone size={18} />,
       slug: "/cricket",
     },
     {
       title: "Football",
-      icon: <FaFutbol color="rgba(0,0,0,0.8)" />,
+      icon: <FaFutbol size={18} />,
       slug: "/football",
     },
     {
       title: "Tennis",
-      icon: <MdOutlineSportsTennis color="rgba(0,0,0,0.8)" />,
+      icon: <MdOutlineSportsTennis size={18} />,
       slug: "/tennis",
     },
     {
       title: "Hockey",
-      icon: <FaHockeyPuck color="rgba(0,0,0,0.8)" />,
+      icon: <FaHockeyPuck size={18} />,
       slug: "/hockey",
     },
     {
       title: "Badminton",
-      icon: <FaThermometer color="rgba(0,0,0,0.8)" />,
+      icon: <FaThermometer size={18} />,
       slug: "/badminton",
     },
     {
-      title: "Women in Sports",
-      icon: <FaFemale color="rgba(0,0,0,0.8)" />,
+      title: "Women Sports",
+      icon: <FaFemale size={18} />,
       slug: "/women-in-sports",
     },
     {
       title: "E-Sports",
-      icon: <FaGamepad color="rgba(0,0,0,0.8)" />,
+      icon: <FaGamepad size={18} />,
       slug: "/e-sports",
     },
     {
       title: "Athletics",
-      icon: <FaRunning color="rgba(0,0,0,0.8)" />,
+      icon: <FaRunning size={18} />,
       slug: "/athletics",
     },
     {
-      title: "Transfer News",
-      icon: <FaExchangeAlt color="rgba(0,0,0,0.8)" />,
+      title: "Transfers",
+      icon: <FaExchangeAlt size={18} />,
       slug: "/football/transfer-news",
     },
   ];
 
   return (
-    <div className="bg-white rounded shadow">
-      <h2 className="text-xl font-bold mb-4 pt-2 px-4">Featured Categories</h2>
-      <div className="px-2">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+      <div className="p-3 border-b border-gray-100">
+        <h2 className="text-lg font-semibold text-gray-800">Featured Categories</h2>
+      </div>
+      <div className="py-1">
         {events.map((event, index) => (
           <Link
             href={event.slug}
             key={index}
-            className="mb-2 flex items-center hover:shadow-md hover:bg-zinc-100 px-2 py-1 rounded transition-all duration-100 text-zinc-900 cursor-pointer"
+            className="block"
           >
-            <button
-              type="button"
-              onClick={toggleMenu} // Handle menu toggle on click
-              className="flex items-center w-full" // Ensure button doesn't break layout
+            <div 
+              className="flex items-center px-2 py-2 hover:bg-gray-50 transition-colors duration-200 group"
+              onClick={toggleMenu}
             >
-              {event.icon}
-              <span className="ml-2">{event.title}</span>
-            </button>
+              <span className="text-gray-500 group-hover:text-green-600 transition-colors duration-200">
+                {event.icon}
+              </span>
+              <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
+                {event.title}
+              </span>
+            </div>
           </Link>
         ))}
       </div>

@@ -3,57 +3,85 @@
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
+import { useRouter } from "next/navigation";
 
-const ArticleCard = ({ post }) => {
-  const router = useRouter(); // Initialize useRouter
+const ArticleCard = ({ mainPost, secondaryPost }) => {
+  const router = useRouter();
 
-  if (!post) {
-    return (
-      <div className="text-center text-red-600 font-semibold">
-        Data is missing
-      </div>
-    );
-  }
+  if (!mainPost) return null;
 
-  // Function to handle routing when the card is clicked
-  const handleClick = () => {
-   
-    
-    router.push(`/${post.categories[0].slug}/${post.slug}`); // Adjust the route as needed
+  const handleClick = (post) => {
+    if (!post?.categories?.[0]?.slug) return;
+    router.push(`/${post.categories[0].slug}/${post.slug}`);
   };
-  
-  return (
-    <div
-      className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"
-      onClick={handleClick} // Add onClick handler here
-    >
-      {post.banner_image && (
-        <Image
-        src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
-          alt="Article"
-          width={800}
-          height={700}
-          className="object-contain"
-          priority
-        />
-      )}
-      <div className="p-4">
-        <div className="flex gap-1 items-center">
-        {post.isLive && <div className="text text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
-        {post.categories.length && post.categories!==0 && post.categories.map((c,i)=><p key={i} className="text-sm text-green-600 font-semibold">{c.name || "Uncategorized"} </p>)}
-        </div>
-        
-        <h2 className="text-lg font-bold text-gray-800 mt-1">{post.title}</h2>
-        <p className="text-sm text-gray-600 mt-2">{post.summary}</p>
-        <div className="mt-3 flex items-center text-gray-500 text-sm">
-          <p>{post && post.author && post.author.name &&  post.author.name || "Unknown Author"}</p>
-          <span className="mx-2">•</span>
-          <p>{formatDate(post.updated_at_datetime)}</p>
-          <span className="mx-2">•</span>
-          <p>{post.readTime || "2 Min read"}</p>
+
+  const ArticleContent = ({ post }) => (
+    <div className="p-3 flex flex-col h-full">
+      <div className="flex flex-wrap gap-1 mb-2">
+        {post.isLive && (
+          <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded flex items-center">
+            LIVE
+          </span>
+        )}
+        {post.categories?.map((c, i) => (
+          <span 
+            key={i} 
+            className="text-[10px] font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded"
+          >
+            {c.name || "Uncategorized"}
+          </span>
+        ))}
+      </div>
+
+      <h2 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">
+        {post.title}
+      </h2>
+
+      <div className="mt-auto">
+        <p className="text-xs text-gray-600 truncate">
+          By {post.author?.name || "Unknown Author"}
+        </p>
+        <div className="flex items-center text-[10px] text-gray-500 mt-1">
+          <span className="truncate">
+            {formatDate(post.updated_at_datetime)}
+          </span>
+          <span className="mx-2 flex-shrink-0">•</span>
+          <span className="truncate">
+            {post.readTime || "2 Min read"}
+          </span>
         </div>
       </div>
+    </div>
+  );
+
+  const ArticleBox = ({ post }) => (
+    <div 
+      className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col h-full"
+      onClick={() => handleClick(post)}
+    >
+      <div className="relative w-full pt-[56.25%]">
+        {post.banner_image ? (
+          <Image
+            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
+            alt={post.title}
+            fill
+            className="object-cover absolute top-0 left-0"
+            priority
+          />
+        ) : (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+            No Image
+          </div>
+        )}
+      </div>
+      <ArticleContent post={post} />
+    </div>
+  );
+
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <ArticleBox post={mainPost} />
+      {secondaryPost && <ArticleBox post={secondaryPost} />}
     </div>
   );
 };

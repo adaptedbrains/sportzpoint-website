@@ -164,3 +164,44 @@ iframe.instagram-media {
 .blog-content a {
   @apply text-green-700 underline hover:text-green-900 transition-colors duration-200;
 }
+
+@layer utilities {
+    .sticky-sidebar {
+        position: sticky;
+        top: 5rem; /* 20px */
+        height: calc(100vh - 5rem);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+
+    .sticky-sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sticky-sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sticky-sidebar::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+
+    .min-h-screen {
+        min-height: 100vh;
+        min-height: 100dvh; /* For mobile browsers */
+    }
+
+    .flex-grow {
+        flex-grow: 1;
+    }
+
+    .content-wrapper {
+        padding-top: 64px; /* Match navbar height */
+    }
+
+    .sticky-offset {
+        top: 64px; /* Match navbar height */
+    }
+}

@@ -36,47 +36,59 @@ const ArticleGridCard = ({ post }) => {
 
   return (
     <div
-      className="bg-white mt-2 border border-gray-300 rounded-lg overflow-hidden shadow-md  cursor-pointer"
+      className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col"
       onClick={handleClick}
     >
-      <div className="relative w-full h-[150px]">
+      {/* Image container with fixed aspect ratio */}
+      <div className="relative w-full pt-[56.25%]"> {/* 16:9 aspect ratio */}
         {post.banner_image ? (
           <Image
             src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
-            alt="Article"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            alt={post.title}
+            fill
+            className="object-cover absolute top-0 left-0"
             priority
           />
         ) : (
-          <div className="flex items-center justify-center bg-gray-200 h-full text-gray-400">
-            No Image Available
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+            No Image
           </div>
         )}
       </div>
-      <div className="w-full p-2">
-        <div className="flex gap-1">
-        {post.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
-      {post.categories.length && post.categories!==0 && post.categories.map((c,i)=><span key={i} className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md">
-          {c?.name || "Uncategorized"}
-        </span>)}
+
+      {/* Content container */}
+      <div className="p-3 flex-1 flex flex-col">
+        {/* Categories and Live indicator */}
+        <div className="flex flex-wrap gap-1 mb-2">
+          {post.isLive && (
+            <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded flex items-center">
+              LIVE
+            </span>
+          )}
+          {post.categories?.length > 0 && post.categories.map((c, i) => (
+            <span key={i} className="text-[10px] font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded">
+              {c?.name || "Uncategorized"}
+            </span>
+          ))}
         </div>
-        
-        <h3 className="mt-2 text-sm font-bold text-gray-800 leading-snug">
+
+        {/* Title */}
+        <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">
           {post.title || "No Title Available"}
         </h3>
-        <p className="text-xs text-gray-600 mt-2">
-          By {post.author.name || "Unknown Author"}
-        </p>
-        <div className="flex items-center text-[10px] text-gray-500 mt-2">
-          <span>
-            {post.updated_at_datetime
-              ? formatDate(post.updated_at_datetime)
-              : "No Date"}
-          </span>
-          <span className="mx-2">•</span>
-          <span>{post.readTime || "2 min read"}</span>
+
+        {/* Author and metadata */}
+        <div className="mt-auto">
+          <p className="text-xs text-gray-600 truncate">
+            By {post.author?.name || "Unknown Author"}
+          </p>
+          <div className="flex items-center text-[10px] text-gray-500 mt-1">
+            <span className="truncate">
+              {post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
+            </span>
+            <span className="mx-2 flex-shrink-0">•</span>
+            <span className="flex-shrink-0">{post.readTime || "2 min read"}</span>
+          </div>
         </div>
       </div>
     </div>
