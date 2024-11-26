@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import usePostStore from "@/store/postStore";
 
 const Footer = () => {
@@ -49,9 +48,9 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto w-full">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-12">
           {/* Sports Section */}
-          <div>
+          <div className="md:col-span-3">
             <h3 className="text-sm font-bold mb-4 uppercase tracking-wider">Sports</h3>
             <ul className="space-y-2">
               {sportsLinks.map((link, index) => (
@@ -68,7 +67,7 @@ const Footer = () => {
           </div>
 
           {/* Special Coverage */}
-          <div>
+          <div className="md:col-span-3">
             <h3 className="text-sm font-bold mb-4 uppercase tracking-wider">Special Coverage</h3>
             <ul className="space-y-2">
               {specialCoverage.map((link, index) => (
@@ -85,11 +84,11 @@ const Footer = () => {
           </div>
 
           {/* Latest Stories */}
-          <div>
+          <div className="md:col-span-4">
             <h3 className="text-sm font-bold mb-4 uppercase tracking-wider">Latest Stories</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {latestStory && latestStory.slice(0, 6).map((story, index) => (
-                <li key={index}>
+                <li key={index} className="relative pl-3 before:content-['•'] before:absolute before:left-0 before:text-gray-400">
                   <Link 
                     href={`/${story.categories[0]?.slug}/${story.slug}`}
                     className="text-gray-600 hover:text-gray-900 text-sm line-clamp-2"
@@ -102,7 +101,7 @@ const Footer = () => {
           </div>
 
           {/* Company */}
-          <div>
+          <div className="md:col-span-2">
             <h3 className="text-sm font-bold mb-4 uppercase tracking-wider">Company</h3>
             <ul className="space-y-2">
               {companyLinks.map((link, index) => (
@@ -136,19 +135,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Footer */}
-        <div className="flex flex-col items-center justify-center text-center space-y-4">
-          <Image 
-            src="/logo.png" 
-            alt="Sportzpoint Logo" 
-            width={120} 
-            height={40}
-            className="h-8 w-auto"
-          />
+        <div className="flex flex-col items-center justify-center text-center">
           <div className="text-sm text-gray-900 flex items-center justify-center flex-wrap gap-1">
             Made with 
             <span role="img" aria-label="love" className="text-yellow-500">💛</span> 
-            and 
-            <span role="img" aria-label="coffee" className="mx-1">☕</span> 
             by 
             <a 
               href="https://github.com/adaptedbrains" 

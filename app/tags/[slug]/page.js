@@ -102,10 +102,12 @@ const Page = () => {
                     </div>
                 </main>
 
-                {/* Last Div (Latest Stories Sidebar) */}
-                <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
-                <LatestStories />
-                </div>
+                {/* Right Sidebar */}
+                <aside className="lg:col-span-3 col-span-1">
+                    <div className="sticky top-[64px] space-y-4">
+                        <LatestStories />
+                    </div>
+                </aside>
             </div>
         </div>
     );

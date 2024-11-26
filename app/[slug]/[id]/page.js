@@ -108,16 +108,16 @@ const BlogPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-2 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                <aside className="hidden lg:block lg:col-span-2">
-                    <div className="sticky top-[84px] space-y-4">
+        <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
+                <aside className="hidden lg:block lg:col-span-3 xl:col-span-2">
+                    <div className="flex flex-col gap-4 sticky top-[64px]">
                         <FeaturedEvents />
                         <Follow />
                     </div>
                 </aside>
 
-                <div className="lg:col-span-7 col-span-1">
+                <div className="lg:col-span-6 xl:col-span-7 col-span-1">
                     {isLoading ? (
                         <div className="flex justify-center mt-20">
                             <BlinkBlur color="#32cd32" size="medium" />
@@ -128,7 +128,7 @@ const BlogPage = () => {
                 </div>
 
                 <div className="lg:col-span-3 col-span-1">
-                    <div className="sticky top-[84px]">
+                    <div className="sticky top-[64px] space-y-4">
                         <LatestStories />
                     </div>
                 </div>
