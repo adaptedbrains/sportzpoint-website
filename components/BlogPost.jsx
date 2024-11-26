@@ -182,17 +182,8 @@ const BlogPost = ({ postData, index }) => {
                     {live.title}
                   </h2>
 
-                  <div className="prose max-w-none">
-                    <article
-                      className="blog-content text-gray-700"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeContent("LiveBlog", live.content),
-                      }}
-                    />
-                  </div>
-
                   {live.images && live.images.length > 0 && (
-                    <div className="mt-4 grid gap-4 grid-cols-1 md:grid-cols-2">
+                    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                       {live.images.map((image, index) => (
                         <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
                           <Image
@@ -206,6 +197,15 @@ const BlogPost = ({ postData, index }) => {
                       ))}
                     </div>
                   )}
+
+                  <div className="prose max-w-none">
+                    <article
+                      className="blog-content text-gray-700"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeContent("LiveBlog", live.content),
+                      }}
+                    />
+                  </div>
                 </div>
               ))}
             </>
