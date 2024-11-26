@@ -158,32 +158,59 @@ const BlogPost = ({ postData, index }) => {
           onLoad={() => window.instgrm?.Embeds.process()}
         />
 
-        <div className="rounded   flex flex-col gap-7">
-          {liveBlogs &&
-            liveBlogs.map((live, i) => (
-              <div key={i} className="shadow-md bg-gray-100 p-4 flex flex-col">
-                <h1 className="font-semibold text-xl">{live.title}</h1>
-                <article
-                  className="blog-content"
-                  dangerouslySetInnerHTML={{
-                    __html: sanitizeContent("LiveBlog", live.content),
-                  }}
-                />
-              </div>
-            ))}
-        </div>
-        {postData.live_blog_updates === "LiveBlog" &&
-          postData.live_blog_updates.length > 0 && (
+        <div className="rounded flex flex-col gap-7 mt-8">
+          {postData.type === "LiveBlog" && liveBlogs && liveBlogs.length > 0 && (
             <>
               <div className="grid grid-cols-5 justify-between items-center mb-5">
                 <div className="bg-green-800 h-[1px] col-span-2"></div>
-                <p className="border col-span-1 border-green-800 text-center px-2">
+                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
                   Live Updates
                 </p>
                 <div className="bg-green-800 h-[1px] col-span-2"></div>
               </div>
+
+              {liveBlogs.map((live, i) => (
+                <div 
+                  key={i} 
+                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-green-800"
+                >
+                  <p className="text-gray-600 italic text-sm">
+                    {convertToIST(live.created_at)}
+                  </p>
+
+                  <h2 className="font-bold text-xl text-gray-800">
+                    {live.title}
+                  </h2>
+
+                  {live.images && live.images.length > 0 && (
+                    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                      {live.images.map((image, index) => (
+                        <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
+                          <Image
+                            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${image}`}
+                            alt={`Update image ${index + 1}`}
+                            layout="fill"
+                            objectFit="cover"
+                            className="hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="prose max-w-none">
+                    <article
+                      className="blog-content text-gray-700"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeContent("LiveBlog", live.content),
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
             </>
           )}
+        </div>
       </div>
       {index === 0 && (
         <div className="grid grid-cols-5 justify-between items-center mb-5">

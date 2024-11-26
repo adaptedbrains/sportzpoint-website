@@ -108,28 +108,30 @@ const BlogPage = () => {
     };
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
-            {/* Sidebar - hidden on md and smaller screens */}
-            <div className="hidden lg:flex lg:col-span-2 flex-col gap-4 sticky -top-40 h-[120vh] mb-4 lg:mb-0">
-                <LoginSignUp />
-                <FeaturedEvents />
-                <Follow />
-            </div>
-
-            {/* Main Content */}
-            <div className="lg:col-span-6 col-span-1">
-                {isLoading ? (
-                    <div className="flex justify-center mt-20">
-                        <BlinkBlur color="#32cd32" size="medium" />
+        <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
+                <aside className="hidden lg:block lg:col-span-3 xl:col-span-2">
+                    <div className="flex flex-col gap-4 sticky top-[64px]">
+                        <FeaturedEvents />
+                        <Follow />
                     </div>
-                ) : (
-                    renderMainContent()
-                )}
-            </div>
+                </aside>
 
-            {/* Latest Stories - sticky on large screens, normal block on mobile */}
-            <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
-                <LatestStories />
+                <div className="lg:col-span-6 xl:col-span-7 col-span-1">
+                    {isLoading ? (
+                        <div className="flex justify-center mt-20">
+                            <BlinkBlur color="#32cd32" size="medium" />
+                        </div>
+                    ) : (
+                        renderMainContent()
+                    )}
+                </div>
+
+                <div className="lg:col-span-3 col-span-1">
+                    <div className="sticky top-[64px] space-y-4">
+                        <LatestStories />
+                    </div>
+                </div>
             </div>
         </div>
     );

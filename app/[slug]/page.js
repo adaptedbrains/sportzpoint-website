@@ -6,20 +6,11 @@ import usePostStore from "@/store/postStore";
 import FeaturedEvents from "@/components/FeaturedEvents";
 import LoginSignUp from "@/components/LoginSignUp";
 import Follow from "@/components/Follow";
-import ArticleListCard from "@/components/ArticleListCard";
 import ArticleCard from "@/components/ArticleCard";
 import ArticleGridCard from "@/components/ArticleGridCard";
 import LatestStories from "@/components/LatestStory";
 import WebStoriesList from "@/components/WebStoryList";
-
-const Sidebar = () => (
-    <div className="col-span-2  flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
-        {/* Sidebar is hidden on screens smaller than 'lg' */}
-        <LoginSignUp />
-        <FeaturedEvents />
-        <Follow />
-    </div>
-);
+import SectionArticleCard from "@/components/SectionArticleCard";
 
 const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }) => {
     const pageButtons = useMemo(() => {
@@ -92,36 +83,61 @@ const Page = () => {
 
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 px-4 lg:px-28 mt-7">
-            {/* Sidebar - on mobile, it will stack at the top */}
-            <Sidebar />
+        <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
+                {/* Left Sidebar */}
+                <aside className="hidden lg:block lg:col-span-3 xl:col-span-2">
+                    <div className="flex flex-col gap-4 sticky top-[64px]">
+                        <FeaturedEvents />
+                        <Follow />
+                    </div>
+                </aside>
 
-            {/* Main Content */}
-            <div className="lg:col-span-6 col-span-1 mb-4">
-                {posts && posts[0] && <ArticleCard post={posts[0]} />}
-                <div className="grid grid-cols-1 gap-3">
-                    {posts.slice(1, 11).map((article, index) => (
-                        <ArticleListCard key={index} post={article} />
-                    ))}
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                    {posts.slice(11, 20).map((article, index) => (
-                        <ArticleGridCard key={index} post={article} />
-                    ))}
-                </div>
-                {webstory.length !== 0 &&slug !== "live" && <WebStoriesList webStories={webstory} />}
-                <PaginationControls
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    totalPages={totalPages}
-                    loading={loading}
-                />
+                {/* Main Content */}
+                <main className="lg:col-span-6 xl:col-span-7 col-span-1">
+                    {/* Featured Articles - First two posts */}
+                    {posts?.length > 0 && (
+                        <>
+                            <SectionArticleCard post={posts[0]} />
+                            <div className="mt-6">
+                                <ArticleCard 
+                                    mainPost={posts[1]} 
+                                    secondaryPost={posts[2]} 
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+                                {posts?.slice(3).map((article, index) => (
+                                    <ArticleGridCard key={index} post={article} />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                    
+                    {/* Web Stories if available */}
+                    {webstory?.length > 0 && slug !== "live" && (
+                        <div className="my-4">
+                            <WebStoriesList webStories={webstory} />
+                        </div>
+                    )}
 
-            </div>
+                    {/* Pagination */}
+                    <PaginationControls
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                        loading={loading}
+                    />
+                </main>
 
-            {/* Latest Stories - on mobile, will stack under the content */}
-            <div className="lg:col-span-2 col-span-1 sticky lg:top-20 top-0 h-auto  overflow-y-auto mb-4 lg:mb-0">
-                <LatestStories />
+                {/* Right Sidebar */}
+                <aside className="lg:col-span-3 col-span-1">
+                    <div className="sticky top-[64px] space-y-4">
+                        <LatestStories />
+                        <div className="lg:hidden">
+                            <Follow />
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     );

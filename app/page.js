@@ -1,27 +1,12 @@
 import React from "react";
-import FeaturedEvents from "@/components/FeaturedEvents";
-// import LoginSignUp from "@/components/LoginSignUp";
-import Follow from "@/components/Follow";
-import ArticleListCard from "@/components/ArticleListCard";
 import ArticleCard from "@/components/ArticleCard";
 import ArticleGridCard from "@/components/ArticleGridCard";
-// import LatestStories from "@/components/LatestStory";
 import { latestPost } from "@/lib/latestPost";
 import { latestPublishPostByCategories } from "@/lib/latestPublishPost";
 import LastestPostForRootPage from "@/components/LastestPostForRootPage";
-import WebStory from "@/components/WebStory";
 import WebStoriesList from "@/components/WebStoryList";
-// import LatestPostCardList from "@/components/LatestPostCard";
-
-
-const Sidebar = () => (
-  <div className="col-span-2 flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
-    {/* Sidebar is hidden on screens smaller than 'lg' */}
-    {/* <LoginSignUp /> */}
-    <FeaturedEvents />
-    <Follow />
-  </div>
-);
+import FeaturedEvents from "@/components/FeaturedEvents";
+import Follow from "@/components/Follow";
 
 const Page = async () => {
   // Fetch data for both latest posts and olympics
@@ -56,396 +41,259 @@ const Page = async () => {
   ]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 px-4 lg:px-16 mt-7">
-      {/* Sidebar */}
-      <div className="col-span-2 flex-col gap-4 sticky top-0 h-screen hidden lg:flex">
-        <FeaturedEvents />
-        <Follow />
-      </div>
+    <div className="container mx-auto px-2 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Left Sidebar - Reduced width */}
+        <aside className="hidden lg:block lg:col-span-2">
+          <div className="sticky top-[84px] space-y-4">
+            <FeaturedEvents />
+            <Follow />
+          </div>
+        </aside>
 
-      {/* Main content */}
-      <div className="col-span-1 lg:col-span-6">
-        {latestUploadPost?.[0] && <ArticleCard post={latestUploadPost[0]} />}
-        <div className="grid grid-cols-1 gap-3">
-          {latestUploadPost?.slice(1, 11).map((article, index) => (
-            <ArticleListCard key={index} post={article} />
-          ))}
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {latestUploadPost?.slice(11, 20).map((article, index) => (
-            <ArticleGridCard key={index} post={article} />
-          ))}
-        </div>
+        {/* Main content - Increased width */}
+        <div className="lg:col-span-7 col-span-1">
+          {/* Featured Latest Posts */}
+          {latestUploadPost?.length > 0 && (
+            <ArticleCard 
+              mainPost={latestUploadPost[0]} 
+              secondaryPost={latestUploadPost[1]} 
+            />
+          )}
 
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
+          {/* Grid Articles */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+            {latestUploadPost?.slice(2).map((article, index) => (
+              <ArticleGridCard key={index} post={article} />
+            ))}
+          </div>
 
-            <h1 className="text-3xl text-green-700 font-semibold">Olympics
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+          {/* Olympics Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Olympics</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+            </div>
+            <div className="space-y-4">
+              {olympic?.length > 0 && (
+                <ArticleCard 
+                  mainPost={olympic[0]} 
+                  secondaryPost={olympic[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {olympic?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {olympic && <ArticleCard post={olympic[0]} />}
+          {/* Web Stories */}
+          {webStory.length !== 0 && <WebStoriesList webStories={webStory} />}
 
-            {olympic && olympic.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {olympic && olympic.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Cricket Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Cricket</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Cricket
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+            <div className="space-y-4">
+              {cricket?.length > 0 && (
+                <ArticleCard 
+                  mainPost={cricket[0]} 
+                  secondaryPost={cricket[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {cricket?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {cricket && <ArticleCard post={cricket[0]} />}
-
-            {cricket && cricket.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {cricket && cricket.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Football Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Football</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
-          </div>
-
-        </div>
-
-
-
-       {webStory.length!==0 && <WebStoriesList webStories={webStory} />}
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Football
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+            <div className="space-y-4">
+              {football?.length > 0 && (
+                <ArticleCard 
+                  mainPost={football[0]} 
+                  secondaryPost={football[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {football?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {football && <ArticleCard post={football[0]} />}
-
-            {football && football.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {football && football.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Tennis Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Tennis</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Tennis
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+            <div className="space-y-4">
+              {tennis?.length > 0 && (
+                <ArticleCard 
+                  mainPost={tennis[0]} 
+                  secondaryPost={tennis[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {tennis?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {tennis && <ArticleCard post={tennis[0]} />}
-
-            {tennis && tennis.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {tennis && tennis.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Hockey Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Hockey</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
-          </div>
-
-        </div>
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Hockey
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+            <div className="space-y-4">
+              {hockey?.length > 0 && (
+                <ArticleCard 
+                  mainPost={hockey[0]} 
+                  secondaryPost={hockey[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {hockey?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {hockey && <ArticleCard post={hockey[0]} />}
-
-            {hockey && hockey.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {hockey && hockey.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Badminton Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Badminton</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
-          </div>
-
-        </div>
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Badminton
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
+            <div className="space-y-4">
+              {badminton?.length > 0 && (
+                <ArticleCard 
+                  mainPost={badminton[0]} 
+                  secondaryPost={badminton[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {badminton?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
-            {badminton && <ArticleCard post={badminton[0]} />}
-
-            {badminton && badminton.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {badminton && badminton.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
+          {/* Women In Sports Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Women In Sports</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
             </div>
-
-
+            <div className="space-y-4">
+              {women_in_sports?.length > 0 && (
+                <ArticleCard 
+                  mainPost={women_in_sports[0]} 
+                  secondaryPost={women_in_sports[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {women_in_sports?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
+            </div>
           </div>
 
+          {/* E-Sports Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">E-Sports</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+            </div>
+            <div className="space-y-4">
+              {e_sports?.length > 0 && (
+                <ArticleCard 
+                  mainPost={e_sports[0]} 
+                  secondaryPost={e_sports[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {e_sports?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Athletics Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-3xl text-green-700 font-semibold">Athletics</h1>
+              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+            </div>
+            <div className="space-y-4">
+              {athletics?.length > 0 && (
+                <ArticleCard 
+                  mainPost={athletics[0]} 
+                  secondaryPost={athletics[1]} 
+                />
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {athletics?.slice(2).map((article, index) => (
+                  <ArticleGridCard key={index} post={article} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
-
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Women In Sports
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
-            </div>
+        {/* Right sidebar */}
+        <div className="lg:col-span-3 col-span-1">
+          {/* Latest Stories - scrollable */}
+          <div className="mb-6">
+            <LastestPostForRootPage />
           </div>
-
-          <div className="flex flex-col gap-5">
-            {women_in_sports && <ArticleCard post={women_in_sports[0]} />}
-
-            {women_in_sports && women_in_sports.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {women_in_sports && women_in_sports.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">E-Sports
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            {e_sports && <ArticleCard post={e_sports[0]} />}
-
-            {e_sports && e_sports.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {e_sports && e_sports.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-
-
-        <div className="olympic ">
-          <div className="flex items-center gap-4 my-7">
-
-            <h1 className="text-3xl text-green-700 font-semibold">Athletics
-            </h1>
-            <div className="w-20 h-[2px] bg-green-800 mt-1">
-
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            {athletics && <ArticleCard post={athletics[0]} />}
-
-            {athletics && athletics.slice(1, 3).map((article, index) => {
-              return <ArticleListCard key={index} post={article} />
-            })
-            }
-
-            <div className="grid grid-cols-2 gap-3">
-
-
-              {athletics && athletics.slice(3, 5).map((article, index) => {
-                return <ArticleGridCard key={index} post={article} />
-              })
-              }
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-
-      {/* Right sidebar with Latest stories and Newsletter */}
-      <div className="lg:col-span-4 col-span-1 pr-0">
-        {/* Latest Stories - scrollable */}
-        <div className="mb-6">
-          <LastestPostForRootPage />
-        </div>
-        
-        {/* Newsletter - fixed position */}
-        <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
-          <div className="flex flex-col items-start">
-            <h2 className="text-xl font-bold text-green-800 mb-2">Subscribe Newsletter</h2>
-            <div className="w-10 h-[1px] bg-green-800 mb-4"></div>
-            
-            <p className="text-sm text-gray-600 mb-4">
-              Get the latest sports updates and news delivered directly to your inbox.
-            </p>
-            
-            <form className="w-full space-y-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-sm"
-                required
-              />
+          
+          {/* Newsletter - fixed position */}
+          <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
+            <div className="flex flex-col items-start">
+              <h2 className="text-xl font-bold text-green-800 mb-2">Subscribe Newsletter</h2>
+              <div className="w-10 h-[1px] bg-green-800 mb-4"></div>
               
-              <button
-                type="submit"
-                className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
-              >
-                Subscribe Now
-              </button>
-            </form>
+              <p className="text-sm text-gray-600 mb-4">
+                Get the latest sports updates and news delivered directly to your inbox.
+              </p>
+              
+              <form className="w-full space-y-3">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-sm"
+                  required
+                />
+                
+                <button
+                  type="submit"
+                  className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+                >
+                  Subscribe Now
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
