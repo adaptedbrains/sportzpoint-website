@@ -21,6 +21,12 @@ export const sanitizeContent = (type, content) => {
     );
   }
 
+  // Add classes to links
+  processedContent = processedContent.replace(
+    /<a(.*?)>/g,
+    '<a$1 class="blog-link">'
+  );
+
   const clean = DOMPurify.sanitize(processedContent, {
     ALLOWED_TAGS: [
       "p",
