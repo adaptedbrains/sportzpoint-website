@@ -1,207 +1,178 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+
+  body {
+    @apply font-georgia text-base leading-relaxed text-gray-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-pt-serif font-bold text-gray-900;
+  }
 }
 
-/* Add these styles for blog post content */
-.blog-content {
-  @apply max-w-none text-base leading-relaxed;
-}
+@layer components {
+  .blog-content {
+    @apply prose max-w-none text-base leading-relaxed font-georgia;
+  }
 
-.blog-content a {
-  @apply text-blue-600 hover:text-blue-800 underline;
-}
+  .blog-content p {
+    @apply my-4;
+  }
 
-.blog-content p {
-  @apply my-4;
-}
+  .blog-content img {
+    @apply rounded-lg shadow-md my-4 w-full max-w-2xl mx-auto;
+  }
 
-.blog-content img {
-  @apply rounded-lg shadow-md my-4;
-}
+  .blog-content blockquote {
+    @apply border-l-4 border-green-800 pl-4 italic my-4 bg-gray-50 py-2;
+  }
 
-.blog-content blockquote {
-  @apply border-l-4 border-green-800 pl-4 italic my-4 bg-gray-50 py-2;
-}
+  .blog-content iframe {
+    @apply w-full my-4 rounded-lg shadow-md;
+  }
 
-.blog-content iframe {
-  @apply w-full my-4 rounded-lg shadow-md;
-}
+  .blog-content h1 {
+    @apply text-3xl font-bold my-4 font-pt-serif;
+  }
 
-.blog-content h1 {
-  @apply text-3xl font-bold my-4;
-}
+  .blog-content h2 {
+    @apply text-2xl font-bold my-3 font-pt-serif;
+  }
 
-.blog-content h2 {
-  @apply text-2xl font-bold my-3;
-}
+  .blog-content h3 {
+    @apply text-xl font-bold my-2 font-pt-serif;
+  }
 
-.blog-content h3 {
-  @apply text-xl font-bold my-2;
-}
+  .blog-content a {
+    @apply text-green-700 underline hover:text-green-900 transition-colors duration-200;
+  }
 
-.blog-content ul {
-  @apply list-disc list-inside my-4;
-}
+  /* Social Media Embeds */
+  .social-embed {
+    @apply my-6 mx-auto max-w-[550px];
+  }
 
-.blog-content ol {
-  @apply list-decimal list-inside my-4;
-}
+  .twitter-tweet {
+    @apply social-embed !important;
+  }
 
-/* Add these styles for Twitter embeds */
-.twitter-tweet {
-  margin: 1em auto !important;
-  max-width: 550px !important;
-}
+  .instagram-media {
+    @apply social-embed !important;
+    min-width: 326px !important;
+  }
 
-.blog-content blockquote.twitter-tweet {
-  border: none;
-  padding: 0;
-  margin: 1em auto;
-}
+  .youtube-embed-container {
+    @apply relative w-full max-w-[600px] mx-auto my-6;
+    padding-bottom: 56.25%;
+  }
 
-.blog-content blockquote.twitter-tweet p {
-  font-size: 16px;
-  line-height: 1.4;
-  margin-bottom: 1em;
-}
+  .youtube-embed-container iframe {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
 
-/* Instagram embed styles */
-.instagram-media {
-  max-width: 540px !important;
-  width: 100% !important;
-  min-width: 326px !important;
-  margin: 0 auto 12px auto !important;
-  padding: 0 !important;
-}
+  /* Carousel styles */
+  .slick-track {
+    display: flex !important;
+    gap: 1rem;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 
-.instagram-media-rendered {
-  margin-bottom: 2rem !important;
-}
+  .slick-slide {
+    height: inherit !important;
+  }
 
-/* Force Instagram iframe to be visible */
-iframe.instagram-media {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
+  .slick-slide > div {
+    height: 100%;
+  }
 
-.blog-content blockquote.instagram-media {
-  border: none;
-  padding: 0;
-  margin: 1em auto;
-  background: #FFF;
-  border-radius: 3px;
-  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
-}
+  /* Custom arrow styles */
+  .slick-arrow {
+    @apply hidden;
+  }
 
-/* YouTube embed container styles */
-.blog-content iframe[src*="youtube.com"],
-.blog-content iframe[src*="youtu.be"] {
-  aspect-ratio: 16/9;
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  margin: 1.5rem auto;
-  display: block;
-}
+  /* Optional: Add custom dots styles if needed */
+  .slick-dots {
+    @apply bottom-0;
+  }
 
-/* Responsive container for YouTube videos */
-.blog-content .youtube-embed-container {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  margin: 1.5rem auto;
-}
+  .slick-dots li button:before {
+    @apply text-green-800;
+  }
 
-.blog-content .youtube-embed-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+  .slick-dots li.slick-active button:before {
+    @apply text-green-800;
+  }
 
-.twitter-embed-container {
-  margin: 1.5rem 0;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
+  /* Table styles with proper spacing */
+  .blog-content table {
+    @apply w-full border-collapse border border-gray-300 my-6 mx-auto max-w-[800px] pr-4;
+    table-layout: fixed;
+  }
 
-.twitter-embed-container blockquote {
-  margin: 0 !important;
-}
+  /* Table container with padding */
+  .blog-content table-container {
+    @apply px-4;
+  }
 
-.youtube-embed-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  margin: 1rem 0;
-}
+  .blog-content th {
+    @apply bg-gray-100 text-left p-3 border border-gray-300 font-semibold text-sm;
+    word-wrap: break-word;
+  }
 
-.youtube-embed-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+  .blog-content td {
+    @apply p-3 border border-gray-300 text-sm;
+    word-wrap: break-word;
+  }
 
-.blog-content .blog-link {
-  @apply text-green-700 underline hover:text-green-900 transition-colors duration-200;
-}
+  .blog-content tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
 
-/* For links that might not have the blog-link class */
-.blog-content a {
-  @apply text-green-700 underline hover:text-green-900 transition-colors duration-200;
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .blog-content table {
+      @apply my-4 text-sm px-2;
+    }
+    
+    .blog-content th,
+    .blog-content td {
+      @apply p-2;
+    }
+  }
 }
 
 @layer utilities {
-    .sticky-sidebar {
-        position: sticky;
-        top: 5rem; /* 20px */
-        height: calc(100vh - 5rem);
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-    }
+  .sticky-sidebar {
+    @apply sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
 
-    .sticky-sidebar::-webkit-scrollbar {
-        width: 6px;
-    }
+  .sticky-sidebar::-webkit-scrollbar {
+    @apply w-1.5;
+  }
 
-    .sticky-sidebar::-webkit-scrollbar-track {
-        background: transparent;
-    }
+  .sticky-sidebar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 
-    .sticky-sidebar::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.2);
-        border-radius: 3px;
-    }
+  .sticky-sidebar::-webkit-scrollbar-thumb {
+    @apply bg-black/20 rounded-sm;
+  }
 
-    .min-h-screen {
-        min-height: 100vh;
-        min-height: 100dvh; /* For mobile browsers */
-    }
+  .content-wrapper {
+    @apply pt-16; /* 64px */
+  }
 
-    .flex-grow {
-        flex-grow: 1;
-    }
-
-    .content-wrapper {
-        padding-top: 64px; /* Match navbar height */
-    }
-
-    .sticky-offset {
-        top: 64px; /* Match navbar height */
-    }
+  .sticky-offset {
+    @apply top-16; /* 64px */
+  }
 }

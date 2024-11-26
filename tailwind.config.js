@@ -11,6 +11,29 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        georgia: ['Georgia', 'serif'],
+        'pt-serif': ['var(--font-pt-serif)', 'Georgia', 'serif'],
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            fontFamily: 'Georgia, serif',
+            h1: {
+              fontFamily: 'var(--font-pt-serif), Georgia, serif',
+            },
+            h2: {
+              fontFamily: 'var(--font-pt-serif), Georgia, serif',
+            },
+            h3: {
+              fontFamily: 'var(--font-pt-serif), Georgia, serif',
+            },
+            h4: {
+              fontFamily: 'var(--font-pt-serif), Georgia, serif',
+            },
+          },
+        },
+      },
     },
   },
   plugins: [

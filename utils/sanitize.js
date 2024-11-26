@@ -51,6 +51,16 @@ export const sanitizeContent = (type, content) => {
       "div",
       "span",
       "iframe",
+      "table",
+      "thead",
+      "tbody",
+      "tfoot",
+      "tr",
+      "th",
+      "td",
+      "caption",
+      "colgroup",
+      "col"
     ],
     ALLOWED_ATTR: [
       "href",
@@ -71,8 +81,16 @@ export const sanitizeContent = (type, content) => {
       "data-dnt",
       "data-theme",
       "charset",
+      "colspan",
+      "rowspan",
+      "scope",
+      "align",
+      "valign",
+      "border",
+      "cellpadding",
+      "cellspacing"
     ],
-    ADD_TAGS: ["iframe", "blockquote"],
+    ADD_TAGS: ["iframe", "blockquote", "table", "thead", "tbody", "tr", "th", "td"],
     ADD_ATTR: [
       "allowfullscreen",
       "frameborder",
@@ -82,6 +100,9 @@ export const sanitizeContent = (type, content) => {
       "data-dnt",
       "data-theme",
       "charset",
+      "colspan",
+      "rowspan",
+      "scope"
     ],
   });
 
