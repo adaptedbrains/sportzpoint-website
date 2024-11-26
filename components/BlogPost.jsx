@@ -8,6 +8,7 @@ import { sanitizeContent } from "@/utils/sanitize";
 import Script from "next/script";
 import { useWebSocket } from "@/utils/websocket";
 import usePostStore from "@/store/postStore";
+import { useRouter } from 'next/navigation';
 
 const socialMedia = [
   {
@@ -29,8 +30,10 @@ const socialMedia = [
 ];
 
 const BlogPost = ({ postData, index }) => {
+  const router = useRouter();
   const { liveBlogs, liveBlogFunction } = usePostStore();
   const { messages } = useWebSocket();
+  const postRef = React.useRef(null);
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
@@ -64,9 +67,43 @@ const BlogPost = ({ postData, index }) => {
     };
   }, [postData.content, postData.type]);
 
+  useEffect(() => {
+    // Create intersection observer for URL updates
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            // Update URL without full page reload
+            const newUrl = `/${postData.categories[0]?.slug}/${postData.slug}`;
+            router.push(newUrl, { shallow: true });
+            
+            // Update page title
+            document.title = postData.title;
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5, // Trigger when 50% of the article is visible
+      }
+    );
+
+    // Start observing the article
+    if (postRef.current) {
+      observer.observe(postRef.current);
+    }
+
+    return () => {
+      if (postRef.current) {
+        observer.unobserve(postRef.current);
+      }
+    };
+  }, [postData, router]);
+
   return (
     <>
-      <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
+      <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="flex gap-2">
           {postData.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
           {postData.categories.map((category, index) => (
@@ -135,7 +172,7 @@ const BlogPost = ({ postData, index }) => {
         {postData.banner_image && (
           <div className="w-full h-[340px] relative my-6">
             <Image
-              src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
+              src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${postData.banner_image}`}
               alt={postData.title || "Banner Image"}
               layout="fill"
               objectFit="cover"
@@ -187,7 +224,7 @@ const BlogPost = ({ postData, index }) => {
                       {live.images.map((image, index) => (
                         <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
                           <Image
-                            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${image}`}
+                            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${image}`}
                             alt={`Update image ${index + 1}`}
                             layout="fill"
                             objectFit="cover"

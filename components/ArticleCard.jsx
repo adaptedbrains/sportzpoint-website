@@ -62,7 +62,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
       <div className="relative w-full pt-[56.25%]">
         {post.banner_image ? (
           <Image
-            src={`https://sportzpoint-media.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
+            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${post.banner_image}`}
             alt={post.title}
             fill
             className="object-cover absolute top-0 left-0"
