@@ -7,17 +7,35 @@ export const sanitizeContent = (type, content) => {
 
   let processedContent = content;
 
-  // Process Twitter embeds - preserve the original blockquote structure
+  // Process Twitter embeds with a more robust structure
   processedContent = processedContent.replace(
     /(<blockquote class="twitter-tweet".*?<\/blockquote>)/g,
-    '<div class="twitter-embed-container">$1</div>'
+    (match) => {
+      // Extract tweet ID if present
+      const tweetIdMatch = match.match(/data-tweet-id="(\d+)"/);
+      const tweetId = tweetIdMatch ? tweetIdMatch[1] : '';
+      
+      return `
+        <div class="twitter-embed-container">
+          <div class="twitter-embed-wrapper" id="tweet-${tweetId}">
+            ${match}
+          </div>
+        </div>
+      `;
+    }
   );
 
-  // Process YouTube iframes
+  // Add Instagram embed handling
+  processedContent = processedContent.replace(
+    /<blockquote class="instagram-media".*?<\/blockquote>/g,
+    '<div class="instagram-embed-container">$&<script async src="//www.instagram.com/embed.js"></script></div>'
+  );
+
+  // Process YouTube iframes with responsive wrapper
   if (type !== "liveBlog") {
     processedContent = processedContent.replace(
       /(<iframe[^>]*youtube[^>]*>.*?<\/iframe>)/g,
-      '<div class="youtube-embed-container">$1</div>'
+      '<div class="youtube-embed-container"><div class="embed-wrapper">$1</div></div>'
     );
   }
 
