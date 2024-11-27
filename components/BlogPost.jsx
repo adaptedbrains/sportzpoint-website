@@ -186,6 +186,23 @@ const BlogPost = ({ postData, index }) => {
     };
   }, [postData]);
 
+  // Add this function to handle Twitter embed initialization
+  const initializeTwitterEmbed = () => {
+    if (window.twttr) {
+      window.twttr.widgets.load();
+    }
+  };
+
+  useEffect(() => {
+    // Try to load Twitter widgets after component mounts
+    initializeTwitterEmbed();
+    
+    // Also try after a short delay to ensure DOM is ready
+    const timer = setTimeout(initializeTwitterEmbed, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [postData.content]);
+
   const carouselSettings = {
     dots: false,
     infinite: true,
@@ -212,6 +229,13 @@ const BlogPost = ({ postData, index }) => {
 
   return (
     <>
+      <Script
+        id="twitter-widgets"
+        src="https://platform.twitter.com/widgets.js"
+        strategy="afterInteractive"
+        onLoad={() => initializeTwitterEmbed()}
+      />
+      
       <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="flex gap-2">
           {postData.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}

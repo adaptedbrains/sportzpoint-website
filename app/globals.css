@@ -18,157 +18,332 @@
 }
 
 @layer components {
+  /* Base responsive typography */
   .blog-content {
     @apply prose max-w-none text-base leading-relaxed font-sans;
+    @apply md:text-lg;
   }
 
-  .blog-content p {
-    @apply my-4;
+  /* Responsive spacing and images */
+  .blog-content img,
+  .blog-content .image-figure {
+    @apply w-[98%] md:w-[95%] mx-auto my-4 md:my-6;
   }
 
-  .blog-content img {
-    @apply rounded-lg shadow-md my-4 w-[95%] mx-auto;
-  }
-
-  .blog-content blockquote {
-    @apply border-l-4 border-green-800 pl-4 italic my-4 bg-gray-50 py-2;
-  }
-
-  .blog-content iframe {
-    @apply w-full my-4 rounded-lg shadow-md;
-  }
-
+  /* Responsive headings */
   .blog-content h1 {
-    @apply text-3xl font-bold my-4 font-sans;
+    @apply text-2xl md:text-3xl font-bold my-3 md:my-4 font-sans;
   }
 
   .blog-content h2 {
-    @apply text-2xl font-bold my-3 font-sans;
+    @apply text-xl md:text-2xl font-bold my-2 md:my-3 font-sans;
   }
 
   .blog-content h3 {
-    @apply text-xl font-bold my-2 font-sans;
+    @apply text-lg md:text-xl font-bold my-2 font-sans;
   }
 
-  .blog-content a {
-    @apply text-green-700 underline hover:text-green-900 transition-colors duration-200;
-  }
-
-  /* Social Media Embeds */
-  .social-embed {
-    @apply my-6 mx-auto max-w-[550px];
-  }
-
-  .twitter-tweet {
-    @apply social-embed !important;
-  }
-
-  .instagram-media {
-    @apply social-embed !important;
-    min-width: 326px !important;
+  /* Responsive embeds */
+  .youtube-embed-container,
+  .twitter-embed-container {
+    @apply relative w-full mx-auto my-4 md:my-6;
+    max-width: min(100%, 550px);
   }
 
   .youtube-embed-container {
-    @apply relative w-full max-w-[600px] mx-auto my-6;
-    padding-bottom: 56.25%;
+    @apply aspect-video; /* 16:9 aspect ratio */
   }
 
-  .youtube-embed-container iframe {
-    @apply absolute top-0 left-0 w-full h-full;
+  .embed-wrapper {
+    @apply absolute inset-0 w-full h-full;
   }
 
-  /* Carousel styles */
-  .slick-track {
-    display: flex !important;
-    gap: 1rem;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+  .embed-wrapper iframe {
+    @apply w-full h-full;
   }
 
-  .slick-slide {
-    height: inherit !important;
-  }
-
-  .slick-slide > div {
-    height: 100%;
-  }
-
-  /* Custom arrow styles */
-  .slick-arrow {
-    @apply hidden;
-  }
-
-  /* Optional: Add custom dots styles if needed */
-  .slick-dots {
-    @apply bottom-0;
-  }
-
-  .slick-dots li button:before {
-    @apply text-green-800;
-  }
-
-  .slick-dots li.slick-active button:before {
-    @apply text-green-800;
-  }
-
-  /* Table styles with proper spacing */
+  /* Responsive tables */
   .blog-content table {
-    @apply w-full border-collapse border border-gray-300 my-6 mx-auto max-w-[800px] pr-4;
-    table-layout: fixed;
+    @apply w-full my-4 md:my-6 border-collapse overflow-x-auto block md:table;
+    @apply text-sm md:text-base;
   }
 
-  /* Table container with padding */
-  .blog-content table-container {
-    @apply px-4;
+  /* Add container for table scroll */
+  .blog-content table {
+    @apply relative;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
   }
 
+  /* Style table cells */
+  .blog-content td,
   .blog-content th {
-    @apply bg-gray-100 text-left p-3 border border-gray-300 font-semibold text-sm;
-    word-wrap: break-word;
+    @apply border border-gray-300 px-3 py-2 md:px-4 md:py-3;
+    min-width: 120px; /* Minimum width for cells */
   }
 
-  .blog-content td {
-    @apply p-3 border border-gray-300 text-sm;
-    word-wrap: break-word;
+  /* Style table headers */
+  .blog-content th {
+    @apply bg-gray-50 font-semibold text-left;
   }
 
-  .blog-content tr:nth-child(even) {
-    @apply bg-gray-50;
+  /* Style table rows */
+  .blog-content tr {
+    @apply hover:bg-gray-50 transition-colors;
   }
 
-  /* Mobile optimizations */
+  /* Responsive social embeds */
+  .social-embed {
+    @apply my-4 md:my-6 mx-auto max-w-[100%] md:max-w-[550px];
+  }
+
+  /* Responsive image captions */
+  .blog-content .image-caption {
+    @apply text-xs md:text-sm text-gray-600 italic text-center mt-2 mb-3 md:mb-4 w-full px-2 md:px-0;
+  }
+
+  /* Responsive blockquotes */
+  .blog-content blockquote {
+    @apply border-l-4 border-green-800 pl-3 md:pl-4 italic my-4 bg-gray-50 py-2;
+    @apply text-sm md:text-base;
+  }
+
+  /* Carousel responsive styles */
+  .slick-slide {
+    @apply px-1 md:px-2;
+  }
+
+  /* Related articles responsive styles */
+  .related-articles-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  /* Mobile navigation adjustments */
+  .mobile-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-white shadow-top py-2 md:hidden;
+    z-index: 50;
+  }
+
+  /* Responsive padding for content */
+  .content-wrapper {
+    @apply px-2 md:px-4 lg:px-0;
+  }
+
+  /* Mobile-specific styles */
   @media (max-width: 768px) {
+    .blog-content {
+      @apply px-2;
+    }
+
     .blog-content table {
-      @apply my-4 text-sm px-2;
+      @apply text-sm mx-[-1rem] w-[calc(100%+2rem)];
+      border-radius: 0;
+    }
+
+    .blog-content td,
+    .blog-content th {
+      @apply px-2 py-2;
+    }
+
+    /* Add horizontal scroll indicator */
+    .blog-content table::after {
+      content: '←  Scroll  →';
+      @apply absolute bottom-0 right-0 text-xs text-gray-500 bg-white px-2 py-1 rounded-tl;
+      pointer-events: none;
+    }
+
+    /* Adjust spacing for mobile */
+    .blog-content > * {
+      @apply my-3;
+    }
+
+    /* Mobile-specific image handling */
+    .blog-content img,
+    .blog-content .image-figure {
+      @apply w-full;
+      margin-left: -8px;
+      margin-right: -8px;
+      width: calc(100% + 16px);
+    }
+
+    /* Mobile navigation spacing */
+    .content-wrapper {
+      @apply pb-16; /* Space for mobile navigation */
+    }
+
+    .youtube-embed-container,
+    .twitter-embed-container {
+      @apply mx-[-8px] w-[calc(100%+16px)];
+      max-width: none;
+    }
+
+    .embed-wrapper {
+      @apply px-2;
+    }
+  }
+
+  /* Banner image styles */
+  .banner-image-container {
+    @apply relative w-full overflow-hidden;
+    height: min(340px, 50vw); /* Responsive height */
+  }
+
+  .banner-image-container img {
+    @apply object-cover object-center;
+  }
+
+  /* Mobile-specific banner handling */
+  @media (max-width: 768px) {
+    .banner-image-container {
+      @apply mx-[-8px] w-[calc(100%+16px)];
+      height: min(280px, 60vw); /* Slightly smaller on mobile */
+    }
+  }
+
+  /* Instagram embeds */
+  .instagram-media {
+    @apply mx-auto my-4 md:my-6 !important;
+    max-width: min(100%, 550px) !important;
+  }
+
+  /* Mobile-specific Instagram handling */
+  @media (max-width: 768px) {
+    .instagram-media {
+      @apply mx-[-8px] w-[calc(100%+16px)] !important;
+      border-radius: 0 !important;
+    }
+  }
+
+  /* Social Media Embeds */
+  .twitter-embed-container,
+  .instagram-embed-container {
+    @apply relative w-full mx-auto my-6;
+    max-width: 550px;
+  }
+
+  .twitter-embed-wrapper,
+  .instagram-embed-wrapper {
+    @apply overflow-hidden;
+  }
+
+  /* Twitter specific styles */
+  .twitter-embed-container blockquote {
+    @apply m-0;
+    min-width: 220px;
+  }
+
+  .twitter-embed-container iframe {
+    @apply !important: w-full;
+  }
+
+  /* Instagram specific styles */
+  .instagram-embed-container {
+    @apply bg-white;
+  }
+
+  .instagram-media {
+    @apply mx-auto my-0 !important;
+    max-width: 100% !important;
+    min-width: 280px !important;
+    width: 100% !important;
+  }
+
+  /* Mobile specific adjustments */
+  @media (max-width: 768px) {
+    .twitter-embed-container,
+    .instagram-embed-container {
+      @apply mx-[-8px] w-[calc(100%+16px)];
+      max-width: none;
+    }
+
+    .twitter-embed-wrapper,
+    .instagram-embed-wrapper {
+      @apply px-2;
+    }
+
+    /* Force Instagram embeds to be responsive */
+    .instagram-media {
+      @apply border-none rounded-none !important;
+      width: 100% !important;
+    }
+
+    /* Ensure Twitter embeds are centered */
+    .twitter-embed-container iframe {
+      @apply mx-auto !important;
+      width: 100% !important;
+    }
+  }
+
+  /* Handle very small screens */
+  @media (max-width: 480px) {
+    .twitter-embed-container,
+    .instagram-embed-container {
+      @apply mx-[-4px] w-[calc(100%+8px)];
+    }
+
+    .twitter-embed-wrapper,
+    .instagram-embed-wrapper {
+      @apply px-1;
+    }
+  }
+
+  /* Twitter embed styles - new approach */
+  .twitter-embed-container {
+    @apply relative w-full mx-auto my-6;
+    max-width: 550px;
+  }
+
+  .twitter-embed-wrapper {
+    @apply relative overflow-hidden;
+    min-height: 200px; /* Initial height before tweet loads */
+  }
+
+  .twitter-embed-wrapper blockquote {
+    @apply m-0 !important;
+    border: none !important;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .twitter-embed-container {
+      @apply w-full px-4;
+      max-width: 100% !important;
     }
     
-    .blog-content th,
-    .blog-content td {
-      @apply p-2;
+    .twitter-embed-wrapper {
+      @apply w-full;
+    }
+
+    .twitter-embed-wrapper iframe {
+      @apply w-full !important;
+      margin: 0 auto !important;
+      min-width: 0 !important;
+    }
+
+    .twitter-embed-wrapper blockquote {
+      @apply w-full mx-auto !important;
+      min-width: 0 !important;
     }
   }
 
-  /* Image caption specific styles */
-  .blog-content .image-figure {
-    @apply my-6 w-[95%] mx-auto;
-  }
-
-  .blog-content .image-wrapper {
-    @apply relative w-full;
-  }
-
-  .blog-content .image-wrapper img {
-    @apply w-full rounded-lg shadow-md my-0;
-  }
-
-  .blog-content .image-caption {
-    @apply text-sm text-gray-600 italic text-center mt-2 mb-4 w-full;
+  /* Small screen adjustments */
+  @media (max-width: 480px) {
+    .twitter-embed-container {
+      @apply px-2;
+    }
+    
+    .twitter-embed-wrapper {
+      min-height: 250px; /* Slightly taller on mobile */
+    }
   }
 }
 
 @layer utilities {
   .sticky-sidebar {
-    @apply sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto;
+    @apply hidden lg:block sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
   }
@@ -191,5 +366,14 @@
 
   .sticky-offset {
     @apply top-16; /* 64px */
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
