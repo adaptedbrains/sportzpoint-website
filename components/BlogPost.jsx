@@ -154,11 +154,15 @@ const BlogPost = ({ postData, index }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-            // Update URL without full page reload
+            // Update URL without triggering navigation or re-renders
             const newUrl = `/${postData.categories[0]?.slug}/${postData.slug}`;
-            router.push(newUrl, { shallow: true });
+            window.history.replaceState(
+              { ...window.history.state },
+              postData.title,
+              newUrl
+            );
             
-            // Update page title
+            // Update page title without causing re-render
             document.title = postData.title;
           }
         });
@@ -180,7 +184,7 @@ const BlogPost = ({ postData, index }) => {
         observer.unobserve(postRef.current);
       }
     };
-  }, [postData, router]);
+  }, [postData]);
 
   const carouselSettings = {
     dots: false,
