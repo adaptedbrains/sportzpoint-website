@@ -21,6 +21,12 @@ export const sanitizeContent = (type, content) => {
     );
   }
 
+  // Process image captions with wider container
+  processedContent = processedContent.replace(
+    /(<img[^>]*>)\s*<p[^>]*class="caption"[^>]*>(.*?)<\/p>/g,
+    '<figure class="image-figure w-[95%]"><div class="image-wrapper">$1</div><figcaption class="image-caption">$2</figcaption></figure>'
+  );
+
   // Add classes to links
   processedContent = processedContent.replace(
     /<a(.*?)>/g,
@@ -60,7 +66,9 @@ export const sanitizeContent = (type, content) => {
       "td",
       "caption",
       "colgroup",
-      "col"
+      "col",
+      "figure",
+      "figcaption",
     ],
     ALLOWED_ATTR: [
       "href",
@@ -90,7 +98,7 @@ export const sanitizeContent = (type, content) => {
       "cellpadding",
       "cellspacing"
     ],
-    ADD_TAGS: ["iframe", "blockquote", "table", "thead", "tbody", "tr", "th", "td"],
+    ADD_TAGS: ["iframe", "blockquote", "table", "thead", "tbody", "tr", "th", "td", "figure", "figcaption"],
     ADD_ATTR: [
       "allowfullscreen",
       "frameborder",

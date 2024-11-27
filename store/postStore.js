@@ -8,7 +8,7 @@ const usePostStore = create((set) => ({
   loading: false,
   error: null,
   totalPages: 0,
-
+  latestStory: [],
 
   fetchPosts: async (url) => {
 

@@ -27,7 +27,7 @@
   }
 
   .blog-content img {
-    @apply rounded-lg shadow-md my-4 w-full max-w-2xl mx-auto;
+    @apply rounded-lg shadow-md my-4 w-[95%] mx-auto;
   }
 
   .blog-content blockquote {
@@ -146,6 +146,23 @@
     .blog-content td {
       @apply p-2;
     }
+  }
+
+  /* Image caption specific styles */
+  .blog-content .image-figure {
+    @apply my-6 w-[95%] mx-auto;
+  }
+
+  .blog-content .image-wrapper {
+    @apply relative w-full;
+  }
+
+  .blog-content .image-wrapper img {
+    @apply w-full rounded-lg shadow-md my-0;
+  }
+
+  .blog-content .image-caption {
+    @apply text-sm text-gray-600 italic text-center mt-2 mb-4 w-full;
   }
 }
 
