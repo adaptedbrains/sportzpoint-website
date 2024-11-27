@@ -1,14 +1,6 @@
-import { PT_Serif } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-// Configure PT Serif font
-const ptSerif = PT_Serif({ 
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-pt-serif',
-});
 
 export const metadata = {
   title: "Sportzpoint - Latest Sports News, Live Scores & Updates",
@@ -18,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${ptSerif.variable} flex flex-col min-h-screen font-georgia`}>
+      <body className="flex flex-col min-h-screen font-sans">
         <Navbar />
         <main className="flex-grow pt-[64px] mt-2">
           {children}

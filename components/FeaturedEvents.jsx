@@ -46,7 +46,7 @@ const FeaturedEvents = ({ toggleMenu }) => {
       slug: "/badminton",
     },
     {
-      title: "Women Sports",
+      title: "Women In Sports",
       icon: <FaFemale size={18} />,
       slug: "/women-in-sports",
     },
