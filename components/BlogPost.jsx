@@ -35,61 +35,66 @@ const socialMedia = [
   },
 ];
 
-const FullWidthArticleCard = ({ article }) => (
-  <div className="mb-6">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative h-64 w-full">
-        <SEOImage
-          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
-          alt={article.title}
-          caption={article.title}
-          priority={false}
-          width={1280}
-          height={720}
-          className="transition-transform duration-300 hover:scale-105"
-        />
-      </div>
-      <div className="p-4">
-        {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
-          <div className="flex gap-2 mb-2">
-            {article.categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/${category.slug}`}
-                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
-              >
-                {category.name}
-              </Link>
-            ))}
+const FullWidthArticleCard = ({ article }) => {
+  if (!article) return null;
+
+  return (
+    <div className="mb-6">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="relative h-64 w-full">
+          <SEOImage
+            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
+            alt={article.title}
+            caption={article.title}
+            priority={false}
+            width={1280}
+            height={720}
+            className="transition-transform duration-300 hover:scale-105"
+          />
         </div>
+        <div className="p-4">
+          {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
+            <div className="flex gap-2 mb-2">
+              {article.categories.map((category, index) => (
+                <Link
+                  key={index}
+                  href={`/${category.slug}`}
+                  className="text-xs text-[#006356] hover:text-[#005349] transition-colors"
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          )}
 
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
-        >
-          {article.title}
-        </Link>
-        <p className="text-sm text-gray-500 mt-2">
-          {convertToIST(article.published_at_datetime)}
-        </p>
+          <Link 
+            className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
+            href={`/${article.categories[0]?.slug}/${article.slug}`}
+          >
+            {article.title}
+          </Link>
+          <p className="text-sm text-gray-500 mt-2">
+            {convertToIST(article.published_at_datetime)}
+          </p>
 
-        {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {article.tags.map((tag, idx) => (
-              <Link
-                key={idx}
-                href={`/tags/${tag.slug}`}
-                className="px-2 py-0.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-xs transition-colors duration-200 font-medium"
-              >
-                {tag.name}
-              </Link>
-            ))}
-          </div>
-        )}
+          {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {article.tags.map((tag, idx) => (
+                <Link
+                  key={idx}
+                  href={`/tags/${tag.slug}`}
+                  className="px-2 py-0.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-xs transition-colors duration-200 font-medium"
+                >
+                  {tag.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const RelatedArticleCard = ({ article }) => (
   <div className="px-2">
@@ -112,16 +117,17 @@ const RelatedArticleCard = ({ article }) => (
               <Link
                 key={index}
                 href={`/${category.slug}`}
-                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
+                className="text-xs text-[#006356] hover:text-[#005349] transition-colors"
               >
                 {category.name}
               </Link>
             ))}
-        </div>
+          </div>
+        )}
 
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
+        <Link 
           className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
+          href={`/${article.categories[0]?.slug}/${article.slug}`}
         >
           {article.title}
         </Link>
@@ -233,6 +239,17 @@ const BlogPost = ({ postData, index }) => {
     return () => clearTimeout(timer);
   }, [postData.content]);
 
+  useEffect(() => {
+    // Update metadata
+    if (postData?.title) {
+      document.title = `${postData.title} | SportzPoint`;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.content = postData.meta_description || postData.excerpt || '';
+      }
+    }
+  }, [postData]);
+
   const carouselSettings = {
     dots: false,
     infinite: true,
@@ -278,26 +295,15 @@ const BlogPost = ({ postData, index }) => {
         "url": `${siteUrl}/logo.png`
       }
     },
-    "description": postData.seo_desc || postData.summary
+    "description": postData.meta_description || postData.excerpt
   };
 
+  if (!postData) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <Head>
-        <title>{postData.seo_title || postData.title} | SportzPoint</title>
-        <meta name="description" content={postData.seo_desc || postData.summary} />
-        <meta property="og:title" content={postData.seo_title || postData.title} />
-        <meta property="og:description" content={postData.seo_desc || postData.summary} />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={`${siteUrl}/${postData.categories[0]?.slug}/${postData.slug}`} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={postData.seo_title || postData.title} />
-        <meta name="twitter:description" content={postData.seo_desc || postData.summary} />
-        <meta name="twitter:image" content={imageUrl} />
-        <script type="application/ld+json">
-          {JSON.stringify(articleSchema)}
-        </script>
-      </Head>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="flex gap-2">
           {postData.isLive && (
@@ -542,7 +548,10 @@ const BlogPost = ({ postData, index }) => {
             </div>
           )}
       </div>
-    </>
+      <script type="application/ld+json">
+        {JSON.stringify(articleSchema)}
+      </script>
+    </div>
   );
 };
 

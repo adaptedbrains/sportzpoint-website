@@ -11,22 +11,19 @@ import ArticleGridCard from "@/components/ArticleGridCard";
 import LatestStories from "@/components/LatestStory";
 import WebStoriesList from "@/components/WebStoryList";
 import SectionArticleCard from "@/components/SectionArticleCard";
+import { generateMetadata } from '../metadata';
 
 // Add cache revalidation time
 export const revalidate = 60; // Revalidate every 60 seconds
 
 // Create a separate metadata component for client-side
 const DynamicMetadata = ({ slug }) => {
-  useEffect(() => {
-    // Update document title and meta description on the client side
-    document.title = `${slug.charAt(0).toUpperCase() + slug.slice(1)} News & Updates | SportzPoint`;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.content = `Get the latest ${slug} news, live scores, match highlights, and in-depth analysis from SportzPoint.`;
-    }
-  }, [slug]);
+    useEffect(() => {
+        // Update page title
+        document.title = `${slug.charAt(0).toUpperCase() + slug.slice(1)} - Sportzpoint`;
+    }, [slug]);
 
-  return null;
+    return null;
 };
 
 const PaginationControls = ({ currentPage, setCurrentPage, totalPages, loading }) => {

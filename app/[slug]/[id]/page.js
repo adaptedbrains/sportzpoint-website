@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-
 import BlogPost from '@/components/BlogPost';
 import LoginSignUp from '@/components/LoginSignUp';
 import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
 import LatestStories from '@/components/LatestStory';
 import WebStoriesJson from '@/components/WebstoeyJson';
+import BlinkBlur from '@/components/BlinkBlur';
 
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center h-64">

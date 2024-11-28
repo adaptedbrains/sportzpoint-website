@@ -1,24 +1,24 @@
+# *
 User-agent: *
 Allow: /
 Disallow: /static/*
 Disallow: /api/*
 Disallow: /admin/*
 
-# Block SEO crawlers
+# SemrushBot
 User-agent: SemrushBot
 Disallow: /
 
+# AhrefsBot
 User-agent: AhrefsBot
 Disallow: /
+
+# Host
+Host: https://sportzpoint.com
 
 # Sitemaps
 Sitemap: https://sportzpoint.com/sitemap.xml
 Sitemap: https://sportzpoint.com/webcontent-sitemap.xml
 Sitemap: https://sportzpoint.com/category-sitemap.xml
 Sitemap: https://sportzpoint.com/news-sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 10
-
-# Host
-Host: https://sportzpoint.com
+Sitemap: https://sportzpoint.com/webstory-sitemap.xml

@@ -1,8 +1,22 @@
+const crypto = require('crypto');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: ['img-cdn.thepublive.com', 'sportzpoint.s3.ap-south-1.amazonaws.com'],
     formats: ['image/webp'],
+    minimumCacheTTL: 86400,
+  },
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  experimental: {
+    optimizeCss: true,
+    legacyBrowsers: false,
   },
   async headers() {
     return [
@@ -33,14 +47,48 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
           },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/image/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=300, must-revalidate',
+          },
         ],
       },
     ];
   },
   webpack: (config, { dev, isServer }) => {
+    // Production optimizations
     if (!dev && !isServer) {
+      // Enable terser compression
       config.optimization = {
         ...config.optimization,
+        minimize: true,
         splitChunks: {
           chunks: 'all',
           minSize: 20000,
@@ -49,20 +97,37 @@ const nextConfig = {
           maxAsyncRequests: 30,
           maxInitialRequests: 30,
           cacheGroups: {
-            defaultVendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10,
-              reuseExistingChunk: true,
+            default: false,
+            vendors: false,
+            framework: {
+              chunks: 'all',
+              name: 'framework',
+              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              priority: 40,
+              enforce: true,
             },
-            default: {
+            commons: {
+              name: 'commons',
               minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
+              priority: 20,
             },
           },
         },
       };
+
+      // Add bundle analyzer in analyze mode
+      if (process.env.ANALYZE) {
+        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+        config.plugins.push(
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'server',
+            analyzerPort: isServer ? 8888 : 8889,
+            openAnalyzer: true,
+          })
+        );
+      }
     }
+
     return config;
   },
 };
