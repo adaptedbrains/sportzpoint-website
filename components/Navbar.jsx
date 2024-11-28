@@ -95,7 +95,7 @@ const NavigationBar = () => {
       <div className="bg-white h-8" />
 
       {/* Main navigation bar with green background */}
-      <div className="bg-[#1B5E20] text-white">
+      <div className="bg-[#006356] text-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-12">
             {/* Logo section */}

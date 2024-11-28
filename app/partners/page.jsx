@@ -73,7 +73,7 @@ const Partners = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-[#39803E] text-white px-6 py-2 rounded-md hover:bg-[#2d6230] transition-colors duration-200"
+                  className="bg-[#006356] hover:bg-[#005349] text-white px-6 py-2 rounded-lg transition-colors duration-200"
                 >
                   Subscribe
                 </button>

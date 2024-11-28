@@ -33,7 +33,7 @@ const Follow = () => {
       icon: <FaWhatsapp className="opacity-80" />,
       text: 'WhatsApp',
       href: 'https://api.whatsapp.com/send?text=https://sportzpoint.com',
-      className: 'text-green-600'
+      className: 'text-[#006356]'
     },
   ];
 
