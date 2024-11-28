@@ -238,7 +238,7 @@ const BlogPost = ({ postData, index }) => {
         onLoad={() => initializeTwitterEmbed()}
       />
 
-      <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
+      <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex gap-2">
           {postData.isLive && (
             <div className="text-xl text-red-500  tracking-wider ">
