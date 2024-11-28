@@ -117,7 +117,7 @@ const BlogPage = () => {
                     </div>
                 </aside>
 
-                <div className="lg:col-span-6 xl:col-span-7 col-span-1">
+                <div className="lg:col-span-7 xl:col-span-7 col-span-1">
                     {isLoading ? (
                         <div className="flex justify-center mt-20">
                             <BlinkBlur color="#32cd32" size="medium" />
