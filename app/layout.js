@@ -1,6 +1,5 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutClient from "./layout-client";
 
 export const metadata = {
   title: "Sportzpoint - Latest Sports News, Live Scores & Updates",
@@ -10,13 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen font-sans">
-        <Navbar />
-        <main className="flex-grow  py-8">
-          {children}
-        </main>
-        <Footer />
-      </body>
+      <LayoutClient>{children}</LayoutClient>
     </html>
   );
 }

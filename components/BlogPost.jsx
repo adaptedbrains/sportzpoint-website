@@ -1,3 +1,5 @@
+'use client';
+
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
