@@ -1,8 +1,13 @@
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from 'dompurify';
 
 export const sanitizeContent = (type, content) => {
   if (!content || typeof content !== "string") {
     return "";
+  }
+
+  // Only sanitize on client-side where window is available
+  if (typeof window === 'undefined') {
+    return content;
   }
 
   let processedContent = content;
@@ -25,112 +30,49 @@ export const sanitizeContent = (type, content) => {
     }
   );
 
-  // Add Instagram embed handling
+  // Process Instagram embeds
   processedContent = processedContent.replace(
-    /<blockquote class="instagram-media".*?<\/blockquote>/g,
-    '<div class="instagram-embed-container">$&<script async src="//www.instagram.com/embed.js"></script></div>'
+    /(<blockquote class="instagram-media".*?<\/blockquote>)/g,
+    (match) => `
+      <div class="instagram-embed-container">
+        <div class="instagram-embed-wrapper">
+          ${match}
+        </div>
+      </div>
+    `
   );
 
-  // Process YouTube iframes with responsive wrapper
-  if (type !== "liveBlog") {
-    processedContent = processedContent.replace(
-      /(<iframe[^>]*youtube[^>]*>.*?<\/iframe>)/g,
-      '<div class="youtube-embed-container"><div class="embed-wrapper">$1</div></div>'
-    );
-  }
-
-  // Process image captions with wider container
+  // Process YouTube embeds
   processedContent = processedContent.replace(
-    /(<img[^>]*>)\s*<p[^>]*class="caption"[^>]*>(.*?)<\/p>/g,
-    '<figure class="image-figure w-[95%]"><div class="image-wrapper">$1</div><figcaption class="image-caption">$2</figcaption></figure>'
+    /<oembed url="(https:\/\/www\.youtube\.com\/watch\?v=([^"]+))".*?<\/oembed>/g,
+    (match, url, videoId) => `
+      <div class="youtube-embed-container">
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/${videoId}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    `
   );
 
-  // Add classes to links
-  processedContent = processedContent.replace(
-    /<a(.*?)>/g,
-    '<a$1 class="blog-link">'
-  );
-
-  const clean = DOMPurify.sanitize(processedContent, {
+  // Sanitize the processed content
+  return DOMPurify.sanitize(processedContent, {
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'width', 'height', 'src'],
     ALLOWED_TAGS: [
-      "p",
-      "br",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "ul",
-      "ol",
-      "li",
-      "a",
-      "img",
-      "blockquote",
-      "strong",
-      "em",
-      "strike",
-      "code",
-      "pre",
-      "div",
-      "span",
-      "iframe",
-      "table",
-      "thead",
-      "tbody",
-      "tfoot",
-      "tr",
-      "th",
-      "td",
-      "caption",
-      "colgroup",
-      "col",
-      "figure",
-      "figcaption",
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'img',
+      'video', 'div', 'span', 'br', 'b', 'i', 'strong', 'em',
+      'blockquote', 'figure', 'figcaption', 'ol', 'ul', 'li',
+      'iframe', 'script'
     ],
     ALLOWED_ATTR: [
-      "href",
-      "src",
-      "alt",
-      "title",
-      "class",
-      "target",
-      "rel",
-      "style",
-      "width",
-      "height",
-      "frameborder",
-      "allowfullscreen",
-      "allow",
-      "data-tweet-id",
-      "data-lang",
-      "data-dnt",
-      "data-theme",
-      "charset",
-      "colspan",
-      "rowspan",
-      "scope",
-      "align",
-      "valign",
-      "border",
-      "cellpadding",
-      "cellspacing"
-    ],
-    ADD_TAGS: ["iframe", "blockquote", "table", "thead", "tbody", "tr", "th", "td", "figure", "figcaption"],
-    ADD_ATTR: [
-      "allowfullscreen",
-      "frameborder",
-      "allow",
-      "data-tweet-id",
-      "data-lang",
-      "data-dnt",
-      "data-theme",
-      "charset",
-      "colspan",
-      "rowspan",
-      "scope"
-    ],
+      'href', 'src', 'class', 'id', 'alt', 'title',
+      'width', 'height', 'frameborder', 'allowfullscreen',
+      'allow', 'scrolling', 'style', 'target', 'rel'
+    ]
   });
-
-  return clean;
 };
