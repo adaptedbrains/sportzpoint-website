@@ -17,18 +17,22 @@ const socialMedia = [
   {
     icon: <FaWhatsapp size={20} />,
     href: "https://api.whatsapp.com/send?text=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
+    ariaLabel: "Share on WhatsApp",
   },
   {
     icon: <FaFacebook size={20} />,
     href: "http://www.facebook.com/sharer/sharer.php?u=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
+    ariaLabel: "Share on Facebook",
   },
   {
     icon: <FaXTwitter size={20} />,
     href: "http://www.twitter.com/intent/tweet?url=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
+    ariaLabel: "Share on Twitter",
   },
   {
     icon: <FaLinkedin size={20} />,
     href: "https://www.linkedin.com/sharing/share-offsite/?url=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
+    ariaLabel: "Share on LinkedIn",
   },
 ];
 
@@ -38,7 +42,7 @@ const FullWidthArticleCard = ({ article }) => (
       <div className="relative h-64 w-full">
         <Image
           src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
-          alt={article.title}
+          alt={article.title || "Banner image for article"}
           layout="fill"
           objectFit="cover"
           className="transition-transform duration-300 hover:scale-105"
@@ -78,7 +82,7 @@ const RelatedArticleCard = ({ article }) => (
       <div className="relative h-48 w-full">
         <Image
           src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
-          alt={article.title}
+          alt={article.title || "Banner image for article"}
           layout="fill"
           objectFit="cover"
           className="transition-transform duration-300 hover:scale-105"
@@ -306,7 +310,7 @@ const BlogPost = ({ postData, index }) => {
             >
               <Image
                 src="/icon/google_news.png"
-                alt="google icon"
+                alt="Google News icon"
                 width={15}
                 height={15}
                 priority
@@ -320,6 +324,7 @@ const BlogPost = ({ postData, index }) => {
                 className="mx-2"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={link.ariaLabel}
               >
                 {link.icon}
               </Link>
@@ -331,7 +336,7 @@ const BlogPost = ({ postData, index }) => {
           <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
             <Image
               src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
-              alt={postData.title || "Banner Image"}
+              alt={postData.title || "Banner image for article"}
               layout="fill"
               objectFit="cover"
               objectPosition="center"

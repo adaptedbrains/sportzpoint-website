@@ -1,5 +1,25 @@
+# SportzPoint Robots.txt
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow Google Images to index images
+User-agent: Googlebot-Image
+Allow: /public/images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.png$
+Allow: /*.webp$
+
+# Block certain bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
 
 # Sitemaps
 Sitemap: https://sportzpoint.com/sitemap.xml
