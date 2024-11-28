@@ -86,25 +86,7 @@ const Footer = () => {
         <div className="mb-12">
           <h3 className="text-xl font-bold text-white mb-4">QUICK LINKS</h3>
           <ul className="flex flex-wrap gap-x-8 gap-y-2">
-            <li className="flex items-center">
-              <span className="mr-2 text-lg">•</span>
-              <Link 
-                href="/about-us"
-                className="text-zinc-200 hover:text-white"
-              >
-                About Us
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <span className="mr-2 text-lg">•</span>
-              <Link 
-                href="/partners"
-                className="text-zinc-200 hover:text-white"
-              >
-                Partners
-              </Link>
-            </li>
-            {quickLinks.slice(2).map((link, index) => (
+            {quickLinks.map((link, index) => (
               <li key={index} className="flex items-center">
                 <span className="mr-2 text-lg">•</span>
                 <Link 
