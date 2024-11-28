@@ -7,9 +7,14 @@ import BlogPost from '@/components/BlogPost';
 import LoginSignUp from '@/components/LoginSignUp';
 import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
-import { BlinkBlur } from 'react-loading-indicators';
 import LatestStories from '@/components/LatestStory';
 import WebStoriesJson from '@/components/WebstoeyJson';
+
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center h-64">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+);
 
 const BlogPage = () => {
     const pathname = usePathname();
@@ -103,6 +108,10 @@ const BlogPage = () => {
         }
     };
 
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
@@ -114,13 +123,7 @@ const BlogPage = () => {
                 </aside>
 
                 <div className="lg:col-span-7 xl:col-span-7 col-span-1">
-                    {isLoading ? (
-                        <div className="flex justify-center mt-20">
-                            <BlinkBlur color="#32cd32" size="medium" />
-                        </div>
-                    ) : (
-                        renderMainContent()
-                    )}
+                    {renderMainContent()}
                 </div>
 
                 <div className="lg:col-span-3 col-span-1">

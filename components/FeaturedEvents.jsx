@@ -1,5 +1,7 @@
+'use client';
+
 import React from "react";
-import { PiCricketDuotone } from "react-icons/pi";
+import { GiCricketBat } from "react-icons/gi";
 import { MdOutlineSportsTennis } from "react-icons/md";
 import {
   FaMedal,
@@ -22,7 +24,7 @@ const FeaturedEvents = ({ toggleMenu }) => {
     },
     {
       title: "Cricket",
-      icon: <PiCricketDuotone size={18} />,
+      icon: <GiCricketBat size={18} />,
       slug: "/cricket",
     },
     {

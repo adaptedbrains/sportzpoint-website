@@ -8,7 +8,7 @@ import WebStoriesList from "@/components/WebStoryList";
 import FeaturedEvents from "@/components/FeaturedEvents";
 import Follow from "@/components/Follow";
 
-const Page = async () => {
+export default async function Page() {
   // Fetch data for both latest posts and olympics
   const latestPostsData = latestPost(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=1`);
   // process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}
@@ -26,7 +26,19 @@ const Page = async () => {
 
   const webStoryLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/type/Web Story?limit=3&page=1`);
 
-  const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics,webStory] = await Promise.all([
+  const [
+    latestUploadPost,
+    olympic,
+    cricket,
+    football,
+    tennis,
+    hockey,
+    badminton,
+    women_in_sports,
+    e_sports,
+    athletics,
+    webStory
+  ] = await Promise.all([
     latestPostsData,
     olympicsLatest,
     cricketLatest,
@@ -299,6 +311,4 @@ const Page = async () => {
       </div>
     </div>
   );
-};
-
-export default Page;
+}
