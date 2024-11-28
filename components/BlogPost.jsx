@@ -117,19 +117,19 @@ const BlogPost = ({ postData, index }) => {
 
   const { messages } = useWebSocket();
   const postRef = React.useRef(null);
-  const { liveBlogs, liveBlogFunction } = usePostStore();
+  const { liveBlogs, liveBlogFunction: updateLiveBlog } = usePostStore();
 
-  const liveBlogFunction = useCallback(() => {
+  const handleLiveBlogUpdate = useCallback(() => {
     if (postData.type === "LiveBlog") {
-      liveBlogFunction(
+      updateLiveBlog(
         postData.live_blog_updates.length !== 0 && postData.live_blog_updates
       );
     }
-  }, [postData.live_blog_updates, liveBlogFunction]);
+  }, [postData.type, postData.live_blog_updates, updateLiveBlog]);
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
-      liveBlogFunction();
+      handleLiveBlogUpdate();
     }
 
     const loadInstagramEmbeds = () => {
@@ -211,9 +211,9 @@ const BlogPost = ({ postData, index }) => {
 
   useEffect(() => {
     if (postData.live_blog_updates) {
-      liveBlogFunction();
+      handleLiveBlogUpdate();
     }
-  }, [postData.live_blog_updates, liveBlogFunction]);
+  }, [postData.live_blog_updates, handleLiveBlogUpdate]);
 
   useEffect(() => {
     const currentPostRef = postRef.current;
