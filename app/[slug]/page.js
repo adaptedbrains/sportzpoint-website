@@ -70,17 +70,13 @@ const Page = () => {
     }, [slug, currentPage]);
 
     useEffect(() => {
-        if (url) fetchPosts(url);
-        if (posts.length !== 0) {
-
+        if (slug === "live") {
+            fetchPosts();
         }
-        if (slug !== "live"){ fetchWebPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}/type/Web Story?limit=3&page=1`)
+        if (slug !== "live" && fetchWebPosts) { 
+            fetchWebPosts(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}/type/Web Story?limit=3&page=1`);
         }
-
-    }, [url, fetchPosts]);
-
-
-
+    }, [slug, fetchPosts, fetchWebPosts, posts.length]);
 
     return (
         <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">

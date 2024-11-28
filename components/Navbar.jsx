@@ -44,18 +44,20 @@ const NavigationBar = () => {
       {/* White section with search */}
       <div className="bg-white flex justify-between items-center px-4 lg:px-28 py-1 h-10">
         {/* Logo */}
-        {/* <div className="flex-1 flex justify-center h-full">
+        <div className="flex-1 flex justify-center h-full">
           <Link href="/" className="h-full flex items-center">
-            <Image
-              src="/header.png"
-              alt="Sportzpoint"
-              width={140}
-              height={28}
-              className="object-contain h-[24px] w-auto"
-              priority
-            />
+            <div className="w-[80px] h-[24px] relative">
+              <Image
+                src="/header.png"
+                alt="Sportzpoint"
+                fill
+                sizes="80px"
+                className="object-contain brightness-0 invert"
+                priority
+              />
+            </div>
           </Link>
-        </div> */}
+        </div>
         
         {/* Search - Positioned absolutely to maintain center alignment of logo */}
         <div className="absolute right-4 lg:right-28 flex items-center gap-3">
@@ -94,31 +96,65 @@ const NavigationBar = () => {
       </div>
 
       {/* Main navigation */}
-      <div className="bg-[#006356] text-white flex items-center px-4 lg:px-28 py-3">
+      <div className="bg-[#39803E] text-white flex items-center px-4 lg:px-28 py-2">
         <button
-          className="lg:hidden p-2"
+          className="lg:hidden p-2 text-white hover:text-gray-200"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {!isMenuOpen && <RiMenu2Line size={24} color="white" />}
+          <RiMenu2Line size={24} />
         </button>
 
-        {/* Navigation Menu */}
-        <div className="hidden lg:flex gap-6">
-          {navigationItems.map((nav) => (
-            <button
-              type="button"
-              key={nav.slugName}
-              onClick={() => setIsMenuOpen(false)}
+        {/* Logo */}
+        <Link href="/" className="flex items-center mr-6">
+          <div className="w-[80px] h-[24px] relative">
+            <Image
+              src="/header.png"
+              alt="Sportzpoint"
+              fill
+              sizes="80px"
+              className="object-contain brightness-0 invert"
+              priority
+            />
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-6 w-full text-[15px]">
+          {navigationItems.map((item) => (
+            <Link
+              key={item.slugName}
+              href={item.slugName}
+              className="text-white hover:text-gray-200 transition-colors duration-200"
             >
-              <Link
-                href={nav.slugName}
-                className="hover:text-white text-zinc-200 text-sm uppercase font-medium"
-              >
-                {nav.name}
-              </Link>
-            </button>
+              {item.name}
+            </Link>
           ))}
         </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "-100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "-100%" }}
+              className="fixed top-[72px] left-0 w-full h-screen bg-[#39803E] lg:hidden z-50"
+            >
+              <div className="flex flex-col space-y-4 p-4">
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.slugName}
+                    href={item.slugName}
+                    className="text-white hover:text-gray-200 transition-colors duration-200 text-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Hamburger Menu for Mobile */}

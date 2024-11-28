@@ -10,7 +10,7 @@ const Footer = () => {
     { text: "FAQ", href: "/faq" },
     { text: "Partners", href: "/partners" },
     { text: "Disclaimer", href: "/disclaimer" },
-    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Privacy Policy", href: "/privacy" },
     { text: "Contact", href: "/contact" },
     { text: "Sports Guest Post", href: "/sports-guest-post" },
   ];
@@ -91,7 +91,7 @@ const Footer = () => {
                 <span className="mr-2 text-lg">•</span>
                 <Link 
                   href={link.href}
-                  className="hover:underline"
+                  className="text-zinc-200 hover:text-white"
                 >
                   {link.text}
                 </Link>
