@@ -331,12 +331,10 @@ const BlogPost = ({ postData, index }) => {
         <div className="rounded flex flex-col gap-7 mt-8">
           {postData.type === "LiveBlog" && postData?.live_blog_updates && (
             <>
-              <div className="grid grid-cols-5 justify-between items-center mb-5">
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
-                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
-                  Live Updates
-                </p>
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
+              <div className="flex justify-center items-center mb-5">
+                <div className="bg-green-800 text-white px-4 py-2 rounded-md font-semibold">
+                  LIVE Updates
+                </div>
               </div>
 
               {postData?.live_blog_updates.map((live, i) => (
