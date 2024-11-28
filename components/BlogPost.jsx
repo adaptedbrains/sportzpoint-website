@@ -36,85 +36,159 @@ const socialMedia = [
   },
 ];
 
-const FullWidthArticleCard = ({ article }) => (
-  <div className="mb-6">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative h-64 w-full">
-        <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
-          alt={article.title || "Banner image for article"}
-          layout="fill"
-          objectFit="cover"
-          className="transition-transform duration-300 hover:scale-105"
-        />
-      </div>
-      <div className="p-4">
-        <div className="flex gap-2 mb-2">
-          {article.categories &&
-            article.categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/${category.slug}`}
-                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-              >
-                {category.name}
-              </Link>
-            ))}
-        </div>
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#f6f7f8" offset="20%" />
+      <stop stop-color="#edeef1" offset="50%" />
+      <stop stop-color="#f6f7f8" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#f6f7f8" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
 
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
-        >
-          {article.title}
-        </Link>
-        <p className="text-sm text-gray-500 mt-2">
-          {convertToIST(article.published_at_datetime)}
-        </p>
+const toBase64 = (str) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
+
+// Preload common image sizes
+const commonSizes = [640, 750, 828, 1080];
+const preloadImageSizes = (src) => {
+  if (typeof window === 'undefined') return;
+  
+  const imgEl = document.createElement('link');
+  imgEl.rel = 'preload';
+  imgEl.as = 'image';
+  
+  commonSizes.forEach(size => {
+    const imageUrl = `/_next/image?url=${encodeURIComponent(src)}&w=${size}&q=75`;
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = imageUrl;
+    document.head.appendChild(preloadLink);
+  });
+};
+
+const FullWidthArticleCard = ({ article }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
+  useEffect(() => {
+    if (article.banner_image) {
+      preloadImageSizes(article.banner_image);
+    }
+  }, [article.banner_image]);
+
+  return (
+    <div className="mb-6">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="relative h-64 w-full">
+          <Image
+            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
+            alt={article.title || "Banner image for article"}
+            layout="fill"
+            objectFit="cover"
+            className={`object-cover transition-opacity duration-300 ${
+              imageLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw"
+            priority={true}
+            quality={90}
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+            onLoadingComplete={() => setImageLoading(false)}
+          />
+        </div>
+        <div className="p-4">
+          <div className="flex gap-2 mb-2">
+            {article.categories &&
+              article.categories.map((category, index) => (
+                <Link
+                  key={index}
+                  href={`/${category.slug}`}
+                  className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+                >
+                  {category.name}
+                </Link>
+              ))}
+          </div>
+
+          <Link
+            href={`/${article.categories[0]?.slug}/${article.slug}`}
+            className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
+          >
+            {article.title}
+          </Link>
+          <p className="text-sm text-gray-500 mt-2">
+            {convertToIST(article.published_at_datetime)}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-const RelatedArticleCard = ({ article }) => (
-  <div className="px-2">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative h-48 w-full">
-        <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
-          alt={article.title || "Banner image for article"}
-          layout="fill"
-          objectFit="cover"
-          className="transition-transform duration-300 hover:scale-105"
-        />
-      </div>
-      <div className="p-4">
-        <div className="flex gap-2 mb-2">
-          {article.categories &&
-            article.categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/${category.slug}`}
-                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-              >
-                {category.name}
-              </Link>
-            ))}
+const RelatedArticleCard = ({ article }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
+  useEffect(() => {
+    if (article.banner_image) {
+      preloadImageSizes(article.banner_image);
+    }
+  }, [article.banner_image]);
+
+  return (
+    <div className="px-2">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="relative h-48 w-full">
+          <Image
+            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
+            alt={article.title || "Banner image for article"}
+            layout="fill"
+            objectFit="cover"
+            className={`object-cover transition-opacity duration-300 ${
+              imageLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={true}
+            quality={90}
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+            onLoadingComplete={() => setImageLoading(false)}
+          />
         </div>
+        <div className="p-4">
+          <div className="flex gap-2 mb-2">
+            {article.categories &&
+              article.categories.map((category, index) => (
+                <Link
+                  key={index}
+                  href={`/${category.slug}`}
+                  className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+                >
+                  {category.name}
+                </Link>
+              ))}
+          </div>
 
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
-        >
-          {article.title}
-        </Link>
-        <p className="text-sm text-gray-500 mt-2">
-          {convertToIST(article.published_at_datetime)}
-        </p>
+          <Link
+            href={`/${article.categories[0]?.slug}/${article.slug}`}
+            className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
+          >
+            {article.title}
+          </Link>
+          <p className="text-sm text-gray-500 mt-2">
+            {convertToIST(article.published_at_datetime)}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const BlogPost = ({ postData, index }) => {
   const router = useRouter();
@@ -258,6 +332,14 @@ const BlogPost = ({ postData, index }) => {
     ],
   };
 
+  const [imageLoading, setImageLoading] = useState(true);
+
+  useEffect(() => {
+    if (postData.banner_image) {
+      preloadImageSizes(postData.banner_image);
+    }
+  }, [postData.banner_image]);
+
   return (
     <>
       <Script
@@ -346,7 +428,15 @@ const BlogPost = ({ postData, index }) => {
               layout="fill"
               objectFit="cover"
               objectPosition="center"
-              priority
+              className={`object-cover transition-opacity duration-300 ${
+                imageLoading ? 'opacity-0' : 'opacity-100'
+              }`}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, (max-width: 1280px) 50vw, 33vw"
+              priority={true}
+              quality={90}
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+              onLoadingComplete={() => setImageLoading(false)}
             />
           </div>
         )}
@@ -399,6 +489,10 @@ const BlogPost = ({ postData, index }) => {
                             layout="fill"
                             objectFit="cover"
                             className="hover:scale-105 transition-transform duration-300"
+                            priority={true}
+                            quality={90}
+                            placeholder="blur"
+                            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
                           />
                         </div>
                       ))}
