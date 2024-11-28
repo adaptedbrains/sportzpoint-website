@@ -7,14 +7,9 @@ import BlogPost from '@/components/BlogPost';
 import LoginSignUp from '@/components/LoginSignUp';
 import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
+import { BlinkBlur } from 'react-loading-indicators';
 import LatestStories from '@/components/LatestStory';
 import WebStoriesJson from '@/components/WebstoeyJson';
-
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center h-64">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-  </div>
-);
 
 const BlogPage = () => {
     const pathname = usePathname();
@@ -44,38 +39,42 @@ const BlogPage = () => {
         }
     }, [id, currentSlug]); // Ensure this runs when id or currentSlug changes
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const posts = document.querySelectorAll('.blog-post');
-            let maxVisibleHeight = 0;
-            let largestVisibleSlug = id;
+    // Handle scroll event to update the slug of the div that occupies the most visible height
+    const handleScroll = () => {
+        const posts = document.querySelectorAll('.blog-post');
+        let maxVisibleHeight = 0;
+        let largestVisibleSlug = id;
 
-            posts.forEach((postElement) => {
-                const rect = postElement.getBoundingClientRect();
+        posts.forEach((postElement) => {
+            const rect = postElement.getBoundingClientRect();
 
-                // Calculate visible height of the element
-                const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+            // Calculate visible height of the element
+            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
 
-                // If the visible height is greater than the current max, update the slug
-                if (visibleHeight > maxVisibleHeight) {
-                    maxVisibleHeight = visibleHeight;
-                    largestVisibleSlug = postElement.getAttribute('data-slug') || '';
-                }
-            });
-
-            const newUrl = category ? `/${category}/${largestVisibleSlug}` : `/${largestVisibleSlug}`;
-            if (largestVisibleSlug !== currentSlug && window.location.pathname !== newUrl) {
-                window.history.replaceState(null, '', newUrl); // Update the browser URL
-                setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
+            // If the visible height is greater than the current max, update the slug
+            if (visibleHeight > maxVisibleHeight) {
+                maxVisibleHeight = visibleHeight;
+                largestVisibleSlug = postElement.getAttribute('data-slug') || '';
             }
-        };
+        });
 
+        // Only update the URL if it is different from the current slug
+        const newUrl = category ? `/${category}/${largestVisibleSlug}` : `/${largestVisibleSlug}`;
+        if (largestVisibleSlug !== currentSlug && window.location.pathname !== newUrl) {
+            window.history.replaceState(null, '', newUrl); // Update the browser URL
+            setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
+        }
+    };
+
+    useEffect(() => {
+        // Listen for scroll events
         window.addEventListener('scroll', handleScroll);
-        
+
+        // Cleanup the event listener on unmount
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [category, currentSlug, id]); // Add required dependencies
+    }, []); // Dependency on currentSlug
 
     const renderMainContent = () => {
         if (!post || !post.article) return null;
@@ -108,10 +107,6 @@ const BlogPage = () => {
         }
     };
 
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
-
     return (
         <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
@@ -123,7 +118,13 @@ const BlogPage = () => {
                 </aside>
 
                 <div className="lg:col-span-7 xl:col-span-7 col-span-1">
-                    {renderMainContent()}
+                    {isLoading ? (
+                        <div className="flex justify-center mt-20">
+                            <BlinkBlur color="#32cd32" size="medium" />
+                        </div>
+                    ) : (
+                        renderMainContent()
+                    )}
                 </div>
 
                 <div className="lg:col-span-3 col-span-1">
@@ -132,7 +133,7 @@ const BlogPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
     );
 };
 

@@ -11,7 +11,7 @@ const WebStoriesList = ({ webStories }) => {
 
   return (
     <div className="bg-zinc-800 text-white p-6 my-5 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Web Stories</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white">Web Stories</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 ">
         {webStories &&
           webStories.length > 0 &&

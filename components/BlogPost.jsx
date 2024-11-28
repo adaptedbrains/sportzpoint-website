@@ -1,9 +1,7 @@
-'use client';
-
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
@@ -12,6 +10,8 @@ import { useWebSocket } from "@/utils/websocket";
 import usePostStore from "@/store/postStore";
 import { useRouter } from "next/navigation";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const socialMedia = [
   {
@@ -51,7 +51,7 @@ const FullWidthArticleCard = ({ article }) => (
               <Link
                 key={index}
                 href={`/${category.slug}`}
-                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
@@ -60,7 +60,7 @@ const FullWidthArticleCard = ({ article }) => (
 
         <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
+          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
         </Link>
@@ -91,7 +91,7 @@ const RelatedArticleCard = ({ article }) => (
               <Link
                 key={index}
                 href={`/${category.slug}`}
-                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
@@ -100,7 +100,7 @@ const RelatedArticleCard = ({ article }) => (
 
         <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
+          className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
         </Link>
@@ -114,22 +114,20 @@ const RelatedArticleCard = ({ article }) => (
 
 const BlogPost = ({ postData, index }) => {
   const router = useRouter();
-  const { liveBlogs, liveBlogFunction } = usePostStore();
+
   const { messages } = useWebSocket();
-  const postRef = useRef(null);
+  const postRef = React.useRef(null);
+  const { liveBlogs, liveBlogFunction } = usePostStore();
+
+  
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
-      liveBlogFunction();
+      liveBlogFunction(
+        postData.live_blog_updates.length !== 0 && postData.live_blog_updates
+      );
     }
-    return () => {
-      clearInterval(interval);
-      const script = document.getElementById("instagram-embed-script");
-      if (script) script.remove();
-    };
-  }, [postData, liveBlogFunction]);
 
-  useEffect(() => {
     const loadInstagramEmbeds = () => {
       const existingScript = document.getElementById("instagram-embed-script");
       if (existingScript) existingScript.remove();
@@ -150,36 +148,45 @@ const BlogPost = ({ postData, index }) => {
       const script = document.getElementById("instagram-embed-script");
       if (script) script.remove();
     };
-  }, [postData.content, postData.type, liveBlogFunction, postData]);
+  }, [postData.content, postData.type]);
 
   useEffect(() => {
-    const currentPostRef = postRef.current;
+    // Create intersection observer for URL updates
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            // Update URL without triggering navigation or re-renders
             const newUrl = `/${postData.categories[0]?.slug}/${postData.slug}`;
             window.history.replaceState(
               { ...window.history.state },
               postData.title,
               newUrl
             );
+
+            // Update page title without causing re-render
+            document.title = postData.title;
           }
         });
       },
-      { threshold: 0.5 }
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5, // Trigger when 50% of the article is visible
+      }
     );
 
-    if (currentPostRef) {
-      observer.observe(currentPostRef);
+    // Start observing the article
+    if (postRef.current) {
+      observer.observe(postRef.current);
     }
 
     return () => {
-      if (currentPostRef) {
-        observer.unobserve(currentPostRef);
+      if (postRef.current) {
+        observer.unobserve(postRef.current);
       }
     };
-  }, [postData.categories, postData.slug, postData.title]);
+  }, [postData]);
 
   // Add this function to handle Twitter embed initialization
   const initializeTwitterEmbed = () => {
@@ -244,7 +251,7 @@ const BlogPost = ({ postData, index }) => {
             <Link
               href={`/${category.slug}`}
               key={index}
-              className="bg-[#006356]/10 rounded text-[#006356] font-semibold px-4 py-1"
+              className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
             >
               {category.name}
             </Link>
@@ -255,9 +262,7 @@ const BlogPost = ({ postData, index }) => {
           {postData.title}
         </h2>
         {postData.summary && (
-          <p className=" text-start my-4 text-zinc-600">
-            {postData.summary}
-          </p>
+          <p className=" text-start my-4 text-zinc-600">{postData.summary}</p>
         )}
 
         <div className="flex justify-between items-center flex-wrap">
@@ -317,7 +322,7 @@ const BlogPost = ({ postData, index }) => {
         )}
 
         <article
-          className="blog-content text-zinc-600 font-normal"
+          className="blog-content"
           dangerouslySetInnerHTML={{
             __html: sanitizeContent("Article", postData.content),
           }}
@@ -333,15 +338,15 @@ const BlogPost = ({ postData, index }) => {
           {postData.type === "LiveBlog" && postData?.live_blog_updates && (
             <>
               <div className="flex justify-center items-center mb-5">
-                <div className="bg-[#006356] text-white px-4 py-2 rounded-md font-semibold">
+                <div className="bg-green-800 text-white px-4 py-2 rounded-md font-semibold">
                   LIVE Updates
                 </div>
               </div>
-
-              {postData?.live_blog_updates.map((live, i) => (
+      
+              {liveBlogs && liveBlogs.map((live, i) => (
                 <div
                   key={i}
-                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
+                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-green-800"
                 >
                   <p className="text-gray-600 italic text-sm">
                     {convertToIST(live.created_at)}
@@ -379,7 +384,7 @@ const BlogPost = ({ postData, index }) => {
                     />
                   </div>
                 </div>
-              ))}
+              ))} 
             </>
           )}
         </div>
@@ -391,7 +396,7 @@ const BlogPost = ({ postData, index }) => {
                 <Link
                   key={idx}
                   href={`/tags/${tag.slug}`}
-                  className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-[#006356] hover:text-[#005349] rounded-full text-sm transition-colors duration-200 font-medium"
+                  className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-sm transition-colors duration-200 font-medium"
                 >
                   {tag.name}
                 </Link>
@@ -405,11 +410,11 @@ const BlogPost = ({ postData, index }) => {
           postData.related_articles.length > 0 && (
             <div className="mt-8">
               <div className="grid grid-cols-5 justify-between items-center mb-5">
-                <div className="bg-[#006356] h-[1px] col-span-2"></div>
-                <p className="border col-span-1 border-[#006356] text-center px-2 font-semibold">
+                <div className="bg-green-800 h-[1px] col-span-2"></div>
+                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
                   Related Articles
                 </p>
-                <div className="bg-[#006356] h-[1px] col-span-2"></div>
+                <div className="bg-green-800 h-[1px] col-span-2"></div>
               </div>
 
               {/* First article in full width */}
