@@ -26,7 +26,7 @@ import { useEffect, useState } from "react"
 // import { useCycleItemStore } from "../lib/store/cycle.store"
 
 // const WEBSOCKET_URL = "ws://localhost:8000"
-const WEBSOCKET_URL = "wss:sportzpoint-be.onrender.com"
+const WEBSOCKET_URL = "wss://sportzpoint-be.onrender.com"
 
 export const useWebSocket = () => {
   const [socket, setSocket] = useState(null)

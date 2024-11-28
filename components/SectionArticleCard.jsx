@@ -55,7 +55,7 @@ const SectionArticleCard = ({ post }) => {
             {post.categories?.map((c, i) => (
               <span 
                 key={i} 
-                className="text-[10px] font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded"
+                className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
               >
                 {c.name || "Uncategorized"}
               </span>

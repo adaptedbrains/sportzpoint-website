@@ -8,21 +8,7 @@ import WebStoriesList from "@/components/WebStoryList";
 import FeaturedEvents from "@/components/FeaturedEvents";
 import Follow from "@/components/Follow";
 
-// Add cache revalidation time
-export const revalidate = 60; // Revalidate every 60 seconds
-
-// Add dynamic metadata
-export async function generateMetadata() {
-  return {
-    title: "SportzPoint - Latest Sports News, Live Scores & Updates",
-    description: "Get the latest sports news, live scores, and updates from the world of Cricket, Football, Tennis, Hockey, and more at SportzPoint.",
-    alternates: {
-      canonical: "https://sportzpoint.com",
-    },
-  };
-}
-
-const Page = async () => {
+export default async function Page() {
   // Fetch data for both latest posts and olympics
   const latestPostsData = latestPost(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=1`);
   // process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}
@@ -40,7 +26,19 @@ const Page = async () => {
 
   const webStoryLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/type/Web Story?limit=3&page=1`);
 
-  const [latestUploadPost, olympic, cricket, football, tennis, hockey, badminton, women_in_sports, e_sports, athletics,webStory] = await Promise.all([
+  const [
+    latestUploadPost,
+    olympic,
+    cricket,
+    football,
+    tennis,
+    hockey,
+    badminton,
+    women_in_sports,
+    e_sports,
+    athletics,
+    webStory
+  ] = await Promise.all([
     latestPostsData,
     olympicsLatest,
     cricketLatest,
@@ -85,8 +83,8 @@ const Page = async () => {
           {/* Olympics Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Olympics</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Olympics</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {olympic?.length > 0 && (
@@ -109,8 +107,8 @@ const Page = async () => {
           {/* Cricket Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Cricket</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Cricket</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {cricket?.length > 0 && (
@@ -130,8 +128,8 @@ const Page = async () => {
           {/* Football Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Football</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Football</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {football?.length > 0 && (
@@ -151,8 +149,8 @@ const Page = async () => {
           {/* Tennis Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Tennis</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Tennis</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {tennis?.length > 0 && (
@@ -172,8 +170,8 @@ const Page = async () => {
           {/* Hockey Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Hockey</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Hockey</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {hockey?.length > 0 && (
@@ -193,8 +191,8 @@ const Page = async () => {
           {/* Badminton Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Badminton</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Badminton</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {badminton?.length > 0 && (
@@ -214,8 +212,8 @@ const Page = async () => {
           {/* Women In Sports Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Women In Sports</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Women In Sports</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {women_in_sports?.length > 0 && (
@@ -235,8 +233,8 @@ const Page = async () => {
           {/* E-Sports Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">E-Sports</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">E-Sports</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {e_sports?.length > 0 && (
@@ -256,8 +254,8 @@ const Page = async () => {
           {/* Athletics Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Athletics</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Athletics</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {athletics?.length > 0 && (
@@ -285,8 +283,8 @@ const Page = async () => {
           {/* Newsletter - fixed position */}
           <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
             <div className="flex flex-col items-start">
-              <h2 className="text-xl font-bold text-green-800 mb-2">Subscribe Newsletter</h2>
-              <div className="w-10 h-[1px] bg-green-800 mb-4"></div>
+              <h2 className="text-xl font-bold text-[#006356] mb-2">Subscribe Newsletter</h2>
+              <div className="w-10 h-[1px] bg-[#006356] mb-4"></div>
               
               <p className="text-sm text-gray-600 mb-4">
                 Get the latest sports updates and news delivered directly to your inbox.
@@ -296,13 +294,13 @@ const Page = async () => {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-sm"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#006356] text-sm"
                   required
                 />
                 
                 <button
                   type="submit"
-                  className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+                  className="w-full bg-[#006356] hover:bg-[#005349] text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
                 >
                   Subscribe Now
                 </button>
@@ -313,6 +311,4 @@ const Page = async () => {
       </div>
     </div>
   );
-};
-
-export default Page;
+}

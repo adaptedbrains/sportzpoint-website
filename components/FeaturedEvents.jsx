@@ -1,5 +1,7 @@
+'use client';
+
 import React from "react";
-import { PiCricketDuotone } from "react-icons/pi";
+import { GiCricketBat } from "react-icons/gi";
 import { MdOutlineSportsTennis } from "react-icons/md";
 import {
   FaMedal,
@@ -22,7 +24,7 @@ const FeaturedEvents = ({ toggleMenu }) => {
     },
     {
       title: "Cricket",
-      icon: <PiCricketDuotone size={18} />,
+      icon: <GiCricketBat size={18} />,
       slug: "/cricket",
     },
     {
@@ -83,7 +85,7 @@ const FeaturedEvents = ({ toggleMenu }) => {
               className="flex items-center px-2 py-2 hover:bg-gray-50 transition-colors duration-200 group"
               onClick={toggleMenu}
             >
-              <span className="text-gray-500 group-hover:text-green-600 transition-colors duration-200">
+              <span className="text-gray-500 group-hover:text-[#006356] transition-colors duration-200">
                 {event.icon}
               </span>
               <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
