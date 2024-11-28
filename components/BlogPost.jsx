@@ -37,7 +37,7 @@ const FullWidthArticleCard = ({ article }) => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-64 w-full">
         <Image
-          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
+          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
           alt={article.title}
           layout="fill"
           objectFit="cover"
@@ -76,7 +76,7 @@ const RelatedArticleCard = ({ article }) => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-48 w-full">
         <Image
-          src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
+          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
           alt={article.title}
           layout="fill"
           objectFit="cover"
@@ -305,7 +305,7 @@ const BlogPost = ({ postData, index }) => {
         {postData.banner_image && (
           <div className="w-full h-[340px] relative my-6">
             <Image
-              src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${postData.banner_image}`}
+              src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
               alt={postData.title || "Banner Image"}
               layout="fill"
               objectFit="cover"
@@ -357,7 +357,7 @@ const BlogPost = ({ postData, index }) => {
                       {live.images.map((image, index) => (
                         <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
                           <Image
-                            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${image}`}
+                            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${image}`}
                             alt={`Update image ${index + 1}`}
                             layout="fill"
                             objectFit="cover"

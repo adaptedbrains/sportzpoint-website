@@ -50,7 +50,7 @@ const LatestStories = () => {
               <div className="w-20 h-16 relative flex-shrink-0">
                 {story.banner_image && (
                   <Image
-                    src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${story.banner_image}`}
+                    src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
                     alt={story.title}
                     layout="fill"
                     objectFit="cover"
