@@ -123,13 +123,16 @@ const BlogPost = ({ postData, index }) => {
   const postRef = React.useRef(null);
   const { liveBlogs, liveBlogFunction: updateLiveBlog } = usePostStore();
 
+  // Capture postRef in a useCallback to prevent unnecessary re-renders
   const handleLiveBlogUpdate = useCallback(() => {
-    if (postData.type === "LiveBlog") {
-      updateLiveBlog(
-        postData.live_blog_updates.length !== 0 && postData.live_blog_updates
-      );
+    if (postData.type === "LiveBlog" && postData.live_blog_updates) {
+      updateLiveBlog(postData.live_blog_updates);
     }
   }, [postData.type, postData.live_blog_updates, updateLiveBlog]);
+
+  useEffect(() => {
+    handleLiveBlogUpdate();
+  }, [handleLiveBlogUpdate]);
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
@@ -219,14 +222,17 @@ const BlogPost = ({ postData, index }) => {
     }
   }, [postData.live_blog_updates, handleLiveBlogUpdate]);
 
+  // Handle ref cleanup
   useEffect(() => {
-    const currentPostRef = postRef.current;
+    const currentPostRef = postRef.current; // Capture the current value
+
     return () => {
       if (currentPostRef) {
         // Cleanup using the captured ref value
+        // Add any necessary cleanup code here
       }
     };
-  }, []);
+  }, []); // Empty dependency array since we only need to set up the cleanup once
 
   const carouselSettings = {
     dots: false,
