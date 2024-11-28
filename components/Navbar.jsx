@@ -91,17 +91,14 @@ const NavigationBar = () => {
 
   return (
     <nav className="sticky top-0 z-50">
-      {/* White space section */}
-      <div className="bg-white h-8" />
-
-      {/* Main navigation bar with green background */}
+      {/* Main navigation bar with teal background */}
       <div className="bg-[#006356] text-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-12">
             {/* Logo section */}
             <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
-                <div className="bg-white py-0.5 px-1.5 rounded-sm">
+              <Link href="/" className="flex items-center cursor-pointer">
+                <div className="bg-white py-0.5 px-1.5 rounded-sm hover:opacity-90 transition-opacity">
                   <Image
                     src="/nav.webp"
                     alt="SportzPoint"

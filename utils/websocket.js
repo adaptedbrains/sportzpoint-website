@@ -1,9 +1,10 @@
 import usePostStore from "@/store/postStore"
 import { useEffect, useState } from "react"
 
-const WEBSOCKET_URL = "wss://sportzpoint-be.onrender.com"
-const MAX_RETRIES = 5
-const RETRY_DELAY = 1000  // 1 second
+// import { useCycleItemStore } from "../lib/store/cycle.store"
+
+// const WEBSOCKET_URL = "ws://localhost:8000"
+const WEBSOCKET_URL = process.env.WEBSOCKET_URL || "wss://sportzpoint-be.onrender.com"
 
 export const useWebSocket = () => {
   const [socket, setSocket] = useState(null)

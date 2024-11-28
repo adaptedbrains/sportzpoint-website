@@ -7,23 +7,31 @@
   :root {
     --background: #ffffff;
     --foreground: #000000;
+    --font-roboto: 'Roboto', sans-serif;
+    --font-pt-serif: 'PT Serif', serif;
   }
 
   body {
-    @apply font-sans text-base leading-relaxed text-gray-800;
+    @apply text-base;
+    font-family: var(--font-roboto), sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold text-gray-900;
+  /* Article titles and main headlines */
+  .article-title {
+    font-family: var(--font-pt-serif), serif;
+    @apply font-bold;
+  }
+
+  /* Section headings use Roboto */
+  .section-heading {
+    font-family: var(--font-roboto), sans-serif;
+    @apply font-medium;
   }
 }
 
 *{
   font-family: 'Roboto', sans-serif;
 }
-
-
-
 
 @layer components {
   /* Base responsive typography */
