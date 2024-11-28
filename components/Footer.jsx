@@ -100,20 +100,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Company Info */}
-        <div className="mb-12">
-          <h3 className="text-xl font-bold text-white mb-4 max-w-3xl">
-            SPORTZPOINT IS A GLOBAL, MULTI-PLATFORM SPORTS MEDIA COMPANY
-          </h3>
-          <div className="space-y-2">
-            <p>For More Queries And News</p>
-            <p>Contact Us On This Email:</p>
-            <p>mail@sportzpoint.com</p>
-          </div>
-        </div>
-
         {/* Latest Stories */}
-        <div className="border-t border-gray-200 pt-8 mb-12">
+        <div className="mb-12">
           <h3 className="text-xl font-bold text-white mb-6">LATEST STORIES</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {latestStories.map((story, index) => (
