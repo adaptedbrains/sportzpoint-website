@@ -12,7 +12,6 @@ const nextConfig = {
     path: '/_next/image',
     disableStaticImages: false,
     unoptimized: false,
-    quality: 90,
     remotePatterns: [
       {
         protocol: 'https',
@@ -23,7 +22,6 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizeImages: true,
     optimizeCss: true,
     optimizePackageImports: ['react-icons'],
     scrollRestoration: true,
