@@ -12,10 +12,13 @@ User-agent: AhrefsBot
 Disallow: /
 
 # Sitemaps
+Sitemap: https://sportzpoint.com/sitemap.xml
 Sitemap: https://sportzpoint.com/webcontent-sitemap.xml
 Sitemap: https://sportzpoint.com/category-sitemap.xml
 Sitemap: https://sportzpoint.com/news-sitemap.xml
-Sitemap:
 
 # Crawl-delay
 Crawl-delay: 10
+
+# Host
+Host: https://sportzpoint.com
