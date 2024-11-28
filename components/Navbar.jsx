@@ -120,7 +120,7 @@ const NavigationBar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-6 w-full text-[15px]">
-          {navigationItems.slice(1).map((item) => (
+          {navigationItems.map((item) => (
             <Link
               key={item.slugName}
               href={item.slugName}
@@ -141,7 +141,7 @@ const NavigationBar = () => {
               className="fixed top-[72px] left-0 w-full h-screen bg-[#39803E] lg:hidden z-50"
             >
               <div className="flex flex-col space-y-4 p-4">
-                {navigationItems.slice(1).map((item) => (
+                {navigationItems.map((item) => (
                   <Link
                     key={item.slugName}
                     href={item.slugName}

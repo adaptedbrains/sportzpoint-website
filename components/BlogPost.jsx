@@ -315,7 +315,7 @@ const BlogPost = ({ postData, index }) => {
         )}
 
         <article
-          className="blog-content"
+          className="blog-content text-zinc-600 font-normal"
           dangerouslySetInnerHTML={{
             __html: sanitizeContent("Article", postData.content),
           }}
