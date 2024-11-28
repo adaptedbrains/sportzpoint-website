@@ -57,27 +57,9 @@ const Partners = () => {
         </div>
       </div>
 
+      {/* Newsletter Section */}
       <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold mb-6">Partner With Us</h1>
-          
-          <div className="space-y-8">
-            <p className="text-lg">
-              Want to partner with us? Visit our{' '}
-              <Link href="/contact" className="text-[#006356] underline hover:text-[#005347]">
-                contact us page
-              </Link>
-              . To advertise with us visit our{' '}
-              <Link href="/advertise" className="text-[#006356] underline hover:text-[#005347]">
-                &ldquo;advertise with us&rdquo; page
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
-
-        {/* Newsletter Section */}
-        <div className="mt-12 bg-white rounded-lg shadow-lg p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Subscribe to Our Newsletter</h2>
             <p className="text-gray-600 mb-6">Stay updated with our latest sports news and updates</p>
