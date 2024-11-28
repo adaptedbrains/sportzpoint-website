@@ -83,8 +83,8 @@ export default async function Page() {
           {/* Olympics Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Olympics</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Olympics</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {olympic?.length > 0 && (
@@ -107,8 +107,8 @@ export default async function Page() {
           {/* Cricket Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Cricket</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Cricket</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {cricket?.length > 0 && (
@@ -128,8 +128,8 @@ export default async function Page() {
           {/* Football Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Football</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Football</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {football?.length > 0 && (
@@ -149,8 +149,8 @@ export default async function Page() {
           {/* Tennis Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Tennis</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Tennis</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {tennis?.length > 0 && (
@@ -170,8 +170,8 @@ export default async function Page() {
           {/* Hockey Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Hockey</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Hockey</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {hockey?.length > 0 && (
@@ -191,8 +191,8 @@ export default async function Page() {
           {/* Badminton Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Badminton</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Badminton</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {badminton?.length > 0 && (
@@ -212,8 +212,8 @@ export default async function Page() {
           {/* Women In Sports Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Women In Sports</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Women In Sports</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {women_in_sports?.length > 0 && (
@@ -233,8 +233,8 @@ export default async function Page() {
           {/* E-Sports Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">E-Sports</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">E-Sports</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {e_sports?.length > 0 && (
@@ -254,8 +254,8 @@ export default async function Page() {
           {/* Athletics Section */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-3xl text-green-700 font-semibold">Athletics</h1>
-              <div className="w-20 h-[2px] bg-green-800 mt-1"></div>
+              <h1 className="text-3xl text-[#006356] font-semibold">Athletics</h1>
+              <div className="w-20 h-[2px] bg-[#006356] mt-1"></div>
             </div>
             <div className="space-y-4">
               {athletics?.length > 0 && (
@@ -283,8 +283,8 @@ export default async function Page() {
           {/* Newsletter - fixed position */}
           <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
             <div className="flex flex-col items-start">
-              <h2 className="text-xl font-bold text-green-800 mb-2">Subscribe Newsletter</h2>
-              <div className="w-10 h-[1px] bg-green-800 mb-4"></div>
+              <h2 className="text-xl font-bold text-[#006356] mb-2">Subscribe Newsletter</h2>
+              <div className="w-10 h-[1px] bg-[#006356] mb-4"></div>
               
               <p className="text-sm text-gray-600 mb-4">
                 Get the latest sports updates and news delivered directly to your inbox.
@@ -294,13 +294,13 @@ export default async function Page() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-sm"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#006356] text-sm"
                   required
                 />
                 
                 <button
                   type="submit"
-                  className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+                  className="w-full bg-[#006356] hover:bg-[#005349] text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
                 >
                   Subscribe Now
                 </button>

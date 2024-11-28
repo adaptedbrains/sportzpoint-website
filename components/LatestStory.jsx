@@ -34,10 +34,10 @@ const LatestStories = () => {
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 h-full">
       <div className="p-4 border-b border-gray-100">
         <div className="flex gap-2 items-center">
-          <h2 className="text-lg font-semibold text-green-800">
+          <h2 className="text-lg font-semibold text-[#006356]">
             Latest Stories
           </h2>
-          <div className="w-10 h-[1px] bg-green-800 mt-1"></div>
+          <div className="w-10 h-[1px] bg-[#006356] mt-1"></div>
         </div>
       </div>
 
@@ -52,23 +52,23 @@ const LatestStories = () => {
                 }
                 className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 transition-colors duration-200"
               >
-               <div className="relative w-24 aspect-[16/9] flex-shrink-0">
-  {story.banner_image && (
-    <Image
-      src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${story.banner_image}`}
-      alt={story.title}
-      layout="fill"
-      objectFit="cover"
-      className="rounded"
-      priority={index === 0}
-    />
-  )}
-</div>
+                <div className="relative w-24 aspect-[16/9] flex-shrink-0">
+                  {story.banner_image && (
+                    <Image
+                      src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${story.banner_image}`}
+                      alt={story.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded"
+                      priority={index === 0}
+                    />
+                  )}
+                </div>
 
                 <div className="flex flex-col justify-between flex-1 min-h-[64px]">
-                  {/* <span className="text-xs font-medium text-green-700">
+                  <span className="text-xs font-medium text-[#006356]">
                     {story.categories?.[0]?.name || "Sports"}
-                  </span> */}
+                  </span>
 
                   <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                     {story.title}

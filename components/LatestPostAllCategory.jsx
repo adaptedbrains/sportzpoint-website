@@ -45,8 +45,8 @@ const LatestStories = () => {
     <div className="bg-white rounded shadow p-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-green-800">Latest Stories</h2>
-        <div className="w-32 h-[1px] bg-green-800"></div>
+        <h2 className="text-xl font-bold text-[#006356]">Latest Stories</h2>
+        <div className="w-32 h-[1px] bg-[#006356]"></div>
       </div>
 
       {/* Check if stories exist */}

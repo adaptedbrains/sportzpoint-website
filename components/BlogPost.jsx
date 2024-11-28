@@ -51,7 +51,7 @@ const FullWidthArticleCard = ({ article }) => (
               <Link
                 key={index}
                 href={`/${category.slug}`}
-                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
@@ -60,7 +60,7 @@ const FullWidthArticleCard = ({ article }) => (
 
         <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
+          className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
         >
           {article.title}
         </Link>
@@ -91,7 +91,7 @@ const RelatedArticleCard = ({ article }) => (
               <Link
                 key={index}
                 href={`/${category.slug}`}
-                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+                className="bg-[#006356]/10 rounded text-[#006356] text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
@@ -100,7 +100,7 @@ const RelatedArticleCard = ({ article }) => (
 
         <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
-          className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
+          className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-[#006356] transition-colors"
         >
           {article.title}
         </Link>
@@ -244,7 +244,7 @@ const BlogPost = ({ postData, index }) => {
             <Link
               href={`/${category.slug}`}
               key={index}
-              className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
+              className="bg-[#006356]/10 rounded text-[#006356] font-semibold px-4 py-1"
             >
               {category.name}
             </Link>
@@ -333,7 +333,7 @@ const BlogPost = ({ postData, index }) => {
           {postData.type === "LiveBlog" && postData?.live_blog_updates && (
             <>
               <div className="flex justify-center items-center mb-5">
-                <div className="bg-green-800 text-white px-4 py-2 rounded-md font-semibold">
+                <div className="bg-[#006356] text-white px-4 py-2 rounded-md font-semibold">
                   LIVE Updates
                 </div>
               </div>
@@ -341,7 +341,7 @@ const BlogPost = ({ postData, index }) => {
               {postData?.live_blog_updates.map((live, i) => (
                 <div
                   key={i}
-                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-green-800"
+                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
                 >
                   <p className="text-gray-600 italic text-sm">
                     {convertToIST(live.created_at)}
@@ -391,7 +391,7 @@ const BlogPost = ({ postData, index }) => {
                 <Link
                   key={idx}
                   href={`/tags/${tag.slug}`}
-                  className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-sm transition-colors duration-200 font-medium"
+                  className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-[#006356] hover:text-[#005349] rounded-full text-sm transition-colors duration-200 font-medium"
                 >
                   {tag.name}
                 </Link>
@@ -405,11 +405,11 @@ const BlogPost = ({ postData, index }) => {
           postData.related_articles.length > 0 && (
             <div className="mt-8">
               <div className="grid grid-cols-5 justify-between items-center mb-5">
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
-                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
+                <div className="bg-[#006356] h-[1px] col-span-2"></div>
+                <p className="border col-span-1 border-[#006356] text-center px-2 font-semibold">
                   Related Articles
                 </p>
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
+                <div className="bg-[#006356] h-[1px] col-span-2"></div>
               </div>
 
               {/* First article in full width */}
