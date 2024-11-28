@@ -6,6 +6,8 @@ const nextConfig = {
     domains: ['img-cdn.thepublive.com', 'sportzpoint.s3.ap-south-1.amazonaws.com'],
     formats: ['image/webp'],
     minimumCacheTTL: 86400,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   compress: true,
   poweredByHeader: false,
@@ -17,6 +19,7 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     legacyBrowsers: false,
+    scrollRestoration: true,
   },
   async headers() {
     return [
@@ -45,11 +48,15 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *.google-analytics.com *.googletagmanager.com; style-src 'self' 'unsafe-inline' *.googleapis.com; img-src 'self' data: *.thepublive.com *.amazonaws.com *.google-analytics.com; font-src 'self' data: *.googleapis.com *.gstatic.com; connect-src 'self' *.google-analytics.com; frame-ancestors 'none';",
           },
         ],
       },
@@ -67,7 +74,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, must-revalidate',
+            value: 'public, max-age=86400, stale-while-revalidate=31536000',
           },
         ],
       },
@@ -76,7 +83,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=300, must-revalidate',
+            value: 'public, max-age=300, stale-while-revalidate=3600',
           },
         ],
       },
