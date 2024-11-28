@@ -205,6 +205,18 @@ const BlogPost = ({ postData, index }) => {
     return () => clearTimeout(timer);
   }, [postData.content]);
 
+  useEffect(() => {
+    const currentPostRef = postRef.current;
+    if (postData.live_blog_updates) {
+      liveBlogFunction();
+    }
+    return () => {
+      if (currentPostRef) {
+        // Cleanup using the captured ref value
+      }
+    };
+  }, [postData.live_blog_updates, liveBlogFunction]);
+
   const carouselSettings = {
     dots: false,
     infinite: true,

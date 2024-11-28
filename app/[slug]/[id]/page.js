@@ -69,12 +69,8 @@ const BlogPage = () => {
     useEffect(() => {
         // Listen for scroll events
         window.addEventListener('scroll', handleScroll);
-
-        // Cleanup the event listener on unmount
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []); // Dependency on currentSlug
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]); // Dependency on handleScroll
 
     const renderMainContent = () => {
         if (!post || !post.article) return null;

@@ -8,14 +8,6 @@ const nextConfig = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'sportzpoint.s3.ap-south-1.amazonaws.com',
-        port: '',
-        pathname: '/**',
-      }
-    ],
   },
   experimental: {
     optimizeCss: true,
@@ -27,7 +19,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
-  swcMinify: true,
   async headers() {
     return [
       {
