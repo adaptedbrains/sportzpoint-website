@@ -39,42 +39,38 @@ const BlogPage = () => {
         }
     }, [id, currentSlug]); // Ensure this runs when id or currentSlug changes
 
-    // Handle scroll event to update the slug of the div that occupies the most visible height
-    const handleScroll = () => {
-        const posts = document.querySelectorAll('.blog-post');
-        let maxVisibleHeight = 0;
-        let largestVisibleSlug = id;
-
-        posts.forEach((postElement) => {
-            const rect = postElement.getBoundingClientRect();
-
-            // Calculate visible height of the element
-            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-
-            // If the visible height is greater than the current max, update the slug
-            if (visibleHeight > maxVisibleHeight) {
-                maxVisibleHeight = visibleHeight;
-                largestVisibleSlug = postElement.getAttribute('data-slug') || '';
-            }
-        });
-
-        // Only update the URL if it is different from the current slug
-        const newUrl = category ? `/${category}/${largestVisibleSlug}` : `/${largestVisibleSlug}`;
-        if (largestVisibleSlug !== currentSlug && window.location.pathname !== newUrl) {
-            window.history.replaceState(null, '', newUrl); // Update the browser URL
-            setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
-        }
-    };
-
     useEffect(() => {
-        // Listen for scroll events
-        window.addEventListener('scroll', handleScroll);
+        const handleScroll = () => {
+            const posts = document.querySelectorAll('.blog-post');
+            let maxVisibleHeight = 0;
+            let largestVisibleSlug = id;
 
-        // Cleanup the event listener on unmount
+            posts.forEach((postElement) => {
+                const rect = postElement.getBoundingClientRect();
+
+                // Calculate visible height of the element
+                const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+                // If the visible height is greater than the current max, update the slug
+                if (visibleHeight > maxVisibleHeight) {
+                    maxVisibleHeight = visibleHeight;
+                    largestVisibleSlug = postElement.getAttribute('data-slug') || '';
+                }
+            });
+
+            const newUrl = category ? `/${category}/${largestVisibleSlug}` : `/${largestVisibleSlug}`;
+            if (largestVisibleSlug !== currentSlug && window.location.pathname !== newUrl) {
+                window.history.replaceState(null, '', newUrl); // Update the browser URL
+                setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []); // Dependency on currentSlug
+    }, [category, currentSlug, id]); // Add required dependencies
 
     const renderMainContent = () => {
         if (!post || !post.article) return null;
@@ -117,7 +113,7 @@ const BlogPage = () => {
                     </div>
                 </aside>
 
-                <div className="lg:col-span-6 xl:col-span-7 col-span-1">
+                <div className="lg:col-span-7 xl:col-span-7 col-span-1">
                     {isLoading ? (
                         <div className="flex justify-center mt-20">
                             <BlinkBlur color="#32cd32" size="medium" />

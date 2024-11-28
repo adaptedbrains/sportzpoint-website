@@ -25,7 +25,7 @@ const WebStory = ({ story }) => {
       <div className="absolute inset-0 flex justify-center items-center">
         {story[currentPage] && (
           <Image
-            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${story[currentPage].pages[0].image}`}
+            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${story[currentPage].pages[0].image}`}
             alt={story[currentPage].pages[0].heading}
             className="object-cover rounded-lg shadow-lg"
             layout='fill'
