@@ -10,8 +10,6 @@ import { useWebSocket } from "@/utils/websocket";
 import usePostStore from "@/store/postStore";
 import { useRouter } from "next/navigation";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const socialMedia = [
   {

@@ -95,7 +95,16 @@ const Footer = () => {
                 About Us
               </Link>
             </li>
-            {quickLinks.slice(1).map((link, index) => (
+            <li className="flex items-center">
+              <span className="mr-2 text-lg">•</span>
+              <Link 
+                href="/partners"
+                className="text-zinc-200 hover:text-white"
+              >
+                Partners
+              </Link>
+            </li>
+            {quickLinks.slice(2).map((link, index) => (
               <li key={index} className="flex items-center">
                 <span className="mr-2 text-lg">•</span>
                 <Link 
