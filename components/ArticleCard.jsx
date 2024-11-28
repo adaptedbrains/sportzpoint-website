@@ -24,8 +24,8 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
           </span>
         )}
         {post.categories?.map((c, i) => (
-          <span 
-            key={i} 
+          <span
+            key={i}
             className="text-[10px] font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded"
           >
             {c.name || "Uncategorized"}
@@ -46,16 +46,14 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
             {formatDate(post.updated_at_datetime)}
           </span>
           <span className="mx-2 flex-shrink-0">•</span>
-          <span className="truncate">
-            {post.readTime || "2 Min read"}
-          </span>
+          <span className="truncate">{post.readTime || "2 Min read"}</span>
         </div>
       </div>
     </div>
   );
 
   const ArticleBox = ({ post }) => (
-    <div 
+    <div
       className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col h-full"
       onClick={() => handleClick(post)}
     >
@@ -65,7 +63,8 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
             src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
             alt={post.title}
             fill
-            className="object-cover absolute top-0 left-0"
+            objectFit="cover" // Ensures the image covers the entire container while maintaining its aspect ratio
+            objectPosition="center" // Centers the image
             priority
           />
         ) : (

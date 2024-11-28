@@ -21,21 +21,27 @@ const SectionArticleCard = ({ post }) => {
         onClick={handleClick}
       >
         {/* Image container with fixed aspect ratio */}
+        
+
         <div className="relative w-full pt-[56.25%]">
-          {post.banner_image ? (
-            <Image
-              src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
-              alt={post.title}
-              fill
-              className="object-cover absolute top-0 left-0"
-              priority
-            />
-          ) : (
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
-              No Image
-            </div>
-          )}
-        </div>
+        {post.banner_image ? (
+          <Image
+            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${post.banner_image}`}
+            alt={post.title}
+            fill
+            objectFit="cover" // Ensures the image covers the entire container while maintaining its aspect ratio
+            objectPosition="center" // Centers the image
+            priority
+          />
+        ) : (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+            No Image
+          </div>
+        )}
+      </div>
+
+
+
 
         {/* Content Section */}
         <div className="p-3 flex flex-col h-full">

@@ -84,62 +84,63 @@ const Page = () => {
 
     return (
         <div className="w-full px-4 md:px-6 lg:px-8 xl:px-4 2xl:px-0 max-w-[1920px] mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
-                {/* Left Sidebar */}
-                <aside className="hidden lg:block lg:col-span-3 xl:col-span-2">
-                    <div className="flex flex-col gap-4 sticky top-[64px]">
-                        <FeaturedEvents />
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
+            {/* Left Sidebar */}
+            <aside className="hidden lg:block lg:col-span-3 xl:col-span-2">
+                <div className="flex flex-col gap-4 sticky top-[64px]">
+                    <FeaturedEvents />
+                    <Follow />
+                </div>
+            </aside>
+    
+            {/* Main Content */}
+            <main className="lg:col-span-7 xl:col-span-7 col-span-1">
+                {/* Featured Articles - First two posts */}
+                {posts?.length > 0 && (
+                    <>
+                        <SectionArticleCard post={posts[0]} />
+                        <div className="mt-6">
+                            <ArticleCard 
+                                mainPost={posts[1]} 
+                                secondaryPost={posts[2]} 
+                            />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+                            {posts?.slice(3).map((article, index) => (
+                                <ArticleGridCard key={index} post={article} />
+                            ))}
+                        </div>
+                    </>
+                )}
+    
+                {/* Web Stories if available */}
+                {webstory?.length > 0 && slug !== "live" && (
+                    <div className="my-4">
+                        <WebStoriesList webStories={webstory} />
+                    </div>
+                )}
+    
+                {/* Pagination */}
+                <PaginationControls
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    totalPages={totalPages}
+                    loading={loading}
+                />
+            </main>
+    
+            {/* Right Sidebar */}
+            <aside className="lg:col-span-3 col-span-1">
+                <div className="sticky top-[64px] space-y-4">
+                    <LatestStories />
+                    <div className="lg:hidden">
                         <Follow />
                     </div>
-                </aside>
-
-                {/* Main Content */}
-                <main className="lg:col-span-6 xl:col-span-7 col-span-1">
-                    {/* Featured Articles - First two posts */}
-                    {posts?.length > 0 && (
-                        <>
-                            <SectionArticleCard post={posts[0]} />
-                            <div className="mt-6">
-                                <ArticleCard 
-                                    mainPost={posts[1]} 
-                                    secondaryPost={posts[2]} 
-                                />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-                                {posts?.slice(3).map((article, index) => (
-                                    <ArticleGridCard key={index} post={article} />
-                                ))}
-                            </div>
-                        </>
-                    )}
-                    
-                    {/* Web Stories if available */}
-                    {webstory?.length > 0 && slug !== "live" && (
-                        <div className="my-4">
-                            <WebStoriesList webStories={webstory} />
-                        </div>
-                    )}
-
-                    {/* Pagination */}
-                    <PaginationControls
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        totalPages={totalPages}
-                        loading={loading}
-                    />
-                </main>
-
-                {/* Right Sidebar */}
-                <aside className="lg:col-span-3 col-span-1">
-                    <div className="sticky top-[64px] space-y-4">
-                        <LatestStories />
-                        <div className="lg:hidden">
-                            <Follow />
-                        </div>
-                    </div>
-                </aside>
-            </div>
+                </div>
+            </aside>
         </div>
+    </div>
+    
     );
 };
 
