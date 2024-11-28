@@ -8,7 +8,7 @@ import { sanitizeContent } from "@/utils/sanitize";
 import Script from "next/script";
 import { useWebSocket } from "@/utils/websocket";
 import usePostStore from "@/store/postStore";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -46,18 +46,19 @@ const FullWidthArticleCard = ({ article }) => (
       </div>
       <div className="p-4">
         <div className="flex gap-2 mb-2">
-          {article.categories && article.categories.map((category, index) => (
-            <Link
-              key={index}
-              href={`/${category.slug}`}
-              className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-            >
-              {category.name}
-            </Link>
-          ))}
+          {article.categories &&
+            article.categories.map((category, index) => (
+              <Link
+                key={index}
+                href={`/${category.slug}`}
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+              >
+                {category.name}
+              </Link>
+            ))}
         </div>
-        
-        <Link 
+
+        <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
           className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
@@ -85,18 +86,19 @@ const RelatedArticleCard = ({ article }) => (
       </div>
       <div className="p-4">
         <div className="flex gap-2 mb-2">
-          {article.categories && article.categories.map((category, index) => (
-            <Link
-              key={index}
-              href={`/${category.slug}`}
-              className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
-            >
-              {category.name}
-            </Link>
-          ))}
+          {article.categories &&
+            article.categories.map((category, index) => (
+              <Link
+                key={index}
+                href={`/${category.slug}`}
+                className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
+              >
+                {category.name}
+              </Link>
+            ))}
         </div>
-        
-        <Link 
+
+        <Link
           href={`/${article.categories[0]?.slug}/${article.slug}`}
           className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
@@ -161,7 +163,7 @@ const BlogPost = ({ postData, index }) => {
               postData.title,
               newUrl
             );
-            
+
             // Update page title without causing re-render
             document.title = postData.title;
           }
@@ -169,7 +171,7 @@ const BlogPost = ({ postData, index }) => {
       },
       {
         root: null,
-        rootMargin: '0px',
+        rootMargin: "0px",
         threshold: 0.5, // Trigger when 50% of the article is visible
       }
     );
@@ -196,10 +198,10 @@ const BlogPost = ({ postData, index }) => {
   useEffect(() => {
     // Try to load Twitter widgets after component mounts
     initializeTwitterEmbed();
-    
+
     // Also try after a short delay to ensure DOM is ready
     const timer = setTimeout(initializeTwitterEmbed, 1000);
-    
+
     return () => clearTimeout(timer);
   }, [postData.content]);
 
@@ -216,15 +218,15 @@ const BlogPost = ({ postData, index }) => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
-        }
+        },
       },
       {
         breakpoint: 640,
         settings: {
           slidesToShow: 1,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   return (
@@ -235,10 +237,16 @@ const BlogPost = ({ postData, index }) => {
         strategy="afterInteractive"
         onLoad={() => initializeTwitterEmbed()}
       />
-      
+
       <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="flex gap-2">
-          {postData.isLive && <div className="text-xl text-red-500  tracking-wider "> <span className="font-bold">L</span>I<span className="font-bold">V</span>E    </div>}
+          {postData.isLive && (
+            <div className="text-xl text-red-500  tracking-wider ">
+              {" "}
+              <span className="font-bold">L</span>I
+              <span className="font-bold">V</span>E{" "}
+            </div>
+          )}
           {postData.categories.map((category, index) => (
             <Link
               href={`/${category.slug}`}
@@ -254,7 +262,7 @@ const BlogPost = ({ postData, index }) => {
           {postData.title}
         </h2>
         {postData.summary && (
-          <p className="font-semibold text-start my-4 text-zinc-600">
+          <p className=" text-start my-4 text-zinc-600">
             {postData.summary}
           </p>
         )}
@@ -263,8 +271,8 @@ const BlogPost = ({ postData, index }) => {
           <div className="flex items-center gap-2">
             <FaUserCircle size={35} color="gray" />
             <div className="flex flex-col">
-              <h3 className="font-semibold">{postData.author?.name}</h3>
-              <p className="text-zinc-500 text-xs font-semibold">
+              <h3 className="font-thin capitalize">{postData.author?.name}</h3>
+              <p className="text-zinc-500 text-xs ">
                 {postData.published_at_datetime &&
                   convertToIST(postData.published_at_datetime)}
               </p>
@@ -303,7 +311,7 @@ const BlogPost = ({ postData, index }) => {
         </div>
 
         {postData.banner_image && (
-          <div className="w-full h-[340px] relative my-6">
+          <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
             <Image
               src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${postData.banner_image}`}
               alt={postData.title || "Banner Image"}
@@ -338,8 +346,8 @@ const BlogPost = ({ postData, index }) => {
               </div>
 
               {postData?.live_blog_updates.map((live, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-green-800"
                 >
                   <p className="text-gray-600 italic text-sm">
@@ -353,7 +361,10 @@ const BlogPost = ({ postData, index }) => {
                   {live.images && live.images.length > 0 && (
                     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                       {live.images.map((image, index) => (
-                        <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
+                        <div
+                          key={index}
+                          className="relative h-[200px] rounded-lg overflow-hidden"
+                        >
                           <Image
                             src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${image}`}
                             alt={`Update image ${index + 1}`}
@@ -396,51 +407,78 @@ const BlogPost = ({ postData, index }) => {
           </div>
         )}
 
-        {index === 0 && postData.related_articles && postData.related_articles.length > 0 && (
-          <div className="mt-8">
-            <div className="grid grid-cols-5 justify-between items-center mb-5">
-              <div className="bg-green-800 h-[1px] col-span-2"></div>
-              <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
-                Related Articles
-              </p>
-              <div className="bg-green-800 h-[1px] col-span-2"></div>
-            </div>
-
-            {/* First article in full width */}
-            {postData.related_articles[0] && (
-              <FullWidthArticleCard article={postData.related_articles[0]} />
-            )}
-
-            {/* Rest of the articles in carousel */}
-            {postData.related_articles.length > 1 && (
-              <div className="relative mb-8">
-                <button 
-                  className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-                  onClick={() => slider?.slickPrev()}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-
-                <Slider ref={slider => (slider = slider)} {...carouselSettings}>
-                  {postData.related_articles.slice(1).map((article, idx) => (
-                    <RelatedArticleCard key={idx} article={article} />
-                  ))}
-                </Slider>
-
-                <button 
-                  className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-                  onClick={() => slider?.slickNext()}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+        {index === 0 &&
+          postData.related_articles &&
+          postData.related_articles.length > 0 && (
+            <div className="mt-8">
+              <div className="grid grid-cols-5 justify-between items-center mb-5">
+                <div className="bg-green-800 h-[1px] col-span-2"></div>
+                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
+                  Related Articles
+                </p>
+                <div className="bg-green-800 h-[1px] col-span-2"></div>
               </div>
-            )}
-          </div>
-        )}
+
+              {/* First article in full width */}
+              {postData.related_articles[0] && (
+                <FullWidthArticleCard article={postData.related_articles[0]} />
+              )}
+
+              {/* Rest of the articles in carousel */}
+              {postData.related_articles.length > 1 && (
+                <div className="relative mb-8">
+                  <button
+                    className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+                    onClick={() => slider?.slickPrev()}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  <Slider
+                    ref={(slider) => (slider = slider)}
+                    {...carouselSettings}
+                  >
+                    {postData.related_articles.slice(1).map((article, idx) => (
+                      <RelatedArticleCard key={idx} article={article} />
+                    ))}
+                  </Slider>
+
+                  <button
+                    className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+                    onClick={() => slider?.slickNext()}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
       </div>
     </>
   );
