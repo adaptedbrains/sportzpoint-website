@@ -1,6 +1,6 @@
 import "./globals.css";
-import LayoutClient from "./layout-client";
 import { Roboto, PT_Serif } from 'next/font/google';
+import LayoutClient from "@/components/LayoutClient";
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],

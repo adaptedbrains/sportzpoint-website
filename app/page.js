@@ -53,13 +53,13 @@ export default async function Page() {
   ]);
 
   return (
-    <div className="container mx-auto px-2 ">
+    <div className="container mx-auto px-2">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left Sidebar - Reduced width */}
         <aside className="hidden lg:block lg:col-span-2">
           <div className="sticky top-[76px]">
-            <div className="space-y-4 pt-[2px]">
-              <FeaturedEvents />
+            <FeaturedEvents />
+            <div className="mt-4">
               <Follow />
             </div>
           </div>
