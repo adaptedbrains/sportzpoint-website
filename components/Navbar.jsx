@@ -42,8 +42,23 @@ const NavigationBar = () => {
   return (
     <div className="sticky top-0 z-50">
       {/* White section with search */}
-      <div className="bg-white flex justify-end items-center px-4 lg:px-28 py-2">
-        <div className="flex items-center gap-4 relative">
+      <div className="bg-white flex justify-between items-center px-4 lg:px-28 py-1 h-10">
+        {/* Logo */}
+        {/* <div className="flex-1 flex justify-center h-full">
+          <Link href="/" className="h-full flex items-center">
+            <Image
+              src="/header.png"
+              alt="Sportzpoint"
+              width={140}
+              height={28}
+              className="object-contain h-[24px] w-auto"
+              priority
+            />
+          </Link>
+        </div> */}
+        
+        {/* Search - Positioned absolutely to maintain center alignment of logo */}
+        <div className="absolute right-4 lg:right-28 flex items-center gap-3">
           <div className="overflow-hidden">
             <AnimatePresence>
               {search === "search" && (
