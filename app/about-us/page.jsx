@@ -17,7 +17,7 @@ const AboutUs = () => {
         
         <div className="space-y-8">
           <p className="text-lg">
-            Sportz Point is world's top rising Sports website with every little facts, stories tutorials, book library of every sport around the globe.
+            Sportz Point is world&rsquo;s top rising Sports website with every little facts, stories tutorials, book library of every sport around the globe.
           </p>
 
           <div>

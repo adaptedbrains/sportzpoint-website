@@ -1,7 +1,7 @@
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
@@ -114,18 +114,20 @@ const BlogPost = ({ postData, index }) => {
   const router = useRouter();
   const { liveBlogs, liveBlogFunction } = usePostStore();
   const { messages } = useWebSocket();
-  const postRef = React.useRef(null);
+  const postRef = useRef(null);
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
-      liveBlogFunction(
-        (postData &&
-          postData.live_blog_updates &&
-          postData.live_blog_updates) ||
-          []
-      );
+      liveBlogFunction();
     }
+    return () => {
+      clearInterval(interval);
+      const script = document.getElementById("instagram-embed-script");
+      if (script) script.remove();
+    };
+  }, [postData, liveBlogFunction]);
 
+  useEffect(() => {
     const loadInstagramEmbeds = () => {
       const existingScript = document.getElementById("instagram-embed-script");
       if (existingScript) existingScript.remove();
@@ -146,45 +148,36 @@ const BlogPost = ({ postData, index }) => {
       const script = document.getElementById("instagram-embed-script");
       if (script) script.remove();
     };
-  }, [postData.content, postData.type]);
+  }, [postData.content, postData.type, liveBlogFunction, postData]);
 
   useEffect(() => {
-    // Create intersection observer for URL updates
+    const currentPostRef = postRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-            // Update URL without triggering navigation or re-renders
+          if (entry.isIntersecting) {
             const newUrl = `/${postData.categories[0]?.slug}/${postData.slug}`;
             window.history.replaceState(
               { ...window.history.state },
               postData.title,
               newUrl
             );
-
-            // Update page title without causing re-render
-            document.title = postData.title;
           }
         });
       },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.5, // Trigger when 50% of the article is visible
-      }
+      { threshold: 0.5 }
     );
 
-    // Start observing the article
-    if (postRef.current) {
-      observer.observe(postRef.current);
+    if (currentPostRef) {
+      observer.observe(currentPostRef);
     }
 
     return () => {
-      if (postRef.current) {
-        observer.unobserve(postRef.current);
+      if (currentPostRef) {
+        observer.unobserve(currentPostRef);
       }
     };
-  }, [postData]);
+  }, [postData.categories, postData.slug, postData.title]);
 
   // Add this function to handle Twitter embed initialization
   const initializeTwitterEmbed = () => {

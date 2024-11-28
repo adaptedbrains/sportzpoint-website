@@ -49,7 +49,7 @@ const Partners = () => {
               </Link>
               . To advertise with us visit our{' '}
               <Link href="/advertise" className="text-[#006356] underline hover:text-[#005347]">
-                "advertise with us" page
+                &ldquo;advertise with us&rdquo; page
               </Link>
               .
             </p>
