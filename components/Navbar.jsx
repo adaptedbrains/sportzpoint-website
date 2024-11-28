@@ -43,7 +43,7 @@ const NavigationBar = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/article/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/search?q=${encodeURIComponent(query)}`);
       const data = await response.json();
       
       // Ensure data is an array and handle the response properly
