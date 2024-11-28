@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 
 import BlogPost from '@/components/BlogPost';
@@ -40,7 +40,7 @@ const BlogPage = () => {
     }, [id, currentSlug]); // Ensure this runs when id or currentSlug changes
 
     // Handle scroll event to update the slug of the div that occupies the most visible height
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         const posts = document.querySelectorAll('.blog-post');
         let maxVisibleHeight = 0;
         let largestVisibleSlug = id;
@@ -64,7 +64,7 @@ const BlogPage = () => {
             window.history.replaceState(null, '', newUrl); // Update the browser URL
             setCurrentSlug(largestVisibleSlug); // Update the slug without triggering re-fetch
         }
-    };
+    }, [id, currentSlug, category]); // Dependency on id, currentSlug and category
 
     useEffect(() => {
         // Listen for scroll events

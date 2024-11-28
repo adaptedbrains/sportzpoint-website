@@ -1,7 +1,7 @@
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
@@ -119,13 +119,17 @@ const BlogPost = ({ postData, index }) => {
   const postRef = React.useRef(null);
   const { liveBlogs, liveBlogFunction } = usePostStore();
 
-  
-
-  useEffect(() => {
+  const liveBlogFunction = useCallback(() => {
     if (postData.type === "LiveBlog") {
       liveBlogFunction(
         postData.live_blog_updates.length !== 0 && postData.live_blog_updates
       );
+    }
+  }, [postData.live_blog_updates, liveBlogFunction]);
+
+  useEffect(() => {
+    if (postData.type === "LiveBlog") {
+      liveBlogFunction();
     }
 
     const loadInstagramEmbeds = () => {
@@ -206,16 +210,19 @@ const BlogPost = ({ postData, index }) => {
   }, [postData.content]);
 
   useEffect(() => {
-    const currentPostRef = postRef.current;
     if (postData.live_blog_updates) {
       liveBlogFunction();
     }
+  }, [postData.live_blog_updates, liveBlogFunction]);
+
+  useEffect(() => {
+    const currentPostRef = postRef.current;
     return () => {
       if (currentPostRef) {
         // Cleanup using the captured ref value
       }
     };
-  }, [postData.live_blog_updates, liveBlogFunction]);
+  }, []);
 
   const carouselSettings = {
     dots: false,
