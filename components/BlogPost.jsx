@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Head from 'next/head';
 import { convertToIST } from "@/util/convertToIST";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
@@ -15,6 +14,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { apiUrl, siteUrl, imgCdn } from '@/config/environment';
+import SEOImage from './SEOImage';
 
 const socialMedia = [
   {
@@ -39,11 +39,13 @@ const FullWidthArticleCard = ({ article }) => (
   <div className="mb-6">
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-64 w-full">
-        <Image
+        <SEOImage
           src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
           alt={article.title}
-          layout="fill"
-          objectFit="cover"
+          caption={article.title}
+          priority={false}
+          width={1280}
+          height={720}
           className="transition-transform duration-300 hover:scale-105"
         />
       </div>
@@ -94,11 +96,13 @@ const RelatedArticleCard = ({ article }) => (
   <div className="px-2">
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-48 w-full">
-        <Image
+        <SEOImage
           src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
           alt={article.title}
-          layout="fill"
-          objectFit="cover"
+          caption={article.title}
+          priority={false}
+          width={1280}
+          height={720}
           className="transition-transform duration-300 hover:scale-105"
         />
       </div>
@@ -325,12 +329,14 @@ const BlogPost = ({ postData, index }) => {
               aria-label="follow us google news"
               className="mx-2 flex border border-blue-800 gap-1 px-3 py-1 rounded-full text-xs font-semibold text-blue-800"
             >
-              <Image
+              <SEOImage
                 src="/icon/google_news.png"
                 alt="google icon"
+                caption="google icon"
+                priority={false}
                 width={15}
                 height={15}
-                priority
+                className="mr-1"
               />
               Follow Us
             </Link>
@@ -350,13 +356,14 @@ const BlogPost = ({ postData, index }) => {
 
         {postData.banner_image && (
           <div className="relative h-[340px] w-full my-6">
-            <Image
+            <SEOImage
               src={imageUrl}
               alt={postData.title || "Banner Image"}
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              priority
+              caption={postData.title || "Banner Image"}
+              priority={true}
+              width={1280}
+              height={720}
+              className="w-full rounded-lg shadow-lg"
             />
           </div>
         )}
@@ -402,11 +409,13 @@ const BlogPost = ({ postData, index }) => {
                     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                       {live.images.map((image, index) => (
                         <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
-                          <Image
+                          <SEOImage
                             src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${image}`}
                             alt={`Update image ${index + 1}`}
-                            layout="fill"
-                            objectFit="cover"
+                            caption={`Update image ${index + 1}`}
+                            priority={false}
+                            width={1280}
+                            height={720}
                             className="hover:scale-105 transition-transform duration-300"
                           />
                         </div>
