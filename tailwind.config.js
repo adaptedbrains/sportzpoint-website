@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-import aspectRatio from '@tailwindcss/aspect-ratio';
+const aspectRatio = require('@tailwindcss/aspect-ratio');
+const forms = require('@tailwindcss/forms');
+const typography = require('@tailwindcss/typography');
 
-export default {
+module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,25 +16,25 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ['Roboto', 'sans-serif'], // Set Roboto as the primary font
+        sans: ['Roboto', 'sans-serif'],
         georgia: ['Georgia', 'serif'],
         'pt-serif': ['var(--font-pt-serif)', 'Georgia', 'serif'],
       },
       typography: {
         DEFAULT: {
           css: {
-            fontFamily: 'Roboto, sans-serif', // Default font family for typography
+            fontFamily: 'Roboto, sans-serif',
             h1: {
-              fontFamily: 'Roboto, sans-serif', // Update h1 for Roboto
+              fontFamily: 'Roboto, sans-serif',
             },
             h2: {
-              fontFamily: 'Roboto, sans-serif', // Update h2 for Roboto
+              fontFamily: 'Roboto, sans-serif',
             },
             h3: {
-              fontFamily: 'Roboto, sans-serif', // Update h3 for Roboto
+              fontFamily: 'Roboto, sans-serif',
             },
             h4: {
-              fontFamily: 'Roboto, sans-serif', // Update h4 for Roboto
+              fontFamily: 'Roboto, sans-serif',
             },
           },
         },
@@ -40,7 +42,8 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
     aspectRatio,
+    forms,
+    typography,
   ],
 };

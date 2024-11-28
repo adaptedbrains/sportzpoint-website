@@ -8,6 +8,20 @@ import WebStoriesList from "@/components/WebStoryList";
 import FeaturedEvents from "@/components/FeaturedEvents";
 import Follow from "@/components/Follow";
 
+// Add cache revalidation time
+export const revalidate = 60; // Revalidate every 60 seconds
+
+// Add dynamic metadata
+export async function generateMetadata() {
+  return {
+    title: "SportzPoint - Latest Sports News, Live Scores & Updates",
+    description: "Get the latest sports news, live scores, and updates from the world of Cricket, Football, Tennis, Hockey, and more at SportzPoint.",
+    alternates: {
+      canonical: "https://sportzpoint.com",
+    },
+  };
+}
+
 const Page = async () => {
   // Fetch data for both latest posts and olympics
   const latestPostsData = latestPost(`${process.env.NEXT_PUBLIC_API_URL}/article/publish?limit=20&page=1`);

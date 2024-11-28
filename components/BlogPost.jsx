@@ -11,13 +11,10 @@ import { useWebSocket } from "@/utils/websocket";
 import usePostStore from "@/store/postStore";
 import { useRouter } from "next/navigation";
 import Slider from "react-slick";
-<<<<<<< HEAD
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { apiUrl, siteUrl, imgCdn } from '@/config/environment';
 import SEOImage from './SEOImage';
-=======
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
 
 const socialMedia = [
   {
@@ -42,13 +39,8 @@ const FullWidthArticleCard = ({ article }) => (
   <div className="mb-6">
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-64 w-full">
-<<<<<<< HEAD
         <SEOImage
           src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
-=======
-        <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
           alt={article.title}
           caption={article.title}
           priority={false}
@@ -58,38 +50,22 @@ const FullWidthArticleCard = ({ article }) => (
         />
       </div>
       <div className="p-4">
-<<<<<<< HEAD
         {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
           <div className="flex gap-2 mb-2">
             {article.categories.map((category, index) => (
               <Link
                 key={index}
                 href={`/category/${category.slug}`}
-=======
-        <div className="flex gap-2 mb-2">
-          {article.categories &&
-            article.categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/${category.slug}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
                 className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
             ))}
-<<<<<<< HEAD
           </div>
         )}
         
         <Link 
           href={`/news/${article.categories?.[0]?.slug}/${article.slug}`}
-=======
-        </div>
-
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
           className="text-xl font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
@@ -120,13 +96,8 @@ const RelatedArticleCard = ({ article }) => (
   <div className="px-2">
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-48 w-full">
-<<<<<<< HEAD
         <SEOImage
           src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${article.banner_image}`}
-=======
-        <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
           alt={article.title}
           caption={article.title}
           priority={false}
@@ -136,38 +107,22 @@ const RelatedArticleCard = ({ article }) => (
         />
       </div>
       <div className="p-4">
-<<<<<<< HEAD
         {article.categories && Array.isArray(article.categories) && article.categories.length > 0 && (
           <div className="flex gap-2 mb-2">
             {article.categories.map((category, index) => (
               <Link
                 key={index}
                 href={`/category/${category.slug}`}
-=======
-        <div className="flex gap-2 mb-2">
-          {article.categories &&
-            article.categories.map((category, index) => (
-              <Link
-                key={index}
-                href={`/${category.slug}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
                 className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
                 {category.name}
               </Link>
             ))}
-<<<<<<< HEAD
           </div>
         )}
         
         <Link 
           href={`/news/${article.categories?.[0]?.slug}/${article.slug}`}
-=======
-        </div>
-
-        <Link
-          href={`/${article.categories[0]?.slug}/${article.slug}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
           className="text-lg font-pt-serif font-semibold line-clamp-2 hover:text-green-700 transition-colors"
         >
           {article.title}
@@ -330,7 +285,6 @@ const BlogPost = ({ postData, index }) => {
 
   return (
     <>
-<<<<<<< HEAD
       <Head>
         <title>{postData.seo_title || postData.title} | SportzPoint</title>
         <meta name="description" content={postData.seo_desc || postData.summary} />
@@ -347,16 +301,6 @@ const BlogPost = ({ postData, index }) => {
         </script>
       </Head>
       <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg mb-6">
-=======
-      <Script
-        id="twitter-widgets"
-        src="https://platform.twitter.com/widgets.js"
-        strategy="afterInteractive"
-        onLoad={() => initializeTwitterEmbed()}
-      />
-
-      <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg">
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
         <div className="flex gap-2">
           {postData.isLive && (
             <div className="text-xl text-red-500  tracking-wider ">
@@ -431,15 +375,9 @@ const BlogPost = ({ postData, index }) => {
         </div>
 
         {postData.banner_image && (
-<<<<<<< HEAD
           <div className="relative h-[340px] w-full my-6">
             <SEOImage
               src={imageUrl}
-=======
-          <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
-            <Image
-              src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
               alt={postData.title || "Banner Image"}
               caption={postData.title || "Banner Image"}
               priority={true}
@@ -488,18 +426,9 @@ const BlogPost = ({ postData, index }) => {
                   {live.images && live.images.length > 0 && (
                     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                       {live.images.map((image, index) => (
-<<<<<<< HEAD
                         <div key={index} className="relative h-[200px] rounded-lg overflow-hidden">
                           <SEOImage
                             src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${image}`}
-=======
-                        <div
-                          key={index}
-                          className="relative h-[200px] rounded-lg overflow-hidden"
-                        >
-                          <Image
-                            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${image}`}
->>>>>>> faab369dfc087c4311c62740cd214f7e99eff81d
                             alt={`Update image ${index + 1}`}
                             caption={`Update image ${index + 1}`}
                             priority={false}
