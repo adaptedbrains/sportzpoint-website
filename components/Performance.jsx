@@ -18,6 +18,7 @@ export default function Performance() {
 
       {/* Add quicklink for faster subsequent page loads */}
       <Script
+        id="quicklink-script"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `

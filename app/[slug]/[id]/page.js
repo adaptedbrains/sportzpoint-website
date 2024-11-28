@@ -7,7 +7,7 @@ import BlogPost from '@/components/BlogPost';
 import LoginSignUp from '@/components/LoginSignUp';
 import Follow from '@/components/Follow';
 import FeaturedEvents from '@/components/FeaturedEvents';
-import { BlinkBlur } from 'react-loading-indicators';
+import { ClipLoader } from 'react-spinners';
 import LatestStories from '@/components/LatestStory';
 import WebStoriesJson from '@/components/WebstoeyJson';
 
@@ -115,8 +115,8 @@ const BlogPage = () => {
 
                 <div className="lg:col-span-7 xl:col-span-7 col-span-1">
                     {isLoading ? (
-                        <div className="flex justify-center mt-20">
-                            <BlinkBlur color="#32cd32" size="medium" />
+                        <div className="flex justify-center items-center min-h-screen">
+                            <ClipLoader color="#39803E" size={50} />
                         </div>
                     ) : (
                         renderMainContent()
