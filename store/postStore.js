@@ -84,39 +84,26 @@ const usePostStore = create((set) => ({
     }
   },
 
-  liveBlogFunction: (data, type) => {
-
-
+  liveBlogFunction: (data) => {
+  
     if (Array.isArray(data)) {
+      // If it's an array, replace the existing liveBlogs with the new array
       set(() => ({
         liveBlogs: data, // Replace liveBlogs with the new array
       }));
-
-
     } else if (typeof data === "object" && data !== null) {
-
+      alert("object called")
+      // If it's an object, add it to the liveBlogs list (or update if already exists)
       set((state) => ({
         liveBlogs: [
-          data,
-          ...state.liveBlogs.filter((blog) => blog._id !== data._id)
+          data, // Add the new blog entry
+          ...state.liveBlogs.filter((blog) => blog._id !== data._id) // Keep the existing blogs, removing the one with the same _id if any
         ],
       }));
-
-
-      set(() => ({
-        liveBlogs: uniqueLiveBlogs, // Replace liveBlogs with the new array
-      }));
-
-
     } else {
       console.warn("Invalid data format for live blog updates");
-      return state;
     }
-
-
   }
-
-
 
 
 }));
