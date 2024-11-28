@@ -10,7 +10,7 @@ const Footer = () => {
     { text: "FAQ", href: "/faq" },
     { text: "Partners", href: "/partners" },
     { text: "Disclaimer", href: "/disclaimer" },
-    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Privacy Policy", href: "/privacy" },
     { text: "Contact", href: "/contact" },
     { text: "Sports Guest Post", href: "/sports-guest-post" },
   ];
