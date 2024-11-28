@@ -5,12 +5,12 @@ import Footer from "@/components/Footer";
 
 export default function LayoutClient({ children }) {
   return (
-    <body className="flex flex-col min-h-screen">
+    <>
       <Navbar />
-      <main className="flex-grow pb-8">
+      <main className="flex-grow container mx-auto px-4 lg:px-8 pt-6">
         {children}
       </main>
       <Footer />
-    </body>
+    </>
   );
 }

@@ -15,22 +15,18 @@ const SectionArticleCard = ({ post }) => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <div 
-        className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col h-full col-span-2"
-        onClick={handleClick}
-      >
-        {/* Image container with fixed aspect ratio */}
-        
-
-        <div className="relative w-full pt-[56.25%]">
+    <div
+      className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col h-full"
+      onClick={handleClick}
+    >
+      <div className="relative w-full pt-[56.25%]">
         {post.banner_image ? (
           <Image
             src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${post.banner_image}`}
             alt={post.title}
             fill
-            objectFit="cover" // Ensures the image covers the entire container while maintaining its aspect ratio
-            objectPosition="center" // Centers the image
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
             priority
           />
         ) : (
@@ -40,52 +36,41 @@ const SectionArticleCard = ({ post }) => {
         )}
       </div>
 
+      <div className="p-4 flex flex-col h-full">
+        <div className="flex flex-wrap gap-1 mb-3">
+          {post.isLive && (
+            <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded flex items-center">
+              LIVE
+            </span>
+          )}
+          {post.categories?.map((c, i) => (
+            <span
+              key={i}
+              className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
+            >
+              {c.name || "Uncategorized"}
+            </span>
+          ))}
+        </div>
 
+        <h2 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-3">
+          {post.title}
+        </h2>
 
+        <p className="text-sm text-gray-600 line-clamp-2 mb-4">
+          {post.summary}
+        </p>
 
-        {/* Content Section */}
-        <div className="p-3 flex flex-col h-full">
-          {/* Categories and Live Tag */}
-          <div className="flex flex-wrap gap-1 mb-2">
-            {post.isLive && (
-              <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded flex items-center">
-                LIVE
-              </span>
-            )}
-            {post.categories?.map((c, i) => (
-              <span 
-                key={i} 
-                className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
-              >
-                {c.name || "Uncategorized"}
-              </span>
-            ))}
-          </div>
-
-          {/* Title */}
-          <h2 className="text-base md:text-lg font-semibold text-gray-800 line-clamp-2 mb-2">
-            {post.title}
-          </h2>
-
-          {/* Summary - Only visible on larger screens */}
-          <p className="hidden md:block text-sm text-gray-600 line-clamp-2 mb-2">
-            {post.summary}
+        <div className="mt-auto">
+          <p className="text-xs text-gray-600 truncate">
+            By {post.author?.name || "Unknown Author"}
           </p>
-
-          {/* Author and Meta Info */}
-          <div className="mt-auto">
-            <p className="text-xs text-gray-600 truncate">
-              By {post.author?.name || "Unknown Author"}
-            </p>
-            <div className="flex items-center text-[10px] text-gray-500 mt-1">
-              <span className="truncate">
-                {formatDate(post.updated_at_datetime)}
-              </span>
-              <span className="mx-2 flex-shrink-0">•</span>
-              <span className="truncate">
-                {post.readTime || "2 Min read"}
-              </span>
-            </div>
+          <div className="flex items-center text-[10px] text-gray-500 mt-1">
+            <span className="truncate">
+              {formatDate(post.updated_at_datetime)}
+            </span>
+            <span className="mx-2 flex-shrink-0">•</span>
+            <span className="truncate">{post.readTime || "2 Min read"}</span>
           </div>
         </div>
       </div>
@@ -93,4 +78,4 @@ const SectionArticleCard = ({ post }) => {
   );
 };
 
-export default SectionArticleCard; 
+export default SectionArticleCard;

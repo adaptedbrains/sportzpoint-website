@@ -57,9 +57,11 @@ export default async function Page() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left Sidebar - Reduced width */}
         <aside className="hidden lg:block lg:col-span-2">
-          <div className="sticky top-[84px] space-y-4">
-            <FeaturedEvents />
-            <Follow />
+          <div className="sticky top-[76px]">
+            <div className="space-y-4 pt-[2px]">
+              <FeaturedEvents />
+              <Follow />
+            </div>
           </div>
         </aside>
 
@@ -67,14 +69,16 @@ export default async function Page() {
         <div className="lg:col-span-7 col-span-1">
           {/* Featured Latest Posts */}
           {latestUploadPost?.length > 0 && (
-            <ArticleCard 
-              mainPost={latestUploadPost[0]} 
-              secondaryPost={latestUploadPost[1]} 
-            />
+            <div className="mb-6">
+              <ArticleCard 
+                mainPost={latestUploadPost[0]} 
+                secondaryPost={latestUploadPost[1]} 
+              />
+            </div>
           )}
 
           {/* Grid Articles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {latestUploadPost?.slice(2).map((article, index) => (
               <ArticleGridCard key={index} post={article} />
             ))}
@@ -281,7 +285,7 @@ export default async function Page() {
           </div>
           
           {/* Newsletter - fixed position */}
-          <div className="sticky top-20 bg-white rounded-lg p-6 shadow-sm">
+          <div className="sticky top-[76px] bg-white rounded-lg p-6 shadow-sm">
             <div className="flex flex-col items-start">
               <h2 className="text-xl font-bold text-[#006356] mb-2">Subscribe Newsletter</h2>
               <div className="w-10 h-[1px] bg-[#006356] mb-4"></div>

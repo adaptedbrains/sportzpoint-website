@@ -16,7 +16,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
   };
 
   const ArticleContent = ({ post }) => (
-    <div className="p-3 flex flex-col h-full">
+    <div className="p-4 flex flex-col h-full">
       <div className="flex flex-wrap gap-1 mb-2">
         {post.isLive && (
           <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded flex items-center">
@@ -33,7 +33,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
         ))}
       </div>
 
-      <h2 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">
+      <h2 className="text-base font-semibold text-gray-800 line-clamp-2 mb-2">
         {post.title}
       </h2>
 
@@ -63,8 +63,8 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
             src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
             alt={post.title}
             fill
-            objectFit="cover" // Ensures the image covers the entire container while maintaining its aspect ratio
-            objectPosition="center" // Centers the image
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
             priority
           />
         ) : (
@@ -78,7 +78,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <ArticleBox post={mainPost} />
       {secondaryPost && <ArticleBox post={secondaryPost} />}
     </div>
