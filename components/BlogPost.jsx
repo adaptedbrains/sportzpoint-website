@@ -354,7 +354,12 @@ const BlogPost = ({ postData, index }) => {
                 <FaUserCircle size={35} color="gray" />
               )}
               <div className="flex flex-col">
-                <h3 className="text-sm font-thin capitalize">{postData.author?.name}</h3>
+                <Link 
+                  href={`/author/${postData.author?.slug}`}
+                  className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
+                >
+                  {postData.author?.name}
+                </Link>
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
                     convertToIST(postData.published_at_datetime)}
