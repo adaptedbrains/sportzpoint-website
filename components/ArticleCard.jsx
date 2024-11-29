@@ -60,7 +60,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
       <div className="relative w-full pt-[56.25%]">
         {post.banner_image ? (
           <Image
-            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${post.banner_image}`}
+            src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
             alt={post.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

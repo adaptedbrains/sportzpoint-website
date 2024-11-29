@@ -25,7 +25,7 @@ const WebStoriesList = ({ webStories }) => {
             >
               <div className="relative w-full h-full ">
                 <Image
-                  src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
+                  src={`https://dmpsza32x691.cloudfront.net/${story.banner_image}`}
                   alt={story.title}
                   layout="fill"
                   objectFit="cover"

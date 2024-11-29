@@ -64,7 +64,7 @@ const LatestStories = () => {
               {/* Story Image */}
               {story.banner_image && (
                 <Image
-                  src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${story.banner_image}`}
+                  src={`https://dmpsza32x691.cloudfront.net/${story.banner_image}`}
                   alt={story.title}
                   className="rounded object-cover"
                   width={150}

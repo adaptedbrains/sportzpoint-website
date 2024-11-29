@@ -37,7 +37,7 @@ const FullWidthArticleCard = ({ article }) => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-64 w-full">
         <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
+          src={`https://dmpsza32x691.cloudfront.net/${article.banner_image}`}
           alt={article.title}
           layout="fill"
           objectFit="cover"
@@ -77,7 +77,7 @@ const RelatedArticleCard = ({ article }) => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="relative h-48 w-full">
         <Image
-          src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${article.banner_image}`}
+          src={`https://dmpsza32x691.cloudfront.net/${article.banner_image}`}
           alt={article.title}
           layout="fill"
           objectFit="cover"
@@ -327,7 +327,7 @@ const BlogPost = ({ postData, index }) => {
         {postData.banner_image && (
           <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
             <Image
-              src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${postData.banner_image}`}
+              src={`https://dmpsza32x691.cloudfront.net/${postData.banner_image}`}
               alt={postData.title || "Banner Image"}
               layout="fill"
               objectFit="cover"
@@ -380,7 +380,7 @@ const BlogPost = ({ postData, index }) => {
                           className="relative h-[200px] rounded-lg overflow-hidden"
                         >
                           <Image
-                            src={`https://sportzpoint.s3.ap-south-1.amazonaws.com/${image}`}
+                            src={`https://dmpsza32x691.cloudfront.net/${image}`}
                             alt={`Update image ${index + 1}`}
                             layout="fill"
                             objectFit="cover"

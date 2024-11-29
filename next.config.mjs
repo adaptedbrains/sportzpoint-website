@@ -5,7 +5,8 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'sportzpoint.s3.ap-south-1.amazonaws.com',
+                hostname: 'dmpsza32x691.cloudfront.net',
+                // hostname: 'sportzpoint.s3.ap-south-1.amazonaws.com',
                 port: '',
                 pathname: '/**',
             }
