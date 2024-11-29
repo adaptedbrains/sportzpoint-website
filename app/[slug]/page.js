@@ -20,14 +20,14 @@ const Page = () => {
     useEffect(() => {
         if (slug) {
             setCurrentPage(1);
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=1`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=1`;
             fetchPosts(url);
         }
     }, [slug, fetchPosts]);
     
     useEffect(() => {
         if (slug) {
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/tags/${slug}?limit=20&page=${currentPage}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/category/${slug}?limit=20&page=${currentPage}`;
             fetchPosts(url);
         }
     }, [slug, currentPage, fetchPosts]);
