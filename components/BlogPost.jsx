@@ -494,6 +494,16 @@ const BlogPost = ({ postData, index }) => {
             </div>
           )}
       </div>
+
+      {index !== undefined && (
+        <div className="w-full border-t border-gray-100 my-8">
+          <div className="flex items-center justify-center py-4">
+            <div className="h-[1px] w-12 bg-gray-300"></div>
+            <span className="text-sm text-gray-500 mx-3">Next Article</span>
+            <div className="h-[1px] w-12 bg-gray-300"></div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
