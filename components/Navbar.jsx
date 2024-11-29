@@ -16,6 +16,11 @@ const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
+  // Debug log for search state
+  useEffect(() => {
+    console.log('Search state:', search);
+  }, [search]);
+
   const navigationItems = [
     { name: "CRICKET", slugName: "/cricket" },
     { name: "FOOTBALL", slugName: "/football" },
@@ -71,7 +76,7 @@ const NavigationBar = () => {
 
   // Handle search result click
   const handleResultClick = (slug) => {
-    setSearch("remove");
+    setSearch(false);
     setSearchQuery("");
     setSearchResults([]);
     router.push(slug);
@@ -81,7 +86,7 @@ const NavigationBar = () => {
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
-        setSearch("remove");
+        setSearch(false);
         setSearchQuery("");
         setSearchResults([]);
       }
@@ -90,6 +95,11 @@ const NavigationBar = () => {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
+
+  const showToast = () => {
+    // Using window.alert for now since it's temporary
+    window.alert("Search functionality coming soon!");
+  };
 
   return (
     <nav className="sticky top-0 z-50">
@@ -129,12 +139,62 @@ const NavigationBar = () => {
             {/* Search and Menu buttons */}
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => setSearch(search === "remove" ? "add" : "remove")}
+                onClick={showToast}
                 className="text-white hover:text-gray-200 p-1"
                 aria-label="Search"
               >
                 <FaSearch className="h-4 w-4" />
               </button>
+              
+              {/* Search Input and Results */}
+              {search && (
+                <div className="fixed inset-0 bg-white z-50 flex flex-col pt-4">
+                  <div className="container mx-auto px-4">
+                    {/* Search Header */}
+                    <div className="relative flex items-center mb-4">
+                      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Search"
+                        className="w-full pl-10 pr-10 py-2 bg-gray-100 rounded-lg focus:outline-none"
+                        autoFocus
+                      />
+                      <button
+                        onClick={() => setSearch(false)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400"
+                        aria-label="Close search"
+                      >
+                        <RxCross2 className="h-5 w-5" />
+                      </button>
+                    </div>
+
+                    {/* Results */}
+                    {isLoading ? (
+                      <div className="text-center py-8">
+                        <div className="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400"></div>
+                      </div>
+                    ) : searchQuery && searchResults.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        No results found
+                      </div>
+                    ) : searchResults.length > 0 ? (
+                      <div className="space-y-4">
+                        {searchResults.map((result, index) => (
+                          <div
+                            key={result._id || index}
+                            onClick={() => handleResultClick(result.slug)}
+                            className="cursor-pointer"
+                          >
+                            <h4 className="font-medium text-gray-900">{result.title}</h4>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              )}
               
               {/* Hamburger Menu Button - Mobile only */}
               <button
@@ -170,65 +230,6 @@ const NavigationBar = () => {
                   {item.name}
                 </Link>
               ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Search overlay */}
-      <AnimatePresence>
-        {search === "add" && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute w-full bg-white shadow-lg"
-          >
-            <div className="container mx-auto px-4 py-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  placeholder="Search articles..."
-                  className="w-full p-2 pr-10 border border-gray-300 rounded focus:outline-none focus:border-green-700"
-                  autoFocus
-                />
-                <button
-                  onClick={() => {
-                    setSearch("remove");
-                    setSearchQuery("");
-                    setSearchResults([]);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  <RxCross2 className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Search results */}
-              {searchQuery && (
-                <div className="mt-4">
-                  {isLoading ? (
-                    <div className="text-center text-gray-500">Loading...</div>
-                  ) : searchResults.length > 0 ? (
-                    <ul className="space-y-2">
-                      {searchResults.map((result, index) => (
-                        <li key={index}>
-                          <button
-                            onClick={() => handleResultClick(result.slug)}
-                            className="w-full text-left p-2 hover:bg-gray-100 rounded"
-                          >
-                            {result.title}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className="text-center text-gray-500">No results found</div>
-                  )}
-                </div>
-              )}
             </div>
           </motion.div>
         )}
