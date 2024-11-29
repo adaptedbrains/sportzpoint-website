@@ -55,43 +55,45 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#006356] text-white w-full py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <footer className="bg-[#006356] text-white mt-auto pt-10">
+      <div className="max-w-7xl mx-auto px-4 pb-4">
         {/* Header with Logo and Social Icons */}
-        <div className="flex justify-between items-start mb-12">
-          <Image 
-            src="/footer.png" 
-            alt="SportzPoint" 
-            width={100} 
-            height={35}
-            className="object-contain"
-          />
-          <div className="flex gap-4">
+        <div className="flex justify-between items-center mb-10">
+          <div className="h-14">
+            <Image 
+              src="/footer.png" 
+              alt="SportzPoint" 
+              width={180} 
+              height={45}
+              className="object-contain w-auto h-full"
+            />
+          </div>
+          <div className="flex items-center gap-6 h-14">
             <Link href="https://www.linkedin.com/company/sportzpoint" className="hover:opacity-80">
-              <Image src="/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+              <Image src="/linkedin.svg" alt="LinkedIn" width={22} height={22} />
             </Link>
             <Link href="https://www.instagram.com/sportzpoint" className="hover:opacity-80">
-              <Image src="/instagram.svg" alt="Instagram" width={24} height={24} />
+              <Image src="/instagram.svg" alt="Instagram" width={22} height={22} />
             </Link>
             <Link href="https://twitter.com/sportz_point" className="hover:opacity-80">
-              <Image src="/twitter.svg" alt="Twitter" width={24} height={24} />
+              <Image src="/twitter.svg" alt="Twitter" width={22} height={22} />
             </Link>
             <Link href="https://www.youtube.com/@sportzpoint" className="hover:opacity-80">
-              <Image src="/youtube.svg" alt="YouTube" width={24} height={24} />
+              <Image src="/youtube.svg" alt="YouTube" width={22} height={22} />
             </Link>
           </div>
         </div>
 
         {/* Quick Links */}
-        <div className="mb-12">
-          <h3 className="text-xl font-bold text-white mb-4">QUICK LINKS</h3>
-          <ul className="flex flex-wrap gap-x-8 gap-y-2">
+        <div className="mb-10">
+          <h3 className="text-lg font-bold uppercase mb-4">Quick Links</h3>
+          <ul className="flex flex-wrap gap-x-8 gap-y-3">
             {quickLinks.map((link, index) => (
               <li key={index} className="flex items-center">
-                <span className="mr-2 text-lg">•</span>
+                <span className="mr-2 text-sm">•</span>
                 <Link 
                   href={link.href}
-                  className="text-zinc-200 hover:text-white"
+                  className="text-zinc-200 hover:text-white text-sm"
                 >
                   {link.text}
                 </Link>
@@ -101,26 +103,25 @@ const Footer = () => {
         </div>
 
         {/* Latest Stories */}
-        <div className="mb-12">
-          <h3 className="text-xl font-bold text-white mb-6">LATEST STORIES</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mb-10">
+          <h3 className="text-lg font-bold uppercase mb-4">Latest Stories</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {latestStories.map((story, index) => (
-              <div key={index} className="flex items-start">
-                <span className="mr-2 text-lg mt-1">•</span>
-                <Link 
-                  href={story.href}
-                  className="hover:text-gray-300 transition-colors"
-                >
-                  {story.title}
-                </Link>
-              </div>
+              <Link 
+                key={index}
+                href={story.href}
+                className="text-zinc-200 hover:text-white text-sm line-clamp-2 flex items-start"
+              >
+                <span className="mr-2 flex-shrink-0">•</span>
+                <span>{story.title}</span>
+              </Link>
             ))}
           </div>
         </div>
 
-        {/* Powered By Section */}
-        <div className="flex flex-col items-center justify-center text-center border-t border-gray-200 pt-8">
-          <div className="text-sm flex items-center justify-center flex-wrap gap-1">
+        {/* Made with Love Section */}
+        <div className="border-t border-[#007e6c] py-4">
+          <div className="text-sm flex items-center justify-center flex-wrap gap-1 text-zinc-200">
             Made with 
             <span role="img" aria-label="love" className="text-yellow-500">💛</span> 
             by 
@@ -128,9 +129,9 @@ const Footer = () => {
               href="https://github.com/adaptedbrains" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-white hover:text-gray-300 font-medium ml-1"
+              className="text-white hover:text-zinc-300 font-medium lowercase"
             >
-              Adapted Brains
+              adapted brains
             </a>
           </div>
         </div>
