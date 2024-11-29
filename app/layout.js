@@ -1,9 +1,7 @@
 import "./globals.css";
 import { Roboto, PT_Serif } from 'next/font/google';
 import LayoutClient from "@/components/LayoutClient";
-import Script from 'next/script';
-import { GA_CONFIGS } from '@/lib/gtag';
-import useGoogleAnalytics from '@/hooks/useGoogleAnalytics';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -25,43 +23,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  useGoogleAnalytics();
-  
   return (
     <html lang="en" className={`${roboto.variable} ${ptSerif.variable}`}>
       <head>
-        {/* Main site analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_CONFIGS.homepage.measurementId}`}
-        />
-        <Script
-          id="google-analytics-main"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_CONFIGS.homepage.measurementId}');
-            `,
-          }}
-        />
-        
-        {/* Web Stories analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_CONFIGS.webStories.measurementId}`}
-        />
-        <Script
-          id="google-analytics-webstories"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              gtag('config', '${GA_CONFIGS.webStories.measurementId}');
-            `,
-          }}
-        />
+        <GoogleAnalytics />
       </head>
       <body className="flex flex-col min-h-screen">
         <LayoutClient>{children}</LayoutClient>
