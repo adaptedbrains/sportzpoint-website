@@ -82,7 +82,7 @@ const ArticleContent = ({ article, isRelated = false }) => {
   const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${article.categories[0]?.slug}/${article.slug}`;
   
   return (
-    <div className="p-4">
+    <div className="p-2 sm:p-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
           {article.author_image ? (
@@ -136,7 +136,7 @@ const ArticleContent = ({ article, isRelated = false }) => {
 
 const RelatedArticleCard = ({ article }) => (
   <div className="px-2">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white sm:rounded-lg sm:shadow-lg overflow-hidden">
       <div className="relative h-48 w-full">
         <Image
           src={`https://dmpsza32x691.cloudfront.net/${article.banner_image}`}
@@ -153,7 +153,7 @@ const RelatedArticleCard = ({ article }) => (
 
 const FullWidthArticleCard = ({ article }) => (
   <div className="mb-6">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white sm:rounded-lg sm:shadow-lg overflow-hidden">
       <div className="relative h-64 w-full">
         <Image
           src={`https://dmpsza32x691.cloudfront.net/${article.banner_image}`}
@@ -294,212 +294,214 @@ const BlogPost = ({ postData, index }) => {
         onLoad={() => initializeTwitterEmbed()}
       />
 
-      <div ref={postRef} className="bg-white p-6 rounded-lg shadow-lg">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-          <div className="flex items-center gap-2">
-            {postData.author_image ? (
-              <Image
-                src={postData.author_image}
-                alt={postData.author?.name}
-                width={30}
-                height={30}
-                className="rounded-full"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
-              />
-            ) : (
-              <FaUserCircle size={30} color="gray" />
-            )}
-            <div className="flex flex-col">
-              <h3 className="text-sm font-thin capitalize">{postData.author?.name}</h3>
-              <p className="text-zinc-500 text-[11px]">
-                {postData.published_at_datetime &&
-                  convertToIST(postData.published_at_datetime)}
-              </p>
-            </div>
-          </div>
-
-          <ShareButtons url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.categories[0]?.slug}/${postData.slug}`} title={postData.title} />
-        </div>
-
-        <h2 className="text-3xl font-semibold text-start my-4">
-          {postData.title}
-        </h2>
-        {postData.summary && (
-          <p className="text-start my-4 text-zinc-600">{postData.summary}</p>
-        )}
-
-        {postData.banner_image && (
-          <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
-            <Image
-              src={`https://dmpsza32x691.cloudfront.net/${postData.banner_image}`}
-              alt={postData.title || "Banner Image"}
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              priority
-            />
-          </div>
-        )}
-
-        <article
-          className="blog-content"
-          dangerouslySetInnerHTML={{
-            __html: sanitizeContent("Article", postData.content),
-          }}
-        />
-
-        <Script
-          src="//www.instagram.com/embed.js"
-          strategy="afterInteractive"
-          onLoad={() => window.instgrm?.Embeds.process()}
-        />
-
-        <div className="rounded flex flex-col gap-7 mt-8">
-          {postData.type === "LiveBlog" && postData?.live_blog_updates && (
-            <>
-              <div className="flex justify-center items-center mb-5">
-                <div className="bg-[#006356] text-white px-4 py-2 rounded-md font-semibold">
-                  LIVE Updates
-                </div>
+      <div ref={postRef} className="bg-white sm:rounded-lg sm:shadow-lg">
+        <div className="p-2 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <div className="flex items-center gap-2">
+              {postData.author_image ? (
+                <Image
+                  src={postData.author_image}
+                  alt={postData.author?.name}
+                  width={30}
+                  height={30}
+                  className="rounded-full"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+              ) : (
+                <FaUserCircle size={30} color="gray" />
+              )}
+              <div className="flex flex-col">
+                <h3 className="text-sm font-thin capitalize">{postData.author?.name}</h3>
+                <p className="text-zinc-500 text-[11px]">
+                  {postData.published_at_datetime &&
+                    convertToIST(postData.published_at_datetime)}
+                </p>
               </div>
-      
-              {liveBlogs && liveBlogs.map((live, i) => (
-                <div
-                  key={i}
-                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
-                >
-                  <p className="text-gray-600 italic text-sm">
-                    {convertToIST(live.created_at)}
-                  </p>
+            </div>
 
-                  <h2 className="font-bold text-xl text-gray-800">
-                    {live.title}
-                  </h2>
+            <ShareButtons url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.categories[0]?.slug}/${postData.slug}`} title={postData.title} />
+          </div>
 
-                  {live.images && live.images.length > 0 && (
-                    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                      {live.images.map((image, index) => (
-                        <div
-                          key={index}
-                          className="relative h-[200px] rounded-lg overflow-hidden"
-                        >
-                          <Image
-                            src={`https://dmpsza32x691.cloudfront.net/${image}`}
-                            alt={`Update image ${index + 1}`}
-                            layout="fill"
-                            objectFit="cover"
-                            className="hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+          <h2 className="text-3xl font-semibold text-start my-4">
+            {postData.title}
+          </h2>
+          {postData.summary && (
+            <p className="text-start my-4 text-zinc-600">{postData.summary}</p>
+          )}
 
-                  <div className="prose max-w-none">
-                    <article
-                      className="blog-content text-gray-700"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeContent("LiveBlog", live.content),
-                      }}
-                    />
+          {postData.banner_image && (
+            <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
+              <Image
+                src={`https://dmpsza32x691.cloudfront.net/${postData.banner_image}`}
+                alt={postData.title || "Banner Image"}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                priority
+              />
+            </div>
+          )}
+
+          <article
+            className="blog-content"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeContent("Article", postData.content),
+            }}
+          />
+
+          <Script
+            src="//www.instagram.com/embed.js"
+            strategy="afterInteractive"
+            onLoad={() => window.instgrm?.Embeds.process()}
+          />
+
+          <div className="rounded flex flex-col gap-7 mt-8">
+            {postData.type === "LiveBlog" && postData?.live_blog_updates && (
+              <>
+                <div className="flex justify-center items-center mb-5">
+                  <div className="bg-[#006356] text-white px-4 py-2 rounded-md font-semibold">
+                    LIVE Updates
                   </div>
                 </div>
-              ))} 
-            </>
-          )}
-        </div>
+      
+                {liveBlogs && liveBlogs.map((live, i) => (
+                  <div
+                    key={i}
+                    className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
+                  >
+                    <p className="text-gray-600 italic text-sm">
+                      {convertToIST(live.created_at)}
+                    </p>
 
-        {postData.tags && postData.tags.length > 0 && (
-          <div className="mt-8 mb-6">
-            <div className="flex flex-wrap gap-2">
-              {postData.tags.map((tag, idx) => (
-                <Link
-                  key={idx}
-                  href={`/tags/${tag.slug}`}
-                  className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-sm transition-colors duration-200 font-medium"
-                >
-                  {tag.name}
-                </Link>
-              ))}
-            </div>
+                    <h2 className="font-bold text-xl text-gray-800">
+                      {live.title}
+                    </h2>
+
+                    {live.images && live.images.length > 0 && (
+                      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                        {live.images.map((image, index) => (
+                          <div
+                            key={index}
+                            className="relative h-[200px] rounded-lg overflow-hidden"
+                          >
+                            <Image
+                              src={`https://dmpsza32x691.cloudfront.net/${image}`}
+                              alt={`Update image ${index + 1}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="prose max-w-none">
+                      <article
+                        className="blog-content text-gray-700"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeContent("LiveBlog", live.content),
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))} 
+              </>
+            )}
           </div>
-        )}
 
-        {index === 0 &&
-          postData.related_articles &&
-          postData.related_articles.length > 0 && (
-            <div className="mt-8">
-              <div className="grid grid-cols-5 justify-between items-center mb-5">
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
-                <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
-                  Related Articles
-                </p>
-                <div className="bg-green-800 h-[1px] col-span-2"></div>
+          {postData.tags && postData.tags.length > 0 && (
+            <div className="mt-8 mb-6">
+              <div className="flex flex-wrap gap-2">
+                {postData.tags.map((tag, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/tags/${tag.slug}`}
+                    className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-green-700 hover:text-green-800 rounded-full text-sm transition-colors duration-200 font-medium"
+                  >
+                    {tag.name}
+                  </Link>
+                ))}
               </div>
-
-              {/* First article in full width */}
-              {postData.related_articles[0] && (
-                <FullWidthArticleCard article={postData.related_articles[0]} />
-              )}
-
-              {/* Rest of the articles in carousel */}
-              {postData.related_articles.length > 1 && (
-                <div className="relative mb-8">
-                  <button
-                    className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-                    onClick={() => slider?.slickPrev()}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                  </button>
-
-                  <Slider
-                    ref={(slider) => (slider = slider)}
-                    {...carouselSettings}
-                  >
-                    {postData.related_articles.slice(1).map((article, idx) => (
-                      <RelatedArticleCard key={idx} article={article} />
-                    ))}
-                  </Slider>
-
-                  <button
-                    className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-                    onClick={() => slider?.slickNext()}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              )}
             </div>
           )}
+
+          {index === 0 &&
+            postData.related_articles &&
+            postData.related_articles.length > 0 && (
+              <div className="mt-8">
+                <div className="grid grid-cols-5 justify-between items-center mb-5">
+                  <div className="bg-green-800 h-[1px] col-span-2"></div>
+                  <p className="border col-span-1 border-green-800 text-center px-2 font-semibold">
+                    Related Articles
+                  </p>
+                  <div className="bg-green-800 h-[1px] col-span-2"></div>
+                </div>
+
+                {/* First article in full width */}
+                {postData.related_articles[0] && (
+                  <FullWidthArticleCard article={postData.related_articles[0]} />
+                )}
+
+                {/* Rest of the articles in carousel */}
+                {postData.related_articles.length > 1 && (
+                  <div className="relative mb-8">
+                    <button
+                      className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+                      onClick={() => slider?.slickPrev()}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    <Slider
+                      ref={(slider) => (slider = slider)}
+                      {...carouselSettings}
+                    >
+                      {postData.related_articles.slice(1).map((article, idx) => (
+                        <RelatedArticleCard key={idx} article={article} />
+                      ))}
+                    </Slider>
+
+                    <button
+                      className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+                      onClick={() => slider?.slickNext()}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+        </div>
       </div>
     </>
   );
