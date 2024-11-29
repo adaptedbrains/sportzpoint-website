@@ -120,16 +120,16 @@ const Footer = () => {
         </div>
 
         {/* Made with Love Section */}
-        <div className="border-t border-[#007e6c] py-4">
-          <div className="text-sm flex items-center justify-center flex-wrap gap-1 text-zinc-200">
+        <div className="border-t border-[#007e6c] py-4 px-4">
+          <div className="text-sm flex items-center justify-center flex-wrap gap-1 text-zinc-200 text-center">
             Made with 
-            <span role="img" aria-label="love" className="text-yellow-500">💛</span> 
+            <span role="img" aria-label="love" className="text-yellow-500 mx-1">💛</span> 
             by 
             <a 
               href="https://github.com/adaptedbrains" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-white hover:text-zinc-300 font-medium lowercase"
+              className="text-white hover:text-zinc-300 font-medium lowercase ml-1"
             >
               adapted brains
             </a>
