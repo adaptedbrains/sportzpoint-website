@@ -10,6 +10,7 @@ import FeaturedEvents from '@/components/FeaturedEvents';
 import { BlinkBlur } from 'react-loading-indicators';
 import LatestStories from '@/components/LatestStory';
 import WebStoriesJson from '@/components/WebstoeyJson';
+import Newsletter from '@/components/Newsletter';
 
 const BlogPage = () => {
     const pathname = usePathname();
@@ -130,10 +131,11 @@ const BlogPage = () => {
                 <div className="lg:col-span-3 col-span-1">
                     <div className="sticky top-[64px] space-y-4">
                         <LatestStories />
+                        <Newsletter />
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     );
 };
 

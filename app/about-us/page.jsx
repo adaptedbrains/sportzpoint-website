@@ -1,5 +1,6 @@
 "use client";
 import { useState } from 'react';
+import Newsletter from '@/components/Newsletter';
 
 const AboutUs = () => {
   const [email, setEmail] = useState('');
@@ -85,24 +86,8 @@ const AboutUs = () => {
           </div>
 
           {/* Newsletter Subscription */}
-          <div className="mt-12 bg-gray-50 p-8 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Subscribe to Our Newsletter</h2>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                className="px-4 py-2 border border-gray-300 rounded-md w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-[#006356]"
-              />
-              <button
-                type="submit"
-                className="bg-[#006356] hover:bg-[#005349] text-white px-6 py-2 rounded-lg transition-colors duration-200"
-              >
-                Subscribe
-              </button>
-            </form>
+          <div className="mt-12">
+            <Newsletter />
           </div>
         </div>
       </div>

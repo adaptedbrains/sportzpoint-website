@@ -10,6 +10,7 @@ import ArticleCard from "@/components/ArticleCard";
 import ArticleGridCard from "@/components/ArticleGridCard";
 import LatestStories from "@/components/LatestStory";
 import SectionArticleCard from "@/components/SectionArticleCard";
+import Newsletter from '@/components/Newsletter';
 
 const Page = () => {
     const pathname = usePathname();
@@ -108,6 +109,7 @@ const Page = () => {
             <aside className="lg:col-span-3 col-span-1">
                 <div className="sticky top-[64px] space-y-4">
                     <LatestStories />
+                    <Newsletter />
                 </div>
             </aside>
         </div>
