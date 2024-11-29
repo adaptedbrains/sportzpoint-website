@@ -1,7 +1,7 @@
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
@@ -267,23 +267,37 @@ const BlogPost = ({ postData, index }) => {
 
         <div className="flex justify-between items-center flex-wrap">
           <div className="flex items-center gap-2">
-            <FaUserCircle size={35} color="gray" />
+            {postData.author_image ? (
+              <Image
+                src={postData.author_image}
+                alt={postData.author?.name}
+                width={35}
+                height={35}
+                className="rounded-full"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+            ) : (
+              <FaUserCircle size={35} color="gray" />
+            )}
             <div className="flex flex-col">
               <h3 className="font-thin capitalize">{postData.author?.name}</h3>
-              <p className="text-zinc-500 text-xs ">
+              <p className="text-zinc-500 text-xs">
                 {postData.published_at_datetime &&
                   convertToIST(postData.published_at_datetime)}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
             <Link
               href="https://news.google.com/publications/CAAqBwgKMKDuqAswkvnAAw?ceid=IN:en&amp;oc=3"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="follow us google news"
-              className="mx-2 flex border border-blue-800 gap-1 px-3 py-1 rounded-full text-xs font-semibold text-blue-800"
+              className="flex items-center border border-blue-800 gap-1 px-3 py-1 rounded-full text-xs font-semibold text-blue-800 hover:bg-blue-50 transition-colors"
             >
               <Image
                 src="/icon/google_news.png"
@@ -294,17 +308,19 @@ const BlogPost = ({ postData, index }) => {
               />
               Follow Us
             </Link>
-            {socialMedia.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                className="mx-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.icon}
-              </Link>
-            ))}
+            <div className="flex items-center gap-2">
+              {socialMedia.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.icon}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -338,7 +354,7 @@ const BlogPost = ({ postData, index }) => {
           {postData.type === "LiveBlog" && postData?.live_blog_updates && (
             <>
               <div className="flex justify-center items-center mb-5">
-                <div className="bg-green-800 text-white px-4 py-2 rounded-md font-semibold">
+                <div className="bg-[#006356] text-white px-4 py-2 rounded-md font-semibold">
                   LIVE Updates
                 </div>
               </div>
@@ -346,7 +362,7 @@ const BlogPost = ({ postData, index }) => {
               {liveBlogs && liveBlogs.map((live, i) => (
                 <div
                   key={i}
-                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-green-800"
+                  className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
                 >
                   <p className="text-gray-600 italic text-sm">
                     {convertToIST(live.created_at)}

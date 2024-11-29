@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import { HiMenuAlt3 } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
@@ -12,6 +13,7 @@ const NavigationBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
   const navigationItems = [
@@ -111,7 +113,7 @@ const NavigationBar = () => {
               </Link>
             </div>
 
-            {/* Navigation items */}
+            {/* Navigation items - Desktop */}
             <div className="hidden lg:flex flex-1 justify-start space-x-5 ml-6">
               {navigationItems.map((item) => (
                 <Link
@@ -124,8 +126,8 @@ const NavigationBar = () => {
               ))}
             </div>
 
-            {/* Search button */}
-            <div className="flex items-center">
+            {/* Search and Menu buttons */}
+            <div className="flex items-center space-x-2">
               <button
                 onClick={() => setSearch(search === "remove" ? "add" : "remove")}
                 className="text-white hover:text-gray-200 p-1"
@@ -133,10 +135,45 @@ const NavigationBar = () => {
               >
                 <FaSearch className="h-4 w-4" />
               </button>
+              
+              {/* Hamburger Menu Button - Mobile only */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden text-white hover:text-gray-200 p-1"
+                aria-label="Menu"
+              >
+                <HiMenuAlt3 className="h-6 w-6" />
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden bg-white shadow-lg overflow-hidden"
+          >
+            <div className="container mx-auto px-4 py-2">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.slugName}
+                  href={item.slugName}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-2 text-gray-800 hover:text-[#006356] text-sm font-medium border-b border-gray-100 last:border-none"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Search overlay */}
       <AnimatePresence>
