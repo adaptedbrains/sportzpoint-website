@@ -20,13 +20,13 @@ const Follow = () => {
     {
       icon: <FaFacebookF className="opacity-80" />,
       text: 'Facebook',
-      href: 'https://www.facebook.com/sportzpoint',
+      href: 'https://www.facebook.com/sportzpointcricket',
       className: 'text-blue-600'
     },
     {
       icon: <FaTwitter className="opacity-80" />,
-      text: 'Twitter',
-      href: 'https://twitter.com/sportzpoint',
+      text: 'X (Twitter)',
+      href: 'https://x.com/sportz_point',
       className: 'text-sky-500'
     },
     {
