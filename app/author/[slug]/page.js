@@ -1,4 +1,4 @@
-import { FaXTwitter, FaLinkedin, FaFacebookF, FaArrowLeft } from 'react-icons/fa6';
+import { FaXTwitter, FaLinkedin, FaFacebookF } from 'react-icons/fa6';
 import Link from 'next/link';
 
 export default function AuthorPage({ params }) {
@@ -7,7 +7,7 @@ export default function AuthorPage({ params }) {
     {
       id: 1,
       title: "Article Coming Soon",
-      summary: "We're working on bringing you amazing sports content. Stay tuned for updates!",
+      summary: "We are working on bringing you amazing sports content. Stay tuned for updates!",
       category: { name: "Sports", slug: "sports" },
       banner_image: null,
       published_at_datetime: new Date().toISOString()
@@ -36,13 +36,6 @@ export default function AuthorPage({ params }) {
         <div className="sm:rounded-lg sm:shadow-md overflow-hidden">
           {/* Author Header */}
           <div className="relative h-40 bg-[#006356]">
-            <Link 
-              href="/"
-              className="absolute top-4 left-4 text-white hover:text-gray-200 transition-colors flex items-center gap-2"
-            >
-              <FaArrowLeft size={16} />
-              <span>Back to Home</span>
-            </Link>
             <div className="absolute -bottom-16 left-6 sm:left-8">
               <div className="w-32 h-32 rounded-full border-4 border-white bg-white shadow-md overflow-hidden">
                 <div className="w-full h-full flex items-center justify-center">
@@ -59,7 +52,7 @@ export default function AuthorPage({ params }) {
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Author Profile Coming Soon!</h1>
               <p className="text-lg text-gray-600 mb-6">
-                We're working on creating beautiful profile pages for our talented authors.
+                We are working on creating beautiful profile pages for our talented authors.
                 Stay tuned for updates!
               </p>
               
@@ -143,6 +136,6 @@ export default function AuthorPage({ params }) {
 export function generateMetadata({ params }) {
   return {
     title: "Author Profile Coming Soon - Sportzpoint",
-    description: "We're working on creating beautiful profile pages for our talented authors. Stay tuned for updates!",
+    description: "We are working on creating beautiful profile pages for our talented authors. Stay tuned for updates!",
   };
 }
