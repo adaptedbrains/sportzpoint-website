@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Roboto, PT_Serif } from 'next/font/google';
 import LayoutClient from "@/components/LayoutClient";
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -24,7 +25,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${roboto.variable} ${ptSerif.variable}`}>
-      <body className="flex flex-col min-h-screen mb-4">
+      <head>
+        <GoogleAnalytics />
+      </head>
+      <body className="flex flex-col min-h-screen">
         <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
