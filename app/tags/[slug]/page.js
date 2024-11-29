@@ -12,6 +12,7 @@ import LatestStories from "@/components/LatestStory";
 import SectionArticleCard from "@/components/SectionArticleCard";
 import Newsletter from '@/components/Newsletter';
 
+
 const Page = () => {
     const pathname = usePathname();
     const slug = pathname.split("/")[2];
@@ -55,17 +56,15 @@ const Page = () => {
     
             {/* Main Content */}
             <main className="lg:col-span-7 xl:col-span-7 col-span-1">
-                {/* Featured Articles - First two posts */}
-                {/* {posts?.length > 0 && (
-                    <ArticleCard 
-                        mainPost={posts[0]} 
-                        secondaryPost={posts[1]} 
-                    />
-                )} */}
-                 <SectionArticleCard post={posts[0]} />
+                {/* Featured Article */}
+                {posts?.length > 0 && (
+                    <div className="mb-8">
+                        <SectionArticleCard post={posts[0]} />
+                    </div>
+                )}
                 
                 {/* Grid Articles - Remaining posts */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {posts?.slice(1).map((article, index) => (
                         <ArticleGridCard key={index} post={article} />
                     ))}

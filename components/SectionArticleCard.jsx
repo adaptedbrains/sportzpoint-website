@@ -22,7 +22,7 @@ const SectionArticleCard = ({ post }) => {
       <div className="relative w-full pt-[56.25%]">
         {post.banner_image ? (
           <Image
-            src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${post.banner_image}`}
+            src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
             alt={post.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

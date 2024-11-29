@@ -55,7 +55,7 @@ const LatestStories = () => {
                 <div className="relative w-24 aspect-[16/9] flex-shrink-0">
                   {story.banner_image && (
                     <Image
-                      src={`https://img-cdn.thepublive.com/fit-in/1280x720/filters:format(webp)/sportzpoint/media/${story.banner_image}`}
+                      src={`https://dmpsza32x691.cloudfront.net/${story.banner_image}`}
                       alt={story.title}
                       layout="fill"
                       objectFit="cover"
