@@ -343,14 +343,15 @@ const BlogPost = ({ postData, index }) => {
           )}
 
           <div className="flex justify-between items-center flex-wrap gap-4">
+            {console.log('Credits data:', postData.credits)}
             <div className="flex items-center gap-2">
               {postData.author_image ? (
                 <Image
                   src={postData.author_image}
                   alt={
-                    postData.credits ||
-                    postData.author?.name ||
-                    "Unknown Author"
+                    postData.credits?.map((c, i) => 
+                      `${c.name}${i < postData.credits.length - 1 ? ', ' : ''}`
+                    ).join('') || "Unknown Author"
                   }
                   width={35}
                   height={35}
@@ -364,24 +365,13 @@ const BlogPost = ({ postData, index }) => {
                 <FaUserCircle size={35} color="gray" />
               )}
               <div className="flex flex-col">
-                <Link
-                  href={
-                    postData.author?.slug
-                      ? `/author/${postData.author.slug}`
-                      : "#"
-                  }
-                  className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
-                >
-                  {/* {postData.credits || postData.author?.name || "Unknown Author"} */}
-                  {postData.credits?.map((c, i) => (
-                    <span
-                      key={i}
-                      className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
-                    >
-                      {c.name || "Uncategorized"}
+                <p className="text-sm text-gray-600">
+                  By {postData.credits ? postData.credits.map((c, i) => (
+                    <span key={i}>
+                      {c.name}{i < postData.credits.length - 1 ? ', ' : ''}
                     </span>
-                  ))}
-                </Link>
+                  )) : 'Unknown Author'}
+                </p>
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
                     convertToIST(postData.published_at_datetime)}

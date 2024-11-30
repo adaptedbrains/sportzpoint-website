@@ -53,16 +53,11 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
 
       <div className="mt-auto">
         <p className="text-xs text-gray-600 truncate">
-          {/* By {post.credits || post.author?.name || "Unknown Author"} */}
-          {post.credits?.map((c, i) => (
-          <span
-            key={i}
-            className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
-          >
-            {c.name || "Uncategorized"}
-          </span>
-        ))}
-
+          By {post.credits?.map((c, i) => (
+            <span key={i}>
+              {c.name}{i < post.credits.length - 1 ? ', ' : ''}
+            </span>
+          ))}
         </p>
         <div className="flex items-center text-[10px] text-gray-500 mt-1">
           <span className="truncate">
