@@ -6,6 +6,7 @@ import Newsletter from '@/components/Newsletter';
 import { gettingMainBlogPost } from '@/lib/gettingMainBlogPost';
 import BlogPost from '@/components/BlogPost';
 import WebStoriesJson from '@/components/WebstoeyJson';
+import { BlinkBlur } from 'react-loading-indicators';
 
 const Page = async ({ params }) => {
     const {  id } = await params;
