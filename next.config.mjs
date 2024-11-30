@@ -1,6 +1,7 @@
 import withPWA from 'next-pwa';
 
-const nextConfig = withPWA({
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     images: {
         domains: ['dmpsza32x791.cloudfront.net'],
         formats: ['image/avif', 'image/webp'],
@@ -13,18 +14,6 @@ const nextConfig = withPWA({
     compress: true,
     poweredByHeader: false,
     reactStrictMode: true,
-    swcMinify: true,
-    experimental: {
-        optimizeCss: true,
-        scrollRestoration: true,
-        legacyBrowsers: false,
-    },
-    pwa: {
-        dest: 'public',
-        register: true,
-        skipWaiting: true,
-        disable: process.env.NODE_ENV === 'development'
-    },
     async headers() {
         return [
             {
@@ -53,37 +42,16 @@ const nextConfig = withPWA({
                     {
                         key: 'Referrer-Policy',
                         value: 'origin-when-cross-origin'
-                    },
-                    {
-                        key: 'X-Robots-Tag',
-                        value: 'index, follow'
-                    },
-                    {
-                        key: 'Cache-Control',
-                        value: 'public, max-age=3600, must-revalidate'
-                    }
-                ]
-            },
-            {
-                source: '/_next/static/:path*',
-                headers: [
-                    {
-                        key: 'Cache-Control',
-                        value: 'public, max-age=31536000, immutable'
-                    }
-                ]
-            },
-            {
-                source: '/images/:path*',
-                headers: [
-                    {
-                        key: 'Cache-Control',
-                        value: 'public, max-age=86400, must-revalidate'
                     }
                 ]
             }
         ];
     }
-});
+};
 
-export default nextConfig;
+export default withPWA({
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === 'development',
+})(nextConfig);
