@@ -40,6 +40,18 @@
     @apply md:text-lg;
   }
 
+  /* Blog post link styling */
+  .blog-content a {
+    color: #006356;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    transition: color 0.2s ease;
+  }
+
+  .blog-content a:hover {
+    color: #004d42;
+  }
+
   /* Responsive spacing and images */
   .blog-content img,
   .blog-content .image-figure {
