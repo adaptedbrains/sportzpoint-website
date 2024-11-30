@@ -14,6 +14,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { toast } from "react-hot-toast";
+import NewsSEO from './NewsSEO';
 
 const getSocialShareLinks = (url, title) => [
   {
@@ -294,8 +295,11 @@ const BlogPost = ({ postData, index }) => {
     new Map(renderingCategory.map((item) => [item._id, item])).values()
   );
 
+  const isMainArticle = index === 0;
+
   return (
     <>
+      {isMainArticle && <NewsSEO article={postData} />}
       <Script
         id="twitter-widgets"
         src="https://platform.twitter.com/widgets.js"

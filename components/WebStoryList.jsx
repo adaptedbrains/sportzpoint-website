@@ -1,28 +1,41 @@
-"use client";
+'use client';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { memo } from 'react';
 
-const WebStoriesList = ({ webStories }) => {
+const WebStoriesList = memo(({ webStories }) => {
   const router = useRouter();
 
   const handleCardClick = (category, slug) => {
     router.push(`/${category}/${slug}`);
   };
 
+  const generateAltText = (story) => {
+    const category = story.categories[0]?.name || "News";
+    return `${story.title} - ${category} Web Story by Sportzpoint`;
+  };
+
   return (
-    <div className="bg-gray-100 p-3 sm:p-4 md:p-6 my-3 sm:my-5 rounded shadow-md" role="region" aria-label="Web Stories">
-      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 md:mb-6 text-[#006356]">Web Stories</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
+    <div 
+      className="bg-gray-100 p-3 sm:p-4 md:p-6 my-3 sm:my-5 rounded shadow-md" 
+      role="region" 
+      aria-label="Web Stories"
+    >
+      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 md:mb-6 text-[#006356]">
+        Latest Web Stories
+      </h2>
+      <div 
+        className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3"
+        role="list"
+      >
         {webStories &&
           webStories.length > 0 &&
           webStories.map((story) => (
-            <div
+            <article
               key={story._id}
-              onClick={() =>
-                handleCardClick(story.categories[0].slug, story.slug)
-              }
+              onClick={() => handleCardClick(story.categories[0].slug, story.slug)}
               className="relative group cursor-pointer w-full h-48 sm:h-60 md:h-72 rounded overflow-hidden hover:shadow-lg transition-shadow bg-white"
-              role="article"
+              role="listitem"
               aria-label={story.title}
               tabIndex={0}
               onKeyPress={(e) => {
@@ -34,15 +47,17 @@ const WebStoriesList = ({ webStories }) => {
               <div className="relative w-full h-full">
                 <Image
                   src={`https://dmpsza32x691.cloudfront.net/${story.banner_image}`}
-                  alt={story.title}
+                  alt={generateAltText(story)}
                   layout="fill"
                   objectFit="cover"
                   objectPosition="center"
                   className="transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  priority={false}
                 />
               </div>
-              <div className="absolute top-1 sm:top-2 left-1 sm:left-2">
+              <div className="absolute top-1 sm:top-2 left-1 sm:left-2 z-10">
                 {story.categories.slice(0, 1).map((c, i) => (
                   <span 
                     key={i} 
@@ -61,12 +76,22 @@ const WebStoriesList = ({ webStories }) => {
                 <h3 className="text-white text-xs sm:text-sm md:text-base font-medium line-clamp-2">
                   {story.title}
                 </h3>
+                {story.publishDate && (
+                  <time 
+                    dateTime={new Date(story.publishDate).toISOString()}
+                    className="text-gray-300 text-xs"
+                  >
+                    {new Date(story.publishDate).toLocaleDateString()}
+                  </time>
+                )}
               </div>
-            </div>
+            </article>
           ))}
       </div>
     </div>
   );
-};
+});
+
+WebStoriesList.displayName = 'WebStoriesList';
 
 export default WebStoriesList;

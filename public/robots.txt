@@ -1,0 +1,28 @@
+# Sportzpoint Website Robots.txt
+User-agent: *
+Allow: /
+
+# Allow all web stories
+Allow: /*/web-story/*
+
+# Allow all news articles
+Allow: /*/news/*
+
+# Sitemaps
+Sitemap: https://sportzpoint.com/sitemap.xml
+Sitemap: https://sportzpoint.com/web-stories-sitemap.xml
+Sitemap: https://sportzpoint.com/news-sitemap.xml
+
+# Crawl delay for specific bots
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+Crawl-delay: 1
+
+# Block specific paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /draft/
