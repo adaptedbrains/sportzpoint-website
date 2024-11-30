@@ -5,26 +5,8 @@ import { useRouter } from "next/navigation";
 const WebStoriesList = ({ webStories }) => {
   const router = useRouter();
 
-  const handleCardClick = (story) => {
-    // Format story data for WebStory component with multiple slides
-    const formattedStory = [
-      {
-        image: story.banner_image || '',
-        heading: story.title || '',
-        description: story.description || ''
-      },
-      {
-        image: story.banner_image || '', // You can add different images for each slide
-        heading: 'Continue Reading',
-        description: story.content || ''
-      }
-    ];
-    
-    // Store formatted story in session storage
-    sessionStorage.setItem('currentStory', JSON.stringify(formattedStory));
-    
-    // Navigate to story page
-    router.push(`/web-story/${story.slug}`);
+  const handleCardClick = (category, slug) => {
+    router.push(`/${category}/${slug}`);
   };
 
   return (
@@ -36,7 +18,9 @@ const WebStoriesList = ({ webStories }) => {
           webStories.map((story) => (
             <div
               key={story._id}
-              onClick={() => handleCardClick(story)}
+              onClick={() =>
+                handleCardClick(story.categories[0].slug, story.slug)
+              }
               className="relative group cursor-pointer w-full h-48 sm:h-60 md:h-72 rounded overflow-hidden hover:shadow-lg transition-shadow bg-white"
             >
               <div className="relative w-full h-full">
