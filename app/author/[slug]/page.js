@@ -32,14 +32,14 @@ export default function AuthorPage({ params }) {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="w-full px-0 sm:container sm:mx-auto sm:px-4 lg:px-8 pt-6 pb-12">
-        <div className="sm:rounded-lg sm:shadow-md overflow-hidden">
+      <div className="w-full px-4 sm:container sm:mx-auto sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-8 sm:pb-12">
+        <div className="bg-white sm:rounded-lg sm:shadow-md overflow-hidden">
           {/* Author Header */}
-          <div className="relative h-40 bg-[#006356]">
-            <div className="absolute -bottom-16 left-6 sm:left-8">
-              <div className="w-32 h-32 rounded-full border-4 border-white bg-white shadow-md overflow-hidden">
+          <div className="relative h-32 sm:h-40 bg-[#006356]">
+            <div className="absolute -bottom-12 sm:-bottom-16 left-4 sm:left-6">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white bg-white shadow-md overflow-hidden">
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-4xl text-[#006356]">
+                  <span className="text-3xl sm:text-4xl text-[#006356]">
                     {params.slug.charAt(0).toUpperCase()}
                   </span>
                 </div>
@@ -48,36 +48,36 @@ export default function AuthorPage({ params }) {
           </div>
 
           {/* Author Info */}
-          <div className="pt-20 px-6 sm:px-8 pb-8">
+          <div className="pt-16 sm:pt-20 px-4 sm:px-6 pb-6 sm:pb-8">
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Author Profile Coming Soon!</h1>
-              <p className="text-lg text-gray-600 mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">Author Profile Coming Soon!</h1>
+              <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
                 We are working on creating beautiful profile pages for our talented authors.
                 Stay tuned for updates!
               </p>
               
               {/* Social Links */}
-              <div className="flex gap-4 mb-8">
+              <div className="flex gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <Link 
                   href="https://x.com/sportz_point" 
                   target="_blank"
-                  className="w-10 h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
+                  className="w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
                 >
-                  <FaXTwitter size={18} />
+                  <FaXTwitter className="w-4 sm:w-[18px] h-4 sm:h-[18px]" />
                 </Link>
                 <Link 
                   href="https://www.facebook.com/sportzpointcricket" 
                   target="_blank"
-                  className="w-10 h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
+                  className="w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
                 >
-                  <FaFacebookF size={18} />
+                  <FaFacebookF className="w-4 sm:w-[18px] h-4 sm:h-[18px]" />
                 </Link>
                 <Link 
                   href="https://www.linkedin.com/company/sportzpoint" 
                   target="_blank"
-                  className="w-10 h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
+                  className="w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[#006356] bg-opacity-10 flex items-center justify-center text-[#006356] hover:bg-opacity-20 transition-all"
                 >
-                  <FaLinkedin size={18} />
+                  <FaLinkedin className="w-4 sm:w-[18px] h-4 sm:h-[18px]" />
                 </Link>
               </div>
             </div>
@@ -85,17 +85,17 @@ export default function AuthorPage({ params }) {
         </div>
 
         {/* Author's Articles */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 px-4">Latest Articles</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 sm:mt-12">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-0 sm:px-4">Latest Articles</h2>
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {placeholderArticles.map((article) => (
               <div
                 key={article.id}
                 className="bg-white sm:rounded-lg sm:shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="h-48 bg-[#006356] bg-opacity-10 flex items-center justify-center">
+                <div className="h-40 sm:h-48 bg-[#006356] bg-opacity-10 flex items-center justify-center">
                   <svg
-                    className="w-12 h-12 text-[#006356] opacity-30"
+                    className="w-10 h-10 sm:w-12 sm:h-12 text-[#006356] opacity-30"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -108,16 +108,16 @@ export default function AuthorPage({ params }) {
                     />
                   </svg>
                 </div>
-                <div className="p-4">
+                <div className="p-3 sm:p-4">
                   <div className="flex gap-2 mb-2">
-                    <span className="bg-[#006356] bg-opacity-10 text-[#006356] text-xs font-medium px-2.5 py-0.5 rounded">
+                    <span className="bg-[#006356] bg-opacity-10 text-[#006356] text-xs font-medium px-2 sm:px-2.5 py-0.5 rounded">
                       {article.category.name}
                     </span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1.5 sm:mb-2 line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  <p className="text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-3">
                     {article.summary}
                   </p>
                   <div className="text-xs text-gray-500">
