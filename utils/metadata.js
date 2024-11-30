@@ -48,6 +48,9 @@ export const generateMetadata = ({ article, category }) => {
     },
     alternates: {
       canonical: url,
+      amphtml: article 
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/amp/${category?.slug}/${article.slug}`
+        : undefined,
     },
     robots: {
       index: true,
