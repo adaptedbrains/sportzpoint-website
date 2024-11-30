@@ -8,19 +8,13 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = withPWA({
     images: {
-        domains: ['img-cdn.thepublive.com'],
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'dmpsza32x691.cloudfront.net',
-                port: '',
-                pathname: '/**',
-            }
-        ],
-        deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+        domains: ['dmpsza32x791.cloudfront.net'],
+        formats: ['image/avif', 'image/webp'],
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
         imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-        formats: ['image/webp', 'image/avif'],
         minimumCacheTTL: 60,
+        dangerouslyAllowSVG: true,
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
     compress: true,
     poweredByHeader: false,

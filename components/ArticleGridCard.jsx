@@ -2,13 +2,12 @@
 
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
 const ArticleGridCard = ({ post }) => {
   const router = useRouter();
-
-  
+  const [imageLoading, setImageLoading] = useState(true);
 
   if (!post) {
     return (
@@ -42,19 +41,30 @@ const ArticleGridCard = ({ post }) => {
     >
       {/* Image container with fixed aspect ratio */}
       <div className="relative w-full pt-[56.25%]">
-        {" "}
-        {/* 16:9 aspect ratio */}
         {post.banner_image ? (
-          <Image
-            src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
-            alt={post.banner_desc || post.title || ""}
-            fill
-            className="object-cover absolute top-0 left-0"
-            priority
-          />
+          <>
+            <div 
+              className={`absolute inset-0 bg-gray-200 ${
+                imageLoading ? 'animate-pulse' : 'hidden'
+              }`}
+            />
+            <Image
+              src={`https://dmpsza32x791.cloudfront.net/${post.banner_image}`}
+              alt={post.banner_desc || post.title || ""}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className={`object-cover absolute top-0 left-0 transition-opacity duration-300 ${
+                imageLoading ? 'opacity-0' : 'opacity-100'
+              }`}
+              quality={75}
+              priority={false}
+              loading="lazy"
+              onLoadingComplete={() => setImageLoading(false)}
+            />
+          </>
         ) : (
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
-            No Image
+          <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-400">No image available</span>
           </div>
         )}
       </div>
