@@ -89,7 +89,7 @@ export async function generateMetadata({ params }) {
         );
 
         return {
-            title: `${slug || 'Unknown'} - ${post.article?.title || 'Untitled Article'}`,
+            title: `${post.article?.title || 'Untitled Article'}`,
             description: post.article?.seo_desc || 'Default description',
         };
     } catch (error) {
