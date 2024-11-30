@@ -27,11 +27,9 @@ const WebStoriesJson = ({ post }) => {
         }
     }, [post]);
 
-    return (
-        <div className="bg-zinc-800 w-full fixed h-full top-0 start-0 z-20">
-            <WebStory story={webStories} />
-        </div>
-    );
+    if (webStories.length === 0) return null;
+    
+    return <WebStory story={webStories} />;
 };
 
 export default WebStoriesJson;
