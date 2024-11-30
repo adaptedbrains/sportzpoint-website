@@ -1,5 +1,9 @@
 export async function latestPost(url) {
-    const result = await fetch(`${url}`,{next:{revalidate:200}});
+    const result = await fetch(`${url}`,{
+        next:{
+            revalidate: 30 // Reduced from 200 to 30 seconds
+        }
+    });
     
     if (!result.ok) {
         throw new Error('Failed to fetch posts');
