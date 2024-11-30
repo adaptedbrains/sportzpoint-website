@@ -2,35 +2,53 @@
 import { useEffect, useState } from "react";
 import WebStory from "./WebStory";
 
-function convertWebStories(webStoriesArray) {
-    // Map the web_story array to the desired format
-    return webStoriesArray.map((item, index) => ({
-        id: item._id || index + 1, // Use the _id if available, otherwise fallback to an incremental id
-        title: item.title || "Untitled Web Story", // Use the item's title or a default
-        author: "John Doe", // Replace this with dynamic data if available
-        pages: [
-            {
-                image: item.img_src || "placeholder.png", // Fallback to placeholder if img_src is missing
-                heading: item.title || "Untitled Page", // Replace title with heading
-                description: item.desc || "No description provided", // Replace desc with description
-            },
-        ],
-    }));
+function convertWebStories(story) {
+    if (!story) return null;
+    
+    // If the story already has pages array, use it
+    if (story.pages) {
+        return story;
+    }
+
+    // Otherwise, create pages array from story data
+    return {
+        ...story,
+        pages: [{
+            image: story.banner_image || '',
+            heading: story.title || '',
+            description: story.description || ''
+        }]
+    };
 }
 
-const WebStoriesJson = ({ post }) => {
-    const [webStories, setWebStories] = useState([]);
+const WebStoryJson = ({ post }) => {
+    const [webStories, setWebStories] = useState(null);
 
     useEffect(() => {
-        if (post.web_story && Array.isArray(post.web_story)) {
-            const stories = convertWebStories(post.web_story);
-            setWebStories(stories);
+        let storyData = post;
+        
+        if (!storyData) {
+            // Try to get from sessionStorage if not provided as prop
+            const storedStory = sessionStorage.getItem('currentWebStory');
+            if (storedStory) {
+                try {
+                    storyData = JSON.parse(storedStory);
+                } catch (error) {
+                    console.error('Error parsing stored story:', error);
+                    return;
+                }
+            }
+        }
+
+        const convertedStory = convertWebStories(storyData);
+        if (convertedStory) {
+            setWebStories(convertedStory);
         }
     }, [post]);
 
-    if (webStories.length === 0) return null;
+    if (!webStories || !webStories.pages) return null;
     
-    return <WebStory story={webStories} />;
+    return <WebStory story={webStories.pages} />;
 };
 
-export default WebStoriesJson;
+export default WebStoryJson;
