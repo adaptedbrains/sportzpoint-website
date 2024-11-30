@@ -26,7 +26,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
       console.error('Missing post slug:', post);
       return;
     }
-    router.push(`/${post.categories[0].slug}/${post.slug}`);
+    router.push(`/${post.story.primary_category?.[0]?.slug.slug}/${post.slug}`);
   };
 
   const ArticleContent = ({ post }) => (

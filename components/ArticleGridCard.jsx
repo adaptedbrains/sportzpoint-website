@@ -22,8 +22,9 @@ const ArticleGridCard = ({ post }) => {
       </div>
     );
   }
+
   const handleClick = () => {
-    const categorySlug = post.categories?.[0]?.slug || "general";
+    const categorySlug = post.primary_category?.[0]?.slug || "general";
     const postSlug = post.slug;
 
     if (!categorySlug || !postSlug) {
