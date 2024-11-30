@@ -3,7 +3,7 @@
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
+import { useRouter } from "next/navigation";
 
 const ArticleGridCard = ({ post }) => {
   const router = useRouter();
@@ -28,11 +28,18 @@ const ArticleGridCard = ({ post }) => {
 
     router.push(`/${categorySlug}/${postSlug}`);
   };
-  const renderingCategory=[...post.primary_category,...post.categories]
+
+  const renderingCategory = [...(post.primary_category || []), ...(post.categories || [])];
   const uniqueRenderingCategory = Array.from(
     new Map(renderingCategory.map(item => [item._id, item])).values()
   );
 
+  // Handle image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return `https://dmpsza32x791.cloudfront.net/${imagePath}`;
+  };
 
   return (
     <div
@@ -49,7 +56,7 @@ const ArticleGridCard = ({ post }) => {
               }`}
             />
             <Image
-              src={`https://dmpsza32x791.cloudfront.net/${post.banner_image}`}
+              src={getImageUrl(post.banner_image)}
               alt={post.banner_desc || post.title || ""}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -60,6 +67,10 @@ const ArticleGridCard = ({ post }) => {
               priority={false}
               loading="lazy"
               onLoadingComplete={() => setImageLoading(false)}
+              onError={(e) => {
+                console.error('Image failed to load:', post.banner_image);
+                setImageLoading(false);
+              }}
             />
           </>
         ) : (
@@ -99,24 +110,14 @@ const ArticleGridCard = ({ post }) => {
             By{" "}
             {post.credits?.map((c, i) => (
               <span key={i}>
+                {i > 0 && ", "}
                 {c.name}
-                {i < post.credits.length - 1 ? ", " : ""}
               </span>
-            ))}
+            )) || "Unknown"}
           </p>
-          <div className="flex items-center text-[10px] text-gray-500 mt-1">
-            <span className="truncate">
-              {post.published_date
-                ? formatDate(post.published_date)
-                : post.updated_at_datetime
-                ? formatDate(post.updated_at_datetime)
-                : "No Date"}
-            </span>
-            <span className="mx-2 flex-shrink-0">•</span>
-            <span className="flex-shrink-0">
-              {post.readTime || "2 min read"}
-            </span>
-          </div>
+          <p className="text-xs text-gray-500">
+            {formatDate(post.published_date)}
+          </p>
         </div>
       </div>
     </div>

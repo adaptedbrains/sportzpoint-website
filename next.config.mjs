@@ -3,9 +3,17 @@ import withPWA from 'next-pwa';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: [
-            'dmpsza32x691.cloudfront.net',  
-            'dmpsza32x791.cloudfront.net'   
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'dmpsza32x691.cloudfront.net',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'dmpsza32x791.cloudfront.net',
+                pathname: '/**',
+            }
         ],
         formats: ['image/avif', 'image/webp'],
         deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
