@@ -18,6 +18,14 @@ const WebStory = ({ story }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  useEffect(() => {
+    // Prevent body scroll when story is open
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleNext = () => {
     if (currentPage < story.length - 1) {
       setCurrentPage(currentPage + 1);
@@ -40,11 +48,19 @@ const WebStory = ({ story }) => {
   return (
     <div 
       {...handlers}
-      className={`relative overflow-hidden bg-black text-white ${
-        isMobile 
-          ? 'fixed inset-0 z-50 h-full w-full' 
-          : 'h-screen w-full md:w-2/3 lg:w-1/3 mx-auto'
-      }`}
+      className="fixed inset-0 w-screen h-screen bg-black"
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 9999,
+        overflow: 'hidden',
+        touchAction: 'none'
+      }}
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -53,14 +69,15 @@ const WebStory = ({ story }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute inset-0 flex justify-center items-center"
+          className="absolute inset-0 w-full h-full"
         >
           {story[currentPage] && (
             <Image
               src={`https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}`}
               alt={story[currentPage].pages[0].heading}
-              className="object-cover"
-              layout='fill'
+              className="object-cover object-center"
+              fill
+              sizes="100vw"
               priority
             />
           )}
@@ -92,10 +109,34 @@ const WebStory = ({ story }) => {
         </div>
       )}
 
+      {/* Touch Navigation Areas with Arrows */}
+      <div className="absolute inset-0 flex touch-none">
+        <div 
+          className="w-1/2 h-full relative flex items-center justify-start" 
+          onClick={handlePrevious}
+        >
+          {currentPage > 0 && (
+            <div className="absolute left-4 bg-black/20 rounded-full p-2 backdrop-blur-sm">
+              <IoIosArrowBack size={24} className="text-white/90" />
+            </div>
+          )}
+        </div>
+        <div 
+          className="w-1/2 h-full relative flex items-center justify-end" 
+          onClick={handleNext}
+        >
+          {currentPage < story.length - 1 && (
+            <div className="absolute right-4 bg-black/20 rounded-full p-2 backdrop-blur-sm">
+              <IoIosArrowForward size={24} className="text-white/90" />
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Progress Indicator */}
-      <div className="absolute top-0 left-0 right-0 flex justify-center space-x-1 p-2 z-10">
+      <div className="absolute top-0 left-0 right-0 flex space-x-1 p-2 z-10">
         {story.map((_, index) => (
-          <div key={index} className="flex-1 h-0.5 bg-gray-500 overflow-hidden rounded-full">
+          <div key={index} className="flex-1 h-1 bg-white/30 overflow-hidden rounded-full">
             <motion.div
               initial={{ width: index < currentPage ? "100%" : "0%" }}
               animate={{ 
@@ -114,15 +155,15 @@ const WebStory = ({ story }) => {
       {/* Content */}
       <motion.div
         key={`content-${currentPage}`}
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
-        className="bg-gradient-to-t from-black/80 via-black/50 to-transparent absolute bottom-0 left-0 right-0 p-4 pt-16"
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-20 pb-safe px-4"
       >
         {story[currentPage] && <>
-          <h1 className="text-xl md:text-3xl font-bold mb-2">{story[currentPage].pages[0].heading}</h1>
-          <p className="text-sm md:text-lg mb-4 text-gray-200">{story[currentPage].pages[0].description}</p>
+          <h1 className="text-white text-lg font-bold mb-2">{story[currentPage].pages[0].heading}</h1>
+          <p className="text-gray-200 text-sm leading-relaxed mb-safe">{story[currentPage].pages[0].description}</p>
         </>}
       </motion.div>
     </div>
