@@ -1,3 +1,4 @@
+'use client'
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
@@ -97,7 +98,7 @@ const FullWidthArticleCard = ({ article }) => (
       <div className="relative h-64 w-full">
         <Image
           src={`https://dmpsza32x691.cloudfront.net/${article.banner_image}`}
-          alt={article.title}
+          alt={article.banner_desc || article.title || ""}
           layout="fill"
           objectFit="cover"
           className="transition-transform duration-300 hover:scale-105"
@@ -336,7 +337,7 @@ const BlogPost = ({ postData, index }) => {
               {postData.author_image ? (
                 <Image
                   src={postData.author_image}
-                  alt={postData.author?.name}
+                  alt={postData.banner_desc || postData.title || ""}
                   width={35}
                   height={35}
                   className="rounded-full"
@@ -387,7 +388,7 @@ const BlogPost = ({ postData, index }) => {
                 Follow Us
               </Link>
               <ShareButtons
-                url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.categories[0]?.slug}/${postData.slug}`}
+                url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.primary_category[0]?.slug}/${postData.slug}`}
                 title={postData.title}
               />
             </div>
@@ -397,7 +398,7 @@ const BlogPost = ({ postData, index }) => {
             <div className="w-full relative my-6 aspect-w-16 aspect-h-9">
               <Image
                 src={`https://dmpsza32x691.cloudfront.net/${postData.banner_image}`}
-                alt={postData.title || "Banner Image"}
+                alt={postData.banner_desc || postData.title || ""}
                 layout="fill"
                 objectFit="cover"
                 objectPosition="center"
