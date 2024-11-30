@@ -90,6 +90,12 @@
   </url>
 
   <url>
+    <loc>https://sportzpoint.com/sitemap.xml</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://sportzpoint.com/sports-guest-post</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
