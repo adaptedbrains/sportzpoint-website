@@ -75,7 +75,7 @@ const LatestStories = () => {
                   </h3>
 
                   <p className="text-xs text-gray-500 mt-1">
-                    By {story.author?.name || "Unknown Author"}
+                    By {typeof story.author === 'string' ? story.author : story.author?.name || "Unknown Author"}
                   </p>
                 </div>
               </article>
