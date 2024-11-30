@@ -1,10 +1,4 @@
-/** @type {import('next').NextConfig} */
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === 'development'
-});
+import withPWA from 'next-pwa';
 
 const nextConfig = withPWA({
     images: {
@@ -25,6 +19,12 @@ const nextConfig = withPWA({
         scrollRestoration: true,
         legacyBrowsers: false,
     },
+    pwa: {
+        dest: 'public',
+        register: true,
+        skipWaiting: true,
+        disable: process.env.NODE_ENV === 'development'
+    },
     async headers() {
         return [
             {
@@ -33,6 +33,10 @@ const nextConfig = withPWA({
                     {
                         key: 'X-DNS-Prefetch-Control',
                         value: 'on'
+                    },
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload'
                     },
                     {
                         key: 'X-XSS-Protection',
