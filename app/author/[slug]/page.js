@@ -1,7 +1,7 @@
 import { FaXTwitter, FaLinkedin, FaFacebookF } from 'react-icons/fa6';
 import Link from 'next/link';
 
-export default function AuthorPage() {
+export default function AuthorPage({ params }) {
   // Placeholder articles data
   const placeholderArticles = [
     {
@@ -108,6 +108,7 @@ export default function AuthorPage() {
                     />
                   </svg>
                 </div>
+
                 <div className="p-3 sm:p-4">
                   <div className="flex gap-2 mb-2">
                     <span className="bg-[#006356] bg-opacity-10 text-[#006356] text-xs font-medium px-2 sm:px-2.5 py-0.5 rounded">

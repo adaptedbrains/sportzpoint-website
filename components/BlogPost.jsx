@@ -471,6 +471,16 @@ const BlogPost = ({ postData, index }) => {
             </div>
           )}
 
+          {postData.credits && postData.credits.length > 0 && (
+            <p className="text-sm text-gray-600">
+              By {postData.credits ? postData.credits.map((c, i) => (
+                <Link href={`/author/${c.name.toLowerCase().replace(/\s+/g, '-')}`} key={i} className="hover:text-blue-600">
+                  <span>{c.name}{i < postData.credits.length - 1 ? ', ' : ''}</span>
+                </Link>
+              )) : 'Unknown Author'}
+            </p>
+          )}
+
           {index === 0 &&
             postData.related_articles &&
             postData.related_articles.length > 0 && (
