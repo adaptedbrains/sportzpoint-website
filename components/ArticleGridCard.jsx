@@ -4,10 +4,12 @@ import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageUrl } from '@/utils/imageUtils';
 
 const ArticleGridCard = ({ post }) => {
   const router = useRouter();
   const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   if (!post) {
     return (
@@ -34,13 +36,6 @@ const ArticleGridCard = ({ post }) => {
     new Map(renderingCategory.map(item => [item._id, item])).values()
   );
 
-  // Handle image URL
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    return `https://dmpsza32x791.cloudfront.net/${imagePath}`;
-  };
-
   return (
     <div
       className="bg-white hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg overflow-hidden cursor-pointer flex flex-col"
@@ -55,23 +50,30 @@ const ArticleGridCard = ({ post }) => {
                 imageLoading ? 'animate-pulse' : 'hidden'
               }`}
             />
-            <Image
-              src={getImageUrl(post.banner_image)}
-              alt={post.banner_desc || post.title || ""}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className={`object-cover absolute top-0 left-0 transition-opacity duration-300 ${
-                imageLoading ? 'opacity-0' : 'opacity-100'
-              }`}
-              quality={75}
-              priority={false}
-              loading="lazy"
-              onLoadingComplete={() => setImageLoading(false)}
-              onError={(e) => {
-                console.error('Image failed to load:', post.banner_image);
-                setImageLoading(false);
-              }}
-            />
+            {!imageError ? (
+              <Image
+                src={getImageUrl(post.banner_image)}
+                alt={post.banner_desc || post.title || ""}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-300 ${
+                  imageLoading ? 'opacity-0' : 'opacity-100'
+                }`}
+                quality={75}
+                priority={false}
+                loading="lazy"
+                onLoadingComplete={() => setImageLoading(false)}
+                onError={() => {
+                  console.error('Image failed to load:', post.banner_image);
+                  setImageLoading(false);
+                  setImageError(true);
+                }}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">Image not available</span>
+              </div>
+            )}
           </>
         ) : (
           <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">

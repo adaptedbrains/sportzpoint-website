@@ -1,11 +1,14 @@
 "use client";
 import { formatDate } from "@/util/timeFormat";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageUrl } from '@/utils/imageUtils';
 
 const SectionArticleCard = ({ post }) => {
   const router = useRouter();
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   if (!post) return null;
 
@@ -14,7 +17,7 @@ const SectionArticleCard = ({ post }) => {
     router.push(`/${post.primary_category[0].slug}/${post.slug}`);
   };
 
-  const renderingCategory=[...post.primary_category,...post.categories]
+  const renderingCategory = [...(post.primary_category || []), ...(post.categories || [])];
   const uniqueRenderingCategory = Array.from(
     new Map(renderingCategory.map(item => [item._id, item])).values()
   );
@@ -26,14 +29,35 @@ const SectionArticleCard = ({ post }) => {
     >
       <div className="relative w-full pt-[56.25%]">
         {post.banner_image ? (
-          <Image
-            src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
-            alt={post.banner_desc || post.title || ""}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-            priority
-          />
+          <>
+            <div 
+              className={`absolute inset-0 bg-gray-200 ${
+                imageLoading ? 'animate-pulse' : 'hidden'
+              }`}
+            />
+            {!imageError ? (
+              <Image
+                src={getImageUrl(post.banner_image)}
+                alt={post.banner_desc || post.title || ""}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className={`object-cover transition-opacity duration-300 ${
+                  imageLoading ? 'opacity-0' : 'opacity-100'
+                }`}
+                priority
+                onLoadingComplete={() => setImageLoading(false)}
+                onError={() => {
+                  console.error('Image failed to load:', post.banner_image);
+                  setImageError(true);
+                  setImageLoading(false);
+                }}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">Image not available</span>
+              </div>
+            )}
+          </>
         ) : (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
             No Image
@@ -56,7 +80,6 @@ const SectionArticleCard = ({ post }) => {
               {c.name || "Uncategorized"}
             </span>
           ))}
-          
         </div>
 
         <h2 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-3">
@@ -70,11 +93,11 @@ const SectionArticleCard = ({ post }) => {
         <div className="mt-auto">
           <p className="text-xs text-gray-600 truncate">
             By {post.credits?.map((c, i) => (
-                    <span key={i}>
-                      {c.name}
-                      {i < post.credits.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
+              <span key={i}>
+                {c.name}
+                {i < post.credits.length - 1 ? ", " : ""}
+              </span>
+            ))}
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
             <span className="truncate">

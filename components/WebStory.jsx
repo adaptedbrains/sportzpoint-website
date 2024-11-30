@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useSwipeable } from 'react-swipeable';
+import { getImageUrl } from '@/utils/imageUtils';
 
 const WebStory = ({ story }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -17,6 +19,11 @@ const WebStory = ({ story }) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  useEffect(() => {
+    // Reset image error state when page changes
+    setImageError(false);
+  }, [currentPage]);
 
   useEffect(() => {
     // Prevent body scroll when story is open
@@ -63,15 +70,22 @@ const WebStory = ({ story }) => {
             className="relative w-full h-full"
           >
             <div className="relative w-full h-full">
-              <Image
-                src={`https://dmpsza32x691.cloudfront.net/${story[currentPage]?.image}`}
-                alt={story[currentPage]?.title || 'Story image'}
-                layout="fill"
-                objectFit="cover"
-                priority={true}
-                quality={90}
-                aria-hidden="false"
-              />
+              {!imageError ? (
+                <Image
+                  src={getImageUrl(story[currentPage]?.image)}
+                  alt={story[currentPage]?.title || 'Story image'}
+                  layout="fill"
+                  objectFit="cover"
+                  priority={true}
+                  quality={90}
+                  aria-hidden="false"
+                  onError={() => setImageError(true)}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-900">
+                  <span className="text-white">Image not available</span>
+                </div>
+              )}
               <div 
                 className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/50 to-transparent"
                 aria-live="polite"
@@ -109,7 +123,7 @@ const WebStory = ({ story }) => {
         <div 
           className="absolute top-0 left-0 right-0 flex gap-1 p-2"
           role="progressbar"
-          aria-valuemin="1"
+          aria-valuemin={0}
           aria-valuemax={story.length}
           aria-valuenow={currentPage + 1}
         >
@@ -117,9 +131,8 @@ const WebStory = ({ story }) => {
             <div
               key={index}
               className={`flex-1 h-1 rounded-full ${
-                index === currentPage ? 'bg-white' : 'bg-gray-500'
+                index === currentPage ? 'bg-white' : 'bg-white/50'
               }`}
-              aria-hidden="true"
             />
           ))}
         </div>
