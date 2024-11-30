@@ -73,6 +73,10 @@ const LatestStories = () => {
                   <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                     {story.title}
                   </h3>
+
+                  <p className="text-xs text-gray-500 mt-1">
+                    By {story.author?.name || "Unknown Author"}
+                  </p>
                 </div>
               </article>
             ))}

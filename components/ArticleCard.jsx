@@ -53,7 +53,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
 
       <div className="mt-auto">
         <p className="text-xs text-gray-600 truncate">
-          By {post.author?.name || "Unknown Author"}
+          By {post.credits || post.author?.name || "Unknown Author"}
         </p>
         <div className="flex items-center text-[10px] text-gray-500 mt-1">
           <span className="truncate">

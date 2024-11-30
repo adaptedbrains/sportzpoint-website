@@ -341,7 +341,7 @@ const BlogPost = ({ postData, index }) => {
               {postData.author_image ? (
                 <Image
                   src={postData.author_image}
-                  alt={postData.author?.name}
+                  alt={postData.credits || postData.author?.name || "Unknown Author"}
                   width={35}
                   height={35}
                   className="rounded-full"
@@ -355,10 +355,10 @@ const BlogPost = ({ postData, index }) => {
               )}
               <div className="flex flex-col">
                 <Link 
-                  href={`/author/${postData.author?.slug}`}
+                  href={postData.author?.slug ? `/author/${postData.author.slug}` : '#'}
                   className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
                 >
-                  {postData.author?.name}
+                  {postData.credits || postData.author?.name || "Unknown Author"}
                 </Link>
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
