@@ -1,11 +1,25 @@
-import redis from '@/lib/redis';
+import { Redis } from '@upstash/redis';
 
 const CACHE_TTL = 60 * 60; // 1 hour
 const STALE_TTL = 60 * 5; // 5 minutes
 
+// Initialize Redis only if credentials are available
+let redis;
+try {
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
+  }
+} catch (error) {
+  console.warn('Redis initialization failed:', error);
+}
+
 export class Cache {
   constructor(namespace) {
     this.namespace = namespace;
+    this.memoryCache = new Map();
   }
 
   generateKey(key) {
@@ -14,16 +28,41 @@ export class Cache {
 
   async get(key) {
     const cacheKey = this.generateKey(key);
-    const data = await redis.get(cacheKey);
     
-    if (!data) return null;
-    
-    return JSON.parse(data);
+    try {
+      if (redis) {
+        const data = await redis.get(cacheKey);
+        return data ? JSON.parse(data) : null;
+      }
+      
+      // Fallback to memory cache if Redis is not available
+      const data = this.memoryCache.get(cacheKey);
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.warn('Cache get error:', error);
+      return null;
+    }
   }
 
   async set(key, value, ttl = CACHE_TTL) {
     const cacheKey = this.generateKey(key);
-    await redis.set(cacheKey, JSON.stringify(value), { ex: ttl });
+    const stringValue = JSON.stringify(value);
+    
+    try {
+      if (redis) {
+        await redis.set(cacheKey, stringValue, { ex: ttl });
+      }
+      
+      // Also set in memory cache
+      this.memoryCache.set(cacheKey, stringValue);
+      
+      // Clear memory cache after TTL
+      setTimeout(() => {
+        this.memoryCache.delete(cacheKey);
+      }, ttl * 1000);
+    } catch (error) {
+      console.warn('Cache set error:', error);
+    }
   }
 
   async getWithSWR(key, fetchFn) {
@@ -39,7 +78,9 @@ export class Cache {
       }
       
       // Try to get stale data
-      const staleData = await redis.get(staleKey);
+      const staleData = redis 
+        ? await redis.get(staleKey)
+        : this.memoryCache.get(staleKey);
       
       // Revalidate in background
       this.revalidate(key, staleKey, fetchFn);
@@ -66,7 +107,10 @@ export class Cache {
       // Move current data to stale
       const currentData = await this.get(key);
       if (currentData) {
-        await redis.set(staleKey, JSON.stringify(currentData), { ex: STALE_TTL });
+        if (redis) {
+          await redis.set(staleKey, JSON.stringify(currentData), { ex: STALE_TTL });
+        }
+        this.memoryCache.set(staleKey, JSON.stringify(currentData));
       }
       
       // Fetch fresh data
