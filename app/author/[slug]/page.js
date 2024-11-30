@@ -1,7 +1,7 @@
 import { FaXTwitter, FaLinkedin, FaFacebookF } from 'react-icons/fa6';
 import Link from 'next/link';
 
-export default function AuthorPage({ params }) {
+export default function AuthorPage() {
   // Placeholder articles data
   const placeholderArticles = [
     {

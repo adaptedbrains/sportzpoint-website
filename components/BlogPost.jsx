@@ -14,24 +14,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { toast } from "react-hot-toast";
 
-const socialMedia = [
-  {
-    icon: <FaWhatsapp size={20} />,
-    href: "https://api.whatsapp.com/send?text=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
-  },
-  {
-    icon: <FaFacebook size={20} />,
-    href: "http://www.facebook.com/sharer/sharer.php?u=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
-  },
-  {
-    icon: <FaXTwitter size={20} />,
-    href: "http://www.twitter.com/intent/tweet?url=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
-  },
-  {
-    icon: <FaLinkedin size={20} />,
-    href: "https://www.linkedin.com/sharing/share-offsite/?url=https://sportzpoint.com/cricket/exclusive-felt-like-my-debut-bengal-pacer-ishan-porel-now-wants-to-enjoy-his-cricket-after-a-solid-comeback-to-first-class-cricket-7375215",
-  },
-];
 
 const getSocialShareLinks = (url, title) => [
   {
@@ -123,7 +105,7 @@ const FullWidthArticleCard = ({ article }) => (
                 href={`/${category.slug}`}
                 className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
-                {category.name}
+               {category.name}
               </Link>
             ))}
         </div>
@@ -298,6 +280,10 @@ const BlogPost = ({ postData, index }) => {
       },
     ],
   };
+  const renderingCategory=[...postData.primary_category,...postData.categories]
+  const uniqueRenderingCategory = Array.from(
+    new Map(renderingCategory.map(item => [item._id, item])).values()
+  );
 
   return (
     <>
@@ -318,13 +304,13 @@ const BlogPost = ({ postData, index }) => {
                 <span className="font-bold">V</span>E{" "}
               </div>
             )}
-            {postData.categories.map((category, index) => (
+            {uniqueRenderingCategory && uniqueRenderingCategory.map((category, index) => (
               <Link
                 href={`/${category.slug}`}
                 key={index}
                 className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
               >
-                {category.name}
+                {category.name} 
               </Link>
             ))}
           </div>

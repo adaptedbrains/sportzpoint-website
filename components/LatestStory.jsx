@@ -48,7 +48,7 @@ const LatestStories = () => {
               <article
                 key={index}
                 onClick={() =>
-                  handleClick(story.categories[0]?.slug, story.slug, story._id)
+                  handleClick(story.primary_category?.[0]?.slug, story.slug, story._id)
                 }
                 className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 transition-colors duration-200"
               >
@@ -66,13 +66,19 @@ const LatestStories = () => {
                 </div>
 
                 <div className="flex flex-col justify-between flex-1 min-h-[64px]">
-                  <span className="text-xs font-medium text-[#006356]">
+                  {/* <span className="text-xs font-medium text-[#006356]">
                     {story.categories?.[0]?.name || "Sports"}
-                  </span>
+                  </span> */}
 
                   <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                     {story.title}
                   </h3>
+
+                  <p className="text-xs text-gray-500 mt-1">
+
+                    {/* {typeof story.author === 'string' ? story.author : story.author?.name || "Unknown Author"} */}
+                     
+                  </p>
                 </div>
               </article>
             ))}

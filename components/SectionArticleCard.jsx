@@ -10,9 +10,14 @@ const SectionArticleCard = ({ post }) => {
   if (!post) return null;
 
   const handleClick = () => {
-    if (!post?.categories?.[0]?.slug) return;
-    router.push(`/${post.categories[0].slug}/${post.slug}`);
+    if (!post?.primary_category?.[0]?.slug) return;
+    router.push(`/${post.primary_category[0].slug}/${post.slug}`);
   };
+
+  const renderingCategory=[...post.primary_category,...post.categories]
+  const uniqueRenderingCategory = Array.from(
+    new Map(renderingCategory.map(item => [item._id, item])).values()
+  );
 
   return (
     <div
@@ -43,7 +48,7 @@ const SectionArticleCard = ({ post }) => {
               LIVE
             </span>
           )}
-          {post.categories?.map((c, i) => (
+          {uniqueRenderingCategory && uniqueRenderingCategory.map((c, i) => (
             <span
               key={i}
               className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
@@ -51,6 +56,7 @@ const SectionArticleCard = ({ post }) => {
               {c.name || "Uncategorized"}
             </span>
           ))}
+          
         </div>
 
         <h2 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-3">
