@@ -47,7 +47,7 @@ const ArticleGridCard = ({ post }) => {
         {post.banner_image ? (
           <Image
             src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
-            alt={post.title}
+            alt={post.banner_desc || post.title || ""}
             fill
             className="object-cover absolute top-0 left-0"
             priority

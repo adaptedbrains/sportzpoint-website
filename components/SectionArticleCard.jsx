@@ -28,7 +28,7 @@ const SectionArticleCard = ({ post }) => {
         {post.banner_image ? (
           <Image
             src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
-            alt={post.title}
+            alt={post.banner_desc || post.title || ""}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
