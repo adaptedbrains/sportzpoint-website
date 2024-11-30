@@ -84,7 +84,7 @@ const ArticleGridCard = ({ post }) => {
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
             <span className="truncate">
-              {post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
+              {post.published_date ? formatDate(post.published_date) : post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
             </span>
             <span className="mx-2 flex-shrink-0">•</span>
             <span className="flex-shrink-0">{post.readTime || "2 min read"}</span>

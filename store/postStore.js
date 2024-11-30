@@ -1,5 +1,48 @@
 import { create } from "zustand";
 
+// Helper function to process article data
+const processArticle = (article) => {
+  // Debug log to see incoming article data
+  console.log('Processing article:', {
+    title: article.title,
+    originalCategories: article.categories,
+    category: article.category
+  });
+
+  let categories;
+  if (article.categories?.length > 0) {
+    categories = article.categories;
+  } else if (article.category) {
+    // If we have a single category object
+    if (typeof article.category === 'object' && article.category.name) {
+      categories = [article.category];
+    } 
+    // If category is a string
+    else if (typeof article.category === 'string') {
+      categories = [{
+        name: article.category,
+        slug: article.category.toLowerCase().replace(/\s+/g, '-')
+      }];
+    }
+    else {
+      categories = [{ slug: 'sports', name: 'Sports' }];
+    }
+  } else {
+    categories = [{ slug: 'sports', name: 'Sports' }];
+  }
+
+  // Debug log processed categories
+  console.log('Processed categories:', categories);
+
+  return {
+    ...article,
+    categories,
+    slug: article.slug || article._id?.toString() || 'article',
+    published_date: article.published_date || article.createdAt || new Date().toISOString(),
+    updated_at_datetime: article.updated_at_datetime || article.published_date || article.createdAt || new Date().toISOString()
+  };
+};
+
 const usePostStore = create((set) => ({
   posts: [],
   webstory: [],
@@ -11,101 +54,111 @@ const usePostStore = create((set) => ({
   latestStory: [],
 
   fetchPosts: async (url) => {
-
-    set({ loading: true, error: null }); // Set loading to true at the start
+    set({ loading: true, error: null });
     try {
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
+      if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
 
+      // Debug log raw data
+      console.log('Raw posts data:', {
+        firstArticle: data.articles?.[0]
+      });
+
+      // Process articles to ensure consistent data structure
+      const processedArticles = (data.articles || []).map(processArticle);
+
+      // Debug log processed data
+      console.log('Processed posts:', {
+        firstArticle: processedArticles[0]
+      });
+
       set({
-        posts: data.articles || [], // Assuming 'articles' is the key for posts
-        totalPages: data.pagination?.totalPages || 1, // Extract totalPages from API response
-        loading: false, // Set loading to false after successful fetch
+        posts: processedArticles,
+        totalPages: data.pagination?.totalPages || 1,
+        loading: false,
       });
     } catch (error) {
-      set({
-        error: error.message,
-        loading: false, // Set loading to false in case of an error
-      });
+      console.error('Posts fetch error:', error);
+      set({ error: error.message, loading: false });
     }
   },
 
-  // Function to fetch latest stories
   fetchLatestStory: async (url) => {
-    set({ loading: true, error: null }); // Set loading to true at the start
+    set({ loading: true, error: null });
     try {
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch latest stories");
-      }
-
+      if (!response.ok) throw new Error("Failed to fetch latest stories");
       const data = await response.json();
 
+      // Debug log raw data
+      console.log('Raw latest stories data:', {
+        firstArticle: data.articles?.[0]
+      });
+
+      // Process articles to ensure consistent data structure
+      const processedArticles = (data.articles || []).map(processArticle);
+
+      // Debug log processed data
+      console.log('Processed latest stories:', {
+        firstArticle: processedArticles[0]
+      });
+
       set({
-        latestStory: data.articles || [], // Assuming 'articles' is the key for latest stories
-        loading: false, // Set loading to false after successful fetch
+        latestStory: processedArticles,
+        loading: false,
       });
     } catch (error) {
-      set({
-        error: error.message,
-        loading: false, // Set loading to false in case of an error
-      });
+      console.error('Latest stories fetch error:', error);
+      set({ error: error.message, loading: false });
     }
   },
 
   fetchWebPosts: async (url) => {
-
-    set({ loading: true, error: null }); // Set loading to true at the start
+    set({ loading: true, error: null });
     try {
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
+      if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
 
+      // Debug log raw data
+      console.log('Raw web posts data:', {
+        firstArticle: data.articles?.[0]
+      });
+
+      // Process articles to ensure consistent data structure
+      const processedArticles = (data.articles || []).map(processArticle);
+
+      // Debug log processed data
+      console.log('Processed web posts:', {
+        firstArticle: processedArticles[0]
+      });
+
       set({
-        webstory: data.articles || [], // Assuming 'articles' is the key for posts
-        totalPages: data.pagination?.totalPages || 1, // Extract totalPages from API response
-        loading: false, // Set loading to false after successful fetch
+        webstory: processedArticles,
+        totalPages: data.pagination?.totalPages || 1,
+        loading: false,
       });
     } catch (error) {
-      set({
-        error: error.message,
-        loading: false, // Set loading to false in case of an error
-      });
+      console.error('Web posts fetch error:', error);
+      set({ error: error.message, loading: false });
     }
   },
 
   liveBlogFunction: (data) => {
-  
     if (Array.isArray(data)) {
-      // If it's an array, replace the existing liveBlogs with the new array
       set(() => ({
-        liveBlogs: data, // Replace liveBlogs with the new array
+        liveBlogs: data.map(processArticle),
       }));
     } else if (typeof data === "object" && data !== null) {
-      alert("object called")
-      // If it's an object, add it to the liveBlogs list (or update if already exists)
       set((state) => ({
         liveBlogs: [
-          data, // Add the new blog entry
-          ...state.liveBlogs.filter((blog) => blog._id !== data._id) // Keep the existing blogs, removing the one with the same _id if any
+          processArticle(data),
+          ...state.liveBlogs.filter((blog) => blog._id !== data._id)
         ],
       }));
-    } else {
-      console.warn("Invalid data format for live blog updates");
     }
   }
-
-
 }));
 
 export default usePostStore;
