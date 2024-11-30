@@ -11,7 +11,21 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
   if (!mainPost) return null;
 
   const handleClick = (post) => {
-    if (!post?.categories?.[0]?.slug) return;
+    // Debug logging
+    console.log('Clicked post:', {
+      categories: post.categories,
+      firstCategory: post.categories?.[0],
+      slug: post.slug
+    });
+
+    if (!post?.categories?.[0]?.slug) {
+      console.error('Missing category slug:', post);
+      return;
+    }
+    if (!post.slug) {
+      console.error('Missing post slug:', post);
+      return;
+    }
     router.push(`/${post.categories[0].slug}/${post.slug}`);
   };
 
