@@ -81,11 +81,15 @@ const ArticleGridCard = ({ post }) => {
         {/* Author and metadata */}
         <div className="mt-auto">
           <p className="text-xs text-gray-600 truncate">
-            By {post.author?.name || "Unknown Author"}
+            By {post.credits?.map((c, i) => (
+              <span key={i}>
+                {c.name}{i < post.credits.length - 1 ? ', ' : ''}
+              </span>
+            ))}
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
             <span className="truncate">
-              {post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
+              {post.published_date ? formatDate(post.published_date) : post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
             </span>
             <span className="mx-2 flex-shrink-0">•</span>
             <span className="flex-shrink-0">{post.readTime || "2 min read"}</span>

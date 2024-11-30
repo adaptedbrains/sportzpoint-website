@@ -1,22 +1,27 @@
 export async function latestPost(url) {
-    const result = await fetch(`${url}`,{
-        next:{
-            revalidate: 30 // Reduced from 200 to 30 seconds
-        }
-    });
-    
-    if (!result.ok) {
-        throw new Error('Failed to fetch posts');
+    try {
+        const result = await fetch(`${url}`, {
+            next: {
+                revalidate: 600
+            }
+        });
+        
+        if (!result.ok) return [];
+        
+        const data = await result.json();
+        if (!data?.articles?.length) return [];
+        
+        return data.articles.map(article => ({
+            ...article,
+            categories: article.categories?.length > 0 
+                ? article.categories 
+                : [{ slug: 'sports', name: 'Sports' }],
+            author: { name: article.credits || article.author?.name || 'Unknown Author' },
+            slug: article.slug || article._id?.toString() || 'article',
+            published_date: article.published_date || article.createdAt || new Date().toISOString(),
+            updated_at_datetime: article.updated_at_datetime || article.published_date || article.createdAt || new Date().toISOString()
+        }));
+    } catch (error) {
+        return [];
     }
-    const data = await result.json();
-    
-    // Debug log
-    
-    // Ensure categories exist for each article
-    const articlesWithCategories = data.articles.map(article => ({
-        ...article,
-        categories: article.categories || [{ slug: 'general', name: 'General' }]
-    }));
-    
-    return articlesWithCategories;
 }

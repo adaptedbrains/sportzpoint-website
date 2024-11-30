@@ -36,35 +36,43 @@ const socialMedia = [
 const getSocialShareLinks = (url, title) => [
   {
     icon: <FaWhatsapp size={18} />,
-    href: `https://api.whatsapp.com/send?text=${encodeURIComponent(title + " " + url)}`,
-    label: "WhatsApp"
+    href: `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      title + " " + url
+    )}`,
+    label: "WhatsApp",
   },
   {
     icon: <FaFacebook size={18} />,
-    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-    label: "Facebook"
+    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      url
+    )}`,
+    label: "Facebook",
   },
   {
     icon: <FaXTwitter size={18} />,
-    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-    label: "Twitter"
+    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      url
+    )}&text=${encodeURIComponent(title)}`,
+    label: "Twitter",
   },
   {
     icon: <FaLinkedin size={18} />,
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-    label: "LinkedIn"
-  }
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+      url
+    )}`,
+    label: "LinkedIn",
+  },
 ];
 
 const ShareButtons = ({ url, title }) => {
   const socialLinks = getSocialShareLinks(url, title);
-  
+
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Link copied!');
+      toast.success("Link copied!");
     } catch (err) {
-      toast.error('Failed to copy link');
+      toast.error("Failed to copy link");
     }
   };
 
@@ -188,8 +196,6 @@ const BlogPost = ({ postData, index }) => {
   const { messages } = useWebSocket();
   const postRef = React.useRef(null);
   const { liveBlogs, liveBlogFunction } = usePostStore();
-
-  
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
@@ -337,29 +343,35 @@ const BlogPost = ({ postData, index }) => {
           )}
 
           <div className="flex justify-between items-center flex-wrap gap-4">
+            {console.log('Credits data:', postData.credits)}
             <div className="flex items-center gap-2">
               {postData.author_image ? (
                 <Image
                   src={postData.author_image}
-                  alt={postData.author?.name}
+                  alt={
+                    postData.credits?.map((c, i) => 
+                      `${c.name}${i < postData.credits.length - 1 ? ', ' : ''}`
+                    ).join('') || "Unknown Author"
+                  }
                   width={35}
                   height={35}
                   className="rounded-full"
                   onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'block';
+                    e.target.style.display = "none";
+                    e.target.nextSibling.style.display = "block";
                   }}
                 />
               ) : (
                 <FaUserCircle size={35} color="gray" />
               )}
               <div className="flex flex-col">
-                <Link 
-                  href={`/author/${postData.author?.slug}`}
-                  className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
-                >
-                  {postData.author?.name}
-                </Link>
+                <p className="text-sm text-gray-600">
+                  By {postData.credits ? postData.credits.map((c, i) => (
+                    <span key={i}>
+                      {c.name}{i < postData.credits.length - 1 ? ', ' : ''}
+                    </span>
+                  )) : 'Unknown Author'}
+                </p>
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
                     convertToIST(postData.published_at_datetime)}
@@ -384,7 +396,10 @@ const BlogPost = ({ postData, index }) => {
                 />
                 Follow Us
               </Link>
-              <ShareButtons url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.categories[0]?.slug}/${postData.slug}`} title={postData.title} />
+              <ShareButtons
+                url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.categories[0]?.slug}/${postData.slug}`}
+                title={postData.title}
+              />
             </div>
           </div>
 
@@ -422,49 +437,50 @@ const BlogPost = ({ postData, index }) => {
                     LIVE Updates
                   </div>
                 </div>
-        
-                {liveBlogs && liveBlogs.map((live, i) => (
-                  <div
-                    key={i}
-                    className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
-                  >
-                    <p className="text-gray-600 italic text-sm">
-                      {convertToIST(live.created_at)}
-                    </p>
 
-                    <h2 className="font-bold text-xl text-gray-800">
-                      {live.title}
-                    </h2>
+                {liveBlogs &&
+                  liveBlogs.map((live, i) => (
+                    <div
+                      key={i}
+                      className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
+                    >
+                      <p className="text-gray-600 italic text-sm">
+                        {convertToIST(live.created_at)}
+                      </p>
 
-                    {live.images && live.images.length > 0 && (
-                      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                        {live.images.map((image, index) => (
-                          <div
-                            key={index}
-                            className="relative h-[200px] rounded-lg overflow-hidden"
-                          >
-                            <Image
-                              src={`https://dmpsza32x691.cloudfront.net/${image}`}
-                              alt={`Update image ${index + 1}`}
-                              layout="fill"
-                              objectFit="cover"
-                              className="hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        ))}
+                      <h2 className="font-bold text-xl text-gray-800">
+                        {live.title}
+                      </h2>
+
+                      {live.images && live.images.length > 0 && (
+                        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                          {live.images.map((image, index) => (
+                            <div
+                              key={index}
+                              className="relative h-[200px] rounded-lg overflow-hidden"
+                            >
+                              <Image
+                                src={`https://dmpsza32x691.cloudfront.net/${image}`}
+                                alt={`Update image ${index + 1}`}
+                                layout="fill"
+                                objectFit="cover"
+                                className="hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="prose max-w-none">
+                        <article
+                          className="blog-content text-gray-700"
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeContent("LiveBlog", live.content),
+                          }}
+                        />
                       </div>
-                    )}
-
-                    <div className="prose max-w-none">
-                      <article
-                        className="blog-content text-gray-700"
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeContent("LiveBlog", live.content),
-                        }}
-                      />
                     </div>
-                  </div>
-                ))} 
+                  ))}
               </>
             )}
           </div>
@@ -499,7 +515,9 @@ const BlogPost = ({ postData, index }) => {
 
                 {/* First article in full width */}
                 {postData.related_articles[0] && (
-                  <FullWidthArticleCard article={postData.related_articles[0]} />
+                  <FullWidthArticleCard
+                    article={postData.related_articles[0]}
+                  />
                 )}
 
                 {/* Rest of the articles in carousel */}
@@ -529,9 +547,11 @@ const BlogPost = ({ postData, index }) => {
                       ref={(slider) => (slider = slider)}
                       {...carouselSettings}
                     >
-                      {postData.related_articles.slice(1).map((article, idx) => (
-                        <RelatedArticleCard key={idx} article={article} />
-                      ))}
+                      {postData.related_articles
+                        .slice(1)
+                        .map((article, idx) => (
+                          <RelatedArticleCard key={idx} article={article} />
+                        ))}
                     </Slider>
 
                     <button
