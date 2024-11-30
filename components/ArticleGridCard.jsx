@@ -8,12 +8,7 @@ import { useRouter } from "next/navigation"; // Import useRouter from next/navig
 const ArticleGridCard = ({ post }) => {
   const router = useRouter();
 
-  // Add this debug log
-  // console.log("Post data:", {
-  //   slug: post.slug,
-  //   categories: post.categories,
-  //   firstCategory: post.categories?.[0],
-  // });
+  
 
   if (!post) {
     return (
@@ -34,6 +29,11 @@ const ArticleGridCard = ({ post }) => {
 
     router.push(`/${categorySlug}/${postSlug}`);
   };
+  const renderingCategory=[...post.primary_category,...post.categories]
+  const uniqueRenderingCategory = Array.from(
+    new Map(renderingCategory.map(item => [item._id, item])).values()
+  );
+
 
   return (
     <div
@@ -41,7 +41,9 @@ const ArticleGridCard = ({ post }) => {
       onClick={handleClick}
     >
       {/* Image container with fixed aspect ratio */}
-      <div className="relative w-full pt-[56.25%]"> {/* 16:9 aspect ratio */}
+      <div className="relative w-full pt-[56.25%]">
+        {" "}
+        {/* 16:9 aspect ratio */}
         {post.banner_image ? (
           <Image
             src={`https://dmpsza32x691.cloudfront.net/${post.banner_image}`}
@@ -66,9 +68,12 @@ const ArticleGridCard = ({ post }) => {
               LIVE
             </span>
           )}
-          {post.categories?.length > 0 && post.categories.map((c, i) => (
-            <span key={i} className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded">
-              {c?.name || "Uncategorized"}
+          {uniqueRenderingCategory && uniqueRenderingCategory.map((c, i) => (
+            <span
+              key={i}
+              className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
+            >
+              {c.name || "Uncategorized"}
             </span>
           ))}
         </div>
@@ -81,18 +86,26 @@ const ArticleGridCard = ({ post }) => {
         {/* Author and metadata */}
         <div className="mt-auto">
           <p className="text-xs text-gray-600 truncate">
-            By {post.credits?.map((c, i) => (
+            By{" "}
+            {post.credits?.map((c, i) => (
               <span key={i}>
-                {c.name}{i < post.credits.length - 1 ? ', ' : ''}
+                {c.name}
+                {i < post.credits.length - 1 ? ", " : ""}
               </span>
             ))}
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
             <span className="truncate">
-              {post.published_date ? formatDate(post.published_date) : post.updated_at_datetime ? formatDate(post.updated_at_datetime) : "No Date"}
+              {post.published_date
+                ? formatDate(post.published_date)
+                : post.updated_at_datetime
+                ? formatDate(post.updated_at_datetime)
+                : "No Date"}
             </span>
             <span className="mx-2 flex-shrink-0">•</span>
-            <span className="flex-shrink-0">{post.readTime || "2 min read"}</span>
+            <span className="flex-shrink-0">
+              {post.readTime || "2 min read"}
+            </span>
           </div>
         </div>
       </div>
