@@ -26,7 +26,10 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
   };
 
   const ArticleContent = ({ post }) => {
-    const renderingCategories = [...(post.primary_category || []), ...(post.categories || [])];
+    const renderingCategories = [
+      ...(post.primary_category || []),
+      ...(post.categories || []),
+    ];
     const uniqueRenderingCategories = Array.from(
       new Map(renderingCategories.map((item) => [item._id, item])).values()
     );
@@ -39,14 +42,17 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
               LIVE
             </span>
           )}
-          {uniqueRenderingCategories.map((c, i) => (
-            <span
-              key={i}
-              className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
-            >
-              {c.name || "Uncategorized"}
-            </span>
-          ))}
+          {uniqueRenderingCategories.map(
+            (c, i) =>
+              c.name &&
+              c.name !== "Sports" && (
+                <div key={i}>
+                  <span className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded">
+                    {c.name || "Uncategorized"}
+                  </span>
+                </div>
+              )
+          )}
         </div>
 
         <h2 className="text-base font-semibold text-gray-800 line-clamp-2 mb-2">
@@ -64,7 +70,9 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
             ))}
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
-            <span className="truncate">{formatDate(post.updated_at_datetime)}</span>
+            <span className="truncate">
+              {formatDate(post.updated_at_datetime)}
+            </span>
             <span className="mx-2 flex-shrink-0">•</span>
             <span className="truncate">{post.readTime || "2 Min read"}</span>
           </div>
