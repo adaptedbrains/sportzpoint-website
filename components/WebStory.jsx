@@ -123,7 +123,7 @@ const WebStory = ({ story }) => {
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">
-                  {story[currentPage]?.title || story[currentPage]?.banner_image}
+                  {story[currentPage]?.title}
                 </h1>
                 <p className="text-white/90 text-sm sm:text-base leading-relaxed">
                   {story[currentPage]?.description}
