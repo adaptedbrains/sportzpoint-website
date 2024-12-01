@@ -12,13 +12,6 @@ const WebStory = ({ story }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Debug logging
-    console.log('Current story:', story);
-    console.log('Current page data:', story[currentPage]);
-    console.log('Image URL:', story[currentPage]?.banner_image ? 
-      `https://dmpsza32x691.cloudfront.net/${story[currentPage].banner_image}` : 
-      '/placeholder.jpg'
-    );
   }, [story, currentPage]);
 
   useEffect(() => {
