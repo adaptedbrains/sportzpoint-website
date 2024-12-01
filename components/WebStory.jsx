@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -13,7 +13,7 @@ const WebStory = ({ story }) => {
 
   useEffect(() => {
     // Debug logging
-   
+    console.log('Current story:', story);
     console.log('Current page data:', story[currentPage]);
     console.log('Image URL:', story[currentPage]?.banner_image ? 
       `https://dmpsza32x691.cloudfront.net/${story[currentPage].banner_image}` : 
@@ -41,28 +41,27 @@ const WebStory = ({ story }) => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress(prev => Math.min(prev + 1, 100));
-      } else if (currentPage < story.length - 1) {
-        setCurrentPage(prev => prev + 1);
-        setProgress(0);
+      } else {
+        handleNext();
       }
     }, 50);
 
     return () => clearInterval(timer);
-  }, [progress, currentPage, story.length]);
+  }, [progress, currentPage]);
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     if (currentPage < story.length - 1) {
       setCurrentPage(currentPage + 1);
       setProgress(0);
     }
-  }, [currentPage, story.length]);
+  };
 
-  const handlePrevious = useCallback(() => {
+  const handlePrevious = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
       setProgress(0);
     }
-  }, [currentPage]);
+  };
 
   const handlers = useSwipeable({
     onSwipedLeft: handleNext,
@@ -130,7 +129,7 @@ const WebStory = ({ story }) => {
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">
-                  {story[currentPage]?.banner_image}
+                  {story[currentPage]?.title}
                 </h1>
                 <p className="text-white/90 text-sm sm:text-base leading-relaxed">
                   {story[currentPage]?.description}
