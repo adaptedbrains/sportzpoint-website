@@ -80,28 +80,98 @@ const Page = async ({ params }) => {
 
 export async function generateMetadata({ params }) {
     try {
-        // Await the params object before accessing its properties
         const { slug, id } = await params;
-
-        // Fetch post data based on the `id`
         const post = await gettingMainBlogPost(
             `${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`
         );
 
+        // Get the featured image URL - ensure it's an absolute URL
+        const getAbsoluteImageUrl = (path) => {
+            if (!path) return `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+            if (path.startsWith('http')) return path;
+            return `https://dmpsza32x691.cloudfront.net/${path}`;
+        };
+
+        // Prepare metadata values with proper fallbacks
+        const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
+        const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
+        const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
+        const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
+
         return {
-            title: `${post.article?.title || 'Untitled Article'}`,
-            description: post.article?.seo_desc || 'Default description',
+            // Basic metadata
+            title,
+            description,
+            metadataBase: new URL(baseUrl),
+
+            // OpenGraph metadata (for Facebook, WhatsApp, LinkedIn, etc.)
+            openGraph: {
+                title,
+                description,
+                url,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: featuredImage,
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                        type: 'image/jpeg',
+                    }
+                ],
+                locale: 'en_US',
+                type: 'article',
+            },
+
+            // Twitter specific metadata
+            twitter: {
+                card: 'summary_large_image',
+                title,
+                description,
+                images: [featuredImage],
+            },
+
+            // Additional metadata for better SEO
+            alternates: {
+                canonical: url,
+            },
+            robots: {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-video-preview': -1,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                },
+            },
         };
     } catch (error) {
         console.error('Error fetching metadata:', error);
         return {
-            title: 'Error',
-            description: 'Unable to fetch metadata',
+            title: 'Sportzpoint - Latest Sports News & Updates',
+            description: 'Read the latest sports news and updates on Sportzpoint',
+            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com'),
+            openGraph: {
+                title: 'Sportzpoint - Latest Sports News & Updates',
+                description: 'Read the latest sports news and updates on Sportzpoint',
+                url: process.env.NEXT_PUBLIC_WEBSITE_URL,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`,
+                        width: 1200,
+                        height: 630,
+                        alt: 'Sportzpoint',
+                        type: 'image/jpeg',
+                    }
+                ],
+                locale: 'en_US',
+                type: 'website',
+            },
         };
     }
 }
-
-
-
-
 export default Page;
