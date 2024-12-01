@@ -85,16 +85,13 @@ export async function generateMetadata({ params }) {
             `${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`
         );
 
-        // Get the featured image URL - ensure it's an absolute URL and properly cached
         const getAbsoluteImageUrl = (path) => {
             if (!path) return `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
             if (path.startsWith('http')) return path;
-            // Add a timestamp to force social media platforms to refresh the image
             const timestamp = new Date().getTime();
             return `https://dmpsza32x691.cloudfront.net/${path}?v=${timestamp}`;
         };
 
-        // Pre-fetch the image to ensure it's in CloudFront's cache
         const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
         try {
             await fetch(featuredImage, { 
@@ -109,6 +106,12 @@ export async function generateMetadata({ params }) {
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
         const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
         const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
+
+        // Twitter requires these specific dimensions for summary_large_image
+        const twitterImageDimensions = {
+            width: 1200,
+            height: 600
+        };
 
         return {
             title,
@@ -126,8 +129,6 @@ export async function generateMetadata({ params }) {
                         height: 630,
                         alt: title,
                         type: 'image/jpeg',
-                        // Force social platforms to fetch a fresh copy
-                        'og:image:url': featuredImage,
                     }
                 ],
                 locale: 'en_US',
@@ -135,12 +136,16 @@ export async function generateMetadata({ params }) {
             },
             twitter: {
                 card: 'summary_large_image',
-                title,
-                description,
-                images: [featuredImage],
-                // Additional Twitter-specific image properties
-                'twitter:image': featuredImage,
-                'twitter:image:src': featuredImage,
+                site: '@sportz_point',  // Correct Twitter handle
+                creator: '@sportz_point', // Correct Twitter handle
+                title: title.substring(0, 70), // Twitter title limit
+                description: description.substring(0, 200), // Twitter description limit
+                images: [{
+                    url: featuredImage,
+                    alt: title,
+                    width: twitterImageDimensions.width,
+                    height: twitterImageDimensions.height,
+                }],
             },
             alternates: {
                 canonical: url,
@@ -156,12 +161,15 @@ export async function generateMetadata({ params }) {
                     'max-snippet': -1,
                 },
             },
-            // Additional image-specific meta tags
+            // Additional meta tags for Twitter
             other: {
-                'og:image:secure_url': featuredImage,
-                'og:image:type': 'image/jpeg',
-                'og:image:width': '1200',
-                'og:image:height': '630',
+                'twitter:domain': new URL(baseUrl).hostname,
+                'twitter:url': url,
+                'twitter:image:src': featuredImage,
+                'twitter:image': featuredImage,
+                'twitter:image:alt': title,
+                'twitter:image:width': String(twitterImageDimensions.width),
+                'twitter:image:height': String(twitterImageDimensions.height),
             },
         };
     } catch (error) {
@@ -183,7 +191,6 @@ export async function generateMetadata({ params }) {
                         height: 630,
                         alt: 'Sportzpoint',
                         type: 'image/jpeg',
-                        'og:image:url': defaultImage,
                     }
                 ],
                 locale: 'en_US',
@@ -191,11 +198,16 @@ export async function generateMetadata({ params }) {
             },
             twitter: {
                 card: 'summary_large_image',
+                site: '@sportz_point',
+                creator: '@sportz_point',
                 title: 'Sportzpoint - Latest Sports News & Updates',
                 description: 'Read the latest sports news and updates on Sportzpoint',
-                images: [defaultImage],
-                'twitter:image': defaultImage,
-                'twitter:image:src': defaultImage,
+                images: [{
+                    url: defaultImage,
+                    alt: 'Sportzpoint',
+                    width: 1200,
+                    height: 600,
+                }],
             },
         };
     }
