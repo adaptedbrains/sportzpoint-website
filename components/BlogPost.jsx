@@ -381,7 +381,7 @@ const BlogPost = ({ postData, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="follow us google news"
-                className="hidden sm:flex items-center border border-blue-800 gap-1 px-3 py-1 rounded-full text-xs font-semibold text-blue-800 hover:bg-blue-50 transition-colors"
+                className="flex items-center border border-blue-800 gap-1 px-3 py-1 rounded-full text-xs font-semibold text-blue-800 hover:bg-blue-50 transition-colors"
               >
                 <Image
                   src="/icon/google_news.png"
@@ -394,8 +394,8 @@ const BlogPost = ({ postData, index }) => {
               </Link>
 
               <ShareButtons
-                url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.primary_category[0]?.slug}/${postData.slug}`}
-                title={postData.title}
+                url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ''}/${postData?.slug || ''}`}
+                title={postData?.title || ''}
                 onClick
               />
             </div>
