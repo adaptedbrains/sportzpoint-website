@@ -88,20 +88,111 @@ export async function generateMetadata({ params }) {
             `${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`
         );
 
+        // Get the featured image URL - ensure it's an absolute URL
+        const getAbsoluteImageUrl = (path) => {
+            if (!path) return `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+            if (path.startsWith('http')) return path;
+            return `https://dmpsza32x691.cloudfront.net/${path}`;
+        };
+
+        const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.cover_image);
+        const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
+        const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
+        const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
+
         return {
-            title: `${post.article?.title || 'Untitled Article'}`,
-            description: post.article?.seo_desc || 'Default description',
+            title: title,
+            description: description,
+            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL),
+            openGraph: {
+                title: title,
+                description: description,
+                url: url,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: featuredImage,
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                    },
+                ],
+                locale: 'en_US',
+                type: 'article',
+                publishedTime: post.article?.published_at_datetime,
+                authors: post.article?.author?.name,
+                tags: post.article?.tags?.map(tag => tag.name),
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: title,
+                description: description,
+                images: [featuredImage],
+                creator: '@sportzpoint',
+                site: '@sportzpoint',
+            },
+            alternates: {
+                canonical: url,
+            },
+            robots: {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-video-preview': -1,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                },
+            },
         };
     } catch (error) {
         console.error('Error fetching metadata:', error);
+        const defaultTitle = 'Sportzpoint - Latest Sports News & Updates';
+        const defaultDesc = 'Read the latest sports news and updates on Sportzpoint';
+        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg';
+        
         return {
-            title: 'Error',
-            description: 'Unable to fetch metadata',
+            title: defaultTitle,
+            description: defaultDesc,
+            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL),
+            openGraph: {
+                title: defaultTitle,
+                description: defaultDesc,
+                url: process.env.NEXT_PUBLIC_WEBSITE_URL,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: defaultImage,
+                        width: 1200,
+                        height: 630,
+                        alt: 'Sportzpoint',
+                    },
+                ],
+                locale: 'en_US',
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: defaultTitle,
+                description: defaultDesc,
+                images: [defaultImage],
+                creator: '@sportzpoint',
+                site: '@sportzpoint',
+            },
+            robots: {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-video-preview': -1,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                },
+            },
         };
     }
 }
-
-
-
 
 export default Page;
