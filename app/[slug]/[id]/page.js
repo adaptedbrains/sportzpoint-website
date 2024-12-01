@@ -150,7 +150,7 @@ export async function generateMetadata({ params }) {
         console.error('Error fetching metadata:', error);
         const defaultTitle = 'Sportzpoint - Latest Sports News & Updates';
         const defaultDesc = 'Read the latest sports news and updates on Sportzpoint';
-        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg';
+        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
         
         return {
             title: defaultTitle,
