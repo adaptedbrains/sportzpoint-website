@@ -109,7 +109,7 @@ const WebStory = ({ story }) => {
           >
             <div className="relative w-full h-full">
               <Image
-                src={story[currentPage]?.img_src ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].img_src}` : '/placeholder.jpg'}
+                src={story[currentPage]?.banner_image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].banner_image}` : '/placeholder.jpg'}
                 alt={story[currentPage]?.title || 'Story image'}
                 fill
                 sizes="(max-width: 540px) 100vw, 540px"
@@ -123,7 +123,7 @@ const WebStory = ({ story }) => {
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">
-                  {story[currentPage]?.title}
+                  {story[currentPage]?.title || story[currentPage]?.banner_image}
                 </h1>
                 <p className="text-white/90 text-sm sm:text-base leading-relaxed">
                   {story[currentPage]?.description}
