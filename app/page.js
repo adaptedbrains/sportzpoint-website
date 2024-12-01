@@ -51,7 +51,6 @@ export default async function Page() {
     athleticsLatest,
     webStoryLatest
   ]);
-  console.log("webStory",webStory.length);
   
 
   return (
