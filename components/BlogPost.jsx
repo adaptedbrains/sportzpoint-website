@@ -2,7 +2,7 @@
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { FaUserCircle, FaWhatsapp, FaFacebook, FaCopy } from "react-icons/fa";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { sanitizeContent } from "@/utils/sanitize";
@@ -19,29 +19,27 @@ const getSocialShareLinks = (url, title) => [
   {
     icon: <FaWhatsapp size={18} />,
     href: `https://api.whatsapp.com/send?text=${encodeURIComponent(
-      title + " " + url
+      `${title}\n\n${url}`
     )}`,
     label: "WhatsApp",
   },
   {
     icon: <FaFacebook size={18} />,
-    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      url
-    )}`,
+    href: `https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`,
     label: "Facebook",
   },
   {
     icon: <FaXTwitter size={18} />,
     href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
       url
-    )}&text=${encodeURIComponent(title)}`,
+    )}&text=${encodeURIComponent(title)}&via=sportzpoint&hashtags=Sportzpoint,Sports`,
     label: "Twitter",
   },
   {
     icon: <FaLinkedin size={18} />,
     href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
       url
-    )}`,
+    )}&title=${encodeURIComponent(title)}`,
     label: "LinkedIn",
   },
 ];
@@ -52,30 +50,56 @@ const ShareButtons = ({ url, title }) => {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success("Link copied!");
+      toast.success("Link copied to clipboard!", {
+        duration: 2000,
+        position: "bottom-center",
+      });
     } catch (err) {
-      toast.error("Failed to copy link");
+      console.error("Failed to copy link:", err);
+      toast.error("Failed to copy link. Please try again.", {
+        duration: 3000,
+        position: "bottom-center",
+      });
+    }
+  };
+
+  const handleShare = async (e, link) => {
+    e.preventDefault();
+    
+    // If native share is available and it's a mobile device
+    if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+      try {
+        await navigator.share({
+          title: title,
+          text: title,
+          url: url,
+        });
+      } catch (err) {
+        // Fallback to opening in new window if share fails
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+      }
+    } else {
+      // Desktop or no share API - open in new window
+      window.open(link.href, '_blank', 'noopener,noreferrer');
     }
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-500">Share on:</span>
+    <div className="flex items-center gap-2 select-none">
+      <span className="text-sm text-gray-500 whitespace-nowrap">Share on:</span>
       <div className="flex items-center gap-1">
         {socialLinks.map((link, index) => (
-          <Link
+          <button
             key={index}
-            href={link.href}
+            onClick={(e) => handleShare(e, link)}
             className="p-1.5 hover:bg-gray-100 rounded-full transition-colors group relative"
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={`Share on ${link.label}`}
           >
             {link.icon}
-            <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+            <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none">
               {link.label}
             </span>
-          </Link>
+          </button>
         ))}
         <button
           onClick={handleCopyLink}
@@ -83,7 +107,7 @@ const ShareButtons = ({ url, title }) => {
           aria-label="Copy link"
         >
           <FaCopy size={18} />
-          <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+          <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none">
             Copy link
           </span>
         </button>
@@ -179,39 +203,39 @@ const BlogPost = ({ postData, index }) => {
 
   const { messages } = useWebSocket();
   const postRef = React.useRef(null);
-  const { liveBlogs, liveBlogFunction } = usePostStore();
+  const { liveBlogs, setLiveBlogUpdates } = usePostStore();
 
   useEffect(() => {
     if (postData.type === "LiveBlog") {
-      liveBlogFunction(
-        postData.live_blog_updates.length !== 0 && postData.live_blog_updates
-      );
+      const sortedUpdates = [...postData.live_blog_updates].sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setLiveBlogUpdates(sortedUpdates);
     }
 
     const loadInstagramEmbeds = () => {
-      const existingScript = document.getElementById("instagram-embed-script");
-      if (existingScript) existingScript.remove();
-
       const script = document.createElement("script");
       script.id = "instagram-embed-script";
-      script.src = "//www.instagram.com/embed.js";
+      script.src = "https://www.instagram.com/embed.js";
       script.async = true;
-      script.onload = () => window.instgrm?.Embeds.process();
       document.body.appendChild(script);
     };
 
-    loadInstagramEmbeds();
-    const interval = setInterval(() => window.instgrm?.Embeds.process(), 1000);
+    if (postData.content?.includes("instagram.com") || postData.type === "live_blog") {
+      loadInstagramEmbeds();
+      const interval = setInterval(() => window.instgrm?.Embeds.process(), 1000);
 
-    return () => {
-      clearInterval(interval);
-      const script = document.getElementById("instagram-embed-script");
-      if (script) script.remove();
-    };
+      return () => {
+        clearInterval(interval);
+        const script = document.getElementById("instagram-embed-script");
+        if (script) script.remove();
+      };
+    }
   }, [postData.content, postData.type]);
 
   useEffect(() => {
     // Create intersection observer for URL updates
+    const currentPostRef = postRef.current; // Store ref value in a variable
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -237,16 +261,33 @@ const BlogPost = ({ postData, index }) => {
     );
 
     // Start observing the article
-    if (postRef.current) {
-      observer.observe(postRef.current);
+    if (currentPostRef) {
+      observer.observe(currentPostRef);
     }
 
     return () => {
-      if (postRef.current) {
-        observer.unobserve(postRef.current);
+      if (currentPostRef) {
+        observer.unobserve(currentPostRef);
       }
     };
-  }, [postData]);
+  }, [postData.categories, postData.slug, postData.title]);
+
+  const liveBlogFunction = useCallback(() => {
+    if (postData.live_blog_updates && postData.live_blog_updates.length > 0) {
+      const sortedUpdates = [...postData.live_blog_updates].sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setLiveBlogUpdates(sortedUpdates);
+    }
+  }, [postData.live_blog_updates]);
+
+  useEffect(() => {
+    if (postData.live_blog_updates && postData.live_blog_updates.length > 0) {
+      liveBlogFunction();
+      const interval = setInterval(liveBlogFunction, 60000); // Update every minute
+      return () => clearInterval(interval);
+    }
+  }, [postData.live_blog_updates, liveBlogFunction]);
 
   // Add this function to handle Twitter embed initialization
   const initializeTwitterEmbed = () => {
@@ -396,7 +437,6 @@ const BlogPost = ({ postData, index }) => {
               <ShareButtons
                 url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ''}/${postData?.slug || ''}`}
                 title={postData?.title || ''}
-                onClick
               />
             </div>
           </div>
@@ -500,8 +540,8 @@ const BlogPost = ({ postData, index }) => {
           )}
 
           {index === 0 &&
-            postData.related_articles &&
-            postData.related_articles.length > 0 && (
+            postData.relatedStories &&
+            postData.relatedStories.length > 0 && (
               <div className="mt-8">
                 <div className="grid grid-cols-5 justify-between items-center mb-5">
                   <div className="bg-green-800 h-[1px] col-span-2"></div>
@@ -512,14 +552,14 @@ const BlogPost = ({ postData, index }) => {
                 </div>
 
                 {/* First article in full width */}
-                {postData.related_articles[0] && (
+                {postData.relatedStories[0] && (
                   <FullWidthArticleCard
-                    article={postData.related_articles[0]}
+                    article={postData.relatedStories[0]}
                   />
                 )}
 
                 {/* Rest of the articles in carousel */}
-                {postData.related_articles.length > 1 && (
+                {postData.relatedStories.length > 1 && (
                   <div className="relative mb-8">
                     <button
                       className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
@@ -545,7 +585,7 @@ const BlogPost = ({ postData, index }) => {
                       ref={(slider) => (slider = slider)}
                       {...carouselSettings}
                     >
-                      {postData.related_articles
+                      {postData.relatedStories
                         .slice(1)
                         .map((article, idx) => (
                           <RelatedArticleCard key={idx} article={article} />
