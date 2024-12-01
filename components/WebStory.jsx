@@ -57,7 +57,7 @@ const WebStory = ({ story }) => {
   });
 
   return (
-    <div 
+    <div
       {...handlers}
       className="fixed inset-0 w-screen h-screen bg-black z-50"
       role="region"
@@ -67,15 +67,14 @@ const WebStory = ({ story }) => {
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2">
           {story.map((_, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="flex-1 h-1 bg-gray-500/30 rounded overflow-hidden"
             >
-              <div 
-                className={`h-full bg-white transition-all duration-100 ease-linear ${
-                  index === currentPage ? 'w-[' + progress + '%]' : 
+              <div
+                className={`h-full bg-white transition-all duration-100 ease-linear ${index === currentPage ? 'w-[' + progress + '%]' :
                   index < currentPage ? 'w-full' : 'w-0'
-                }`}
+                  }`}
               />
             </div>
           ))}
@@ -100,17 +99,20 @@ const WebStory = ({ story }) => {
             className="relative w-full h-full"
           >
             <div className="relative w-full h-full">
-              <Image
-                src={story[currentPage]?.pages[0]?.image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}` : '/placeholder.jpg'}
-                alt={story[currentPage]?.pages[0]?.heading || 'Story image'}
-                fill
-                sizes="(max-width: 540px) 100vw, 540px"
-                priority={true}
-                quality={90}
-                className="object-cover"
-                aria-hidden="false"
-              />
-              <div 
+              <div className="aspect-[9/16] relative w-full">
+                <Image
+                  src={story[currentPage]?.pages[0]?.image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}` : '/placeholder.jpg'}
+                  alt={story[currentPage]?.pages[0]?.heading || 'Story image'}
+                  fill
+                  sizes="(max-width: 540px) 100vw, 540px"
+                  priority={true}
+                  quality={100}
+                  objectPosition="center"
+                  objectFit="cover"
+                  aria-hidden="false"
+                />
+              </div>
+              <div
                 className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/50 to-transparent"
                 aria-live="polite"
               >
