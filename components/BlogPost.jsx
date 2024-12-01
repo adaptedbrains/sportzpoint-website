@@ -355,19 +355,20 @@ const BlogPost = ({ postData, index }) => {
                 <FaUserCircle size={35} color="gray" />
               )}
               <div className="flex flex-col">
-                <Link
-                  href={`/author/${postData.author?.slug}`}
-                  className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
-                >
-                  {/* {postData.author?.name} */}
 
-                  {postData.credits?.map((c, i) => (
-                    <span key={i}>
+
+                {postData.credits?.map((c, i) => (
+                  <Link
+                    key={i}
+                    href={`/author/${c._id}`}
+                    className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
+                  >
+                    <span >
                       {c.name}
                       {i < postData.credits.length - 1 ? ", " : ""}
                     </span>
-                  ))}
-                </Link>
+                  </Link>
+                ))}
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
                     convertToIST(postData.published_at_datetime)}
@@ -394,8 +395,9 @@ const BlogPost = ({ postData, index }) => {
               </Link>
 
               <ShareButtons
-                url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ''}/${postData?.slug || ''}`}
-                title={postData?.title || ''}
+                url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ""
+                  }/${postData?.slug || ""}`}
+                title={postData?.title || ""}
                 onClick
               />
             </div>
@@ -435,50 +437,56 @@ const BlogPost = ({ postData, index }) => {
                     LIVE Updates
                   </div>
                 </div>
-
                 {liveBlogs &&
-                  liveBlogs.map((live, i) => (
-                    <div
-                      key={i}
-                      className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
-                    >
-                      <p className="text-gray-600 italic text-sm">
-                        {convertToIST(live.created_at)}
-                      </p>
+                  [...liveBlogs]
+                    .sort((a, b) => {
+                      // Sort based on pinned status first, then by updatedAt
+                      if (a.pinned && !b.pinned) return -1; // Pinned posts come first
+                      if (!a.pinned && b.pinned) return 1; // Unpinned posts come after
+                      return new Date(b.updatedAt) - new Date(a.updatedAt); // Sort by updatedAt (descending)
+                    })
+                    .map((live, i) => (
+                      <div
+                        key={i}
+                        className="shadow-md bg-gray-50 p-6 flex flex-col gap-3 rounded-lg border-l-4 border-[#006356]"
+                      >
+                        <p className="text-gray-600 italic text-sm">
+                          {convertToIST(live.created_at)}
+                        </p>
 
-                      <h2 className="font-bold text-xl text-gray-800">
-                        {live.title}
-                      </h2>
+                        <h2 className="font-bold text-xl text-gray-800">
+                          {live.title}
+                        </h2>
 
-                      {live.images && live.images.length > 0 && (
-                        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                          {live.images.map((image, index) => (
-                            <div
-                              key={index}
-                              className="relative h-[200px] rounded-lg overflow-hidden"
-                            >
-                              <Image
-                                src={`https://dmpsza32x691.cloudfront.net/${image}`}
-                                alt={`Update image ${index + 1}`}
-                                layout="fill"
-                                objectFit="cover"
-                                className="hover:scale-105 transition-transform duration-300"
-                              />
-                            </div>
-                          ))}
+                        {live.images && live.images.length > 0 && (
+                          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                            {live.images.map((image, index) => (
+                              <div
+                                key={index}
+                                className="relative h-[200px] rounded-lg overflow-hidden"
+                              >
+                                <Image
+                                  src={`https://dmpsza32x691.cloudfront.net/${image}`}
+                                  alt={`Update image ${index + 1}`}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  className="hover:scale-105 transition-transform duration-300"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="prose max-w-none">
+                          <article
+                            className="blog-content text-gray-700"
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeContent("LiveBlog", live.content),
+                            }}
+                          />
                         </div>
-                      )}
-
-                      <div className="prose max-w-none">
-                        <article
-                          className="blog-content text-gray-700"
-                          dangerouslySetInnerHTML={{
-                            __html: sanitizeContent("LiveBlog", live.content),
-                          }}
-                        />
                       </div>
-                    </div>
-                  ))}
+                    ))}
               </>
             )}
           </div>
