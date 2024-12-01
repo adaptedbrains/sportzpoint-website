@@ -13,7 +13,7 @@ const WebStory = ({ story }) => {
 
   useEffect(() => {
     // Debug logging
-    console.log('Current story:', story);
+   
     console.log('Current page data:', story[currentPage]);
     console.log('Image URL:', story[currentPage]?.banner_image ? 
       `https://dmpsza32x691.cloudfront.net/${story[currentPage].banner_image}` : 
@@ -130,7 +130,7 @@ const WebStory = ({ story }) => {
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">
-                  {story[currentPage]?.title}
+                  {story[currentPage]?.banner_image}
                 </h1>
                 <p className="text-white/90 text-sm sm:text-base leading-relaxed">
                   {story[currentPage]?.description}
