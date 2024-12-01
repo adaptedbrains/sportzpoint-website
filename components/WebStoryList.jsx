@@ -17,7 +17,7 @@ const WebStoriesList = ({ webStories }) => {
         <h2 className="text-xl sm:text-2xl font-bold text-[#006356]">Web Stories</h2>
       </div>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-1">
         {webStories &&
           webStories.length > 0 &&
           webStories.map((story) => (
@@ -46,7 +46,7 @@ const WebStoriesList = ({ webStories }) => {
                 />
                 {/* Category Badge */}
                 <div className="absolute top-2 left-2 z-10">
-                  
+
                   {story.categories.slice(0, 1).map((c, i) => (
                     <span 
                       key={i} 
