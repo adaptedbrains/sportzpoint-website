@@ -10,7 +10,7 @@ const processArticle = (article) => {
     // If we have a single category object
     if (typeof article.category === 'object' && article.category.name) {
       categories = [article.category];
-    } 
+    }
     // If category is a string
     else if (typeof article.category === 'string') {
       categories = [{
@@ -107,18 +107,26 @@ const usePostStore = create((set) => ({
     }
   },
 
-  liveBlogFunction: (data) => {
-    if (Array.isArray(data)) {
-      set(() => ({
-        liveBlogs: data.map(processArticle),
-      }));
-    } else if (typeof data === "object" && data !== null) {
+  liveBlogFunction: (data, type) => {
+    if (type === 'DELETE_LIVEBLOG_UPDATE') {
       set((state) => ({
-        liveBlogs: [
-          processArticle(data),
-          ...state.liveBlogs.filter((blog) => blog._id !== data._id)
-        ],
+        liveBlogs: state.liveBlogs.filter((blog) => blog._id !== data.updateId)
       }));
+    } else {
+      if (Array.isArray(data)) {
+        set(() => ({
+          liveBlogs: data.map(processArticle),
+        }));
+      } else if (typeof data === "object" && data !== null) {
+        set((state) => ({
+          liveBlogs: [
+            processArticle(data),
+            ...state.liveBlogs.filter((blog) => blog._id !== data._id)
+          ].filter((blog, index, self) => 
+            index === self.findIndex((b) => b._id === blog._id)
+          ),
+        }));
+      }
     }
   }
 }));
