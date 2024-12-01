@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -41,27 +41,28 @@ const WebStory = ({ story }) => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress(prev => Math.min(prev + 1, 100));
-      } else {
-        handleNext();
+      } else if (currentPage < story.length - 1) {
+        setCurrentPage(prev => prev + 1);
+        setProgress(0);
       }
     }, 50);
 
     return () => clearInterval(timer);
-  }, [progress, currentPage]);
+  }, [progress, currentPage, story.length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentPage < story.length - 1) {
       setCurrentPage(currentPage + 1);
       setProgress(0);
     }
-  };
+  }, [currentPage, story.length]);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
       setProgress(0);
     }
-  };
+  }, [currentPage]);
 
   const handlers = useSwipeable({
     onSwipedLeft: handleNext,
