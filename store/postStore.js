@@ -2,13 +2,7 @@ import { create } from "zustand";
 
 // Helper function to process article data
 const processArticle = (article) => {
-  // Debug log to see incoming article data
-  console.log('Processing article:', {
-    title: article.title,
-    originalCategories: article.categories,
-    category: article.category
-  });
-
+  // Process article
   let categories;
   if (article.categories?.length > 0) {
     categories = article.categories;
@@ -16,7 +10,7 @@ const processArticle = (article) => {
     // If we have a single category object
     if (typeof article.category === 'object' && article.category.name) {
       categories = [article.category];
-    } 
+    }
     // If category is a string
     else if (typeof article.category === 'string') {
       categories = [{
@@ -31,9 +25,7 @@ const processArticle = (article) => {
     categories = [{ slug: 'sports', name: 'Sports' }];
   }
 
-  // Debug log processed categories
-  console.log('Processed categories:', categories);
-
+  // Process categories
   return {
     ...article,
     categories,
@@ -60,18 +52,8 @@ const usePostStore = create((set) => ({
       if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
 
-      // Debug log raw data
-      console.log('Raw posts data:', {
-        firstArticle: data.articles?.[0]
-      });
-
-      // Process articles to ensure consistent data structure
+      // Process posts data
       const processedArticles = (data.articles || []).map(processArticle);
-
-      // Debug log processed data
-      console.log('Processed posts:', {
-        firstArticle: processedArticles[0]
-      });
 
       set({
         posts: processedArticles,
@@ -91,18 +73,8 @@ const usePostStore = create((set) => ({
       if (!response.ok) throw new Error("Failed to fetch latest stories");
       const data = await response.json();
 
-      // Debug log raw data
-      console.log('Raw latest stories data:', {
-        firstArticle: data.articles?.[0]
-      });
-
-      // Process articles to ensure consistent data structure
+      // Process latest stories
       const processedArticles = (data.articles || []).map(processArticle);
-
-      // Debug log processed data
-      console.log('Processed latest stories:', {
-        firstArticle: processedArticles[0]
-      });
 
       set({
         latestStory: processedArticles,
@@ -121,18 +93,8 @@ const usePostStore = create((set) => ({
       if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
 
-      // Debug log raw data
-      console.log('Raw web posts data:', {
-        firstArticle: data.articles?.[0]
-      });
-
-      // Process articles to ensure consistent data structure
+      // Process web posts
       const processedArticles = (data.articles || []).map(processArticle);
-
-      // Debug log processed data
-      console.log('Processed web posts:', {
-        firstArticle: processedArticles[0]
-      });
 
       set({
         webstory: processedArticles,
@@ -145,18 +107,26 @@ const usePostStore = create((set) => ({
     }
   },
 
-  liveBlogFunction: (data) => {
-    if (Array.isArray(data)) {
-      set(() => ({
-        liveBlogs: data.map(processArticle),
-      }));
-    } else if (typeof data === "object" && data !== null) {
+  liveBlogFunction: (data, type) => {
+    if (type === 'DELETE_LIVEBLOG_UPDATE') {
       set((state) => ({
-        liveBlogs: [
-          processArticle(data),
-          ...state.liveBlogs.filter((blog) => blog._id !== data._id)
-        ],
+        liveBlogs: state.liveBlogs.filter((blog) => blog._id !== data.updateId)
       }));
+    } else {
+      if (Array.isArray(data)) {
+        set(() => ({
+          liveBlogs: data.map(processArticle),
+        }));
+      } else if (typeof data === "object" && data !== null) {
+        set((state) => ({
+          liveBlogs: [
+            processArticle(data),
+            ...state.liveBlogs.filter((blog) => blog._id !== data._id)
+          ].filter((blog, index, self) => 
+            index === self.findIndex((b) => b._id === blog._id)
+          ),
+        }));
+      }
     }
   }
 }));

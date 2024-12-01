@@ -7,8 +7,7 @@ const Newsletter = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: Implement newsletter subscription logic
-        console.log('Newsletter subscription for:', email);
+        // Handle newsletter subscription
         setEmail('');
     };
 
