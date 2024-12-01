@@ -1,25 +1,29 @@
 import usePostStore from "@/store/postStore"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 
 // import { useCycleItemStore } from "../lib/store/cycle.store"
 
 // const WEBSOCKET_URL = "ws://localhost:8000"
 const WEBSOCKET_URL = process.env.WEBSOCKET_URL || "wss://sportzpoint-be.onrender.com"
+const RETRY_DELAY = 1000 // Initial delay in milliseconds
+const MAX_RETRIES = 5
 
 export const useWebSocket = () => {
   const [socket, setSocket] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
-  const [messages, setMessages] = useState([])
   const [retries, setRetries] = useState(0)
+  const [connectionStatus, setConnectionStatus] = useState('disconnected')
+  const [messages, setMessages] = useState([])
   const { liveBlogFunction } = usePostStore();
 
   // Function to create and handle a new WebSocket connection
-  const createWebSocket = () => {
+  const createWebSocket = useCallback(() => {
     const newSocket = new WebSocket(WEBSOCKET_URL)
-
+  
+    
     newSocket.onopen = () => {
       setIsConnected(true)
-      // WebSocket connection established
+      setConnectionStatus('connected')
       setRetries(0) // Reset retries on successful connection
     }
 
@@ -28,9 +32,13 @@ export const useWebSocket = () => {
         const message = JSON.parse(event.data.toString())
         
         if (message.type === "ADD_LIVEBLOG_UPDATE" && message.data) {
-          liveBlogFunction(messages.data);
-          // handle live blog updates here
+          liveBlogFunction(message.data,'ADD_LIVEBLOG_UPDATE');
+        }else if(message.type==='DELETE_LIVEBLOG_UPDATE' && message.data ){
+          liveBlogFunction(message.data,'DELETE_LIVEBLOG_UPDATE','EDIT_LIVEBLOG_UPDATE');
+        }else if(message.type==='EDIT_LIVEBLOG_UPDATE' && message.data){
+          liveBlogFunction(message.data,'EDIT_LIVEBLOG_UPDATE','EDIT_LIVEBLOG_UPDATE');
         }
+
       } catch (error) {
         // Error parsing WebSocket message
       }
@@ -38,28 +46,30 @@ export const useWebSocket = () => {
 
     newSocket.onclose = () => {
       setIsConnected(false)
-      // WebSocket connection closed
+      setConnectionStatus('disconnected')
       handleReconnect()  // Handle reconnection on close
     }
 
     newSocket.onerror = (error) => {
       // WebSocket error
+      setConnectionStatus('error')
       handleReconnect()  // Handle reconnection on error
     }
 
     setSocket(newSocket)
-  }
+  }, [])
 
   // Retry logic for reconnecting
   const handleReconnect = () => {
     if (retries < MAX_RETRIES) {
       setRetries((prev) => prev + 1)
+      setConnectionStatus('reconnecting')
       // Attempting to reconnect...
       setTimeout(() => {
         createWebSocket()  // Attempt to reconnect
       }, RETRY_DELAY * Math.pow(2, retries))  // Exponential backoff
     } else {
-      // Max reconnect attempts reached. Could not establish WebSocket connection.
+      setConnectionStatus('failed')
     }
   }
 
@@ -72,7 +82,7 @@ export const useWebSocket = () => {
         socket.close()
       }
     }
-  }, [retries])  // Reconnect only when retries change
+  }, [createWebSocket])  // Reconnect only when retries change
 
   // Send message if socket is open
   const sendMessage = (message) => {
@@ -87,5 +97,6 @@ export const useWebSocket = () => {
     isConnected,
     messages,
     sendMessage,
+    connectionStatus
   }
 }
