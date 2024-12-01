@@ -24,7 +24,7 @@ export default async function Page() {
   const eSportsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/e-sports?limit=5&page=1`);
   const athleticsLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/category/athletics?limit=5&page=1`);
 
-  const webStoryLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/type/Web Story?limit=3&page=1`);
+  const webStoryLatest = latestPublishPostByCategories(`${process.env.NEXT_PUBLIC_API_URL}/articles/type/Web Story?limit=4&page=1`);
 
   const [
     latestUploadPost,
@@ -51,6 +51,8 @@ export default async function Page() {
     athleticsLatest,
     webStoryLatest
   ]);
+  console.log("webStory",webStory.length);
+  
 
   return (
     <div className="container mx-auto px-2">

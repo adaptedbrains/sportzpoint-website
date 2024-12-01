@@ -11,12 +11,7 @@ const ArticleCard = ({ mainPost, secondaryPost }) => {
   if (!mainPost) return null;
 
   const handleClick = (post) => {
-    console.log("Clicked post:", {
-      categories: post.categories,
-      firstCategory: post.categories?.[0],
-      slug: post.slug,
-    });
-
+    // Handle article click
     if (!post?.primary_category?.[0]?.slug || !post.slug) {
       console.error("Missing required slug information:", post);
       return;

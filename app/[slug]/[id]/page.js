@@ -80,28 +80,137 @@ const Page = async ({ params }) => {
 
 export async function generateMetadata({ params }) {
     try {
-        // Await the params object before accessing its properties
         const { slug, id } = await params;
-
-        // Fetch post data based on the `id`
         const post = await gettingMainBlogPost(
             `${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`
         );
 
+        const getAbsoluteImageUrl = (path) => {
+            if (!path) return `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+            if (path.startsWith('http')) return path;
+            return `https://dmpsza32x691.cloudfront.net/${path}`;
+        };
+
+        const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
+        const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
+        const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
+        const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
+
         return {
-            title: `${post.article?.title || 'Untitled Article'}`,
-            description: post.article?.seo_desc || 'Default description',
+            title,
+            description,
+            metadataBase: new URL(baseUrl),
+            // Comprehensive OpenGraph metadata
+            openGraph: {
+                title,
+                description,
+                url,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: featuredImage,
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                        type: 'image/jpeg',
+                        secureUrl: featuredImage,
+                    }
+                ],
+                locale: 'en_US',
+                type: 'article',
+                publishedTime: post.article?.published_at_datetime,
+                modifiedTime: post.article?.updated_at_datetime,
+                section: 'Sports',
+                authors: ['Sportzpoint'],
+            },
+            // Basic meta tags for broader compatibility
+            other: {
+                // Standard meta tags
+                'description': description,
+                'image': featuredImage,
+                
+                // OpenGraph specific
+                'og:title': title,
+                'og:description': description,
+                'og:image': featuredImage,
+                'og:image:secure_url': featuredImage,
+                'og:image:width': '1200',
+                'og:image:height': '630',
+                'og:image:type': 'image/jpeg',
+                'og:url': url,
+                'og:type': 'article',
+                'og:site_name': 'Sportzpoint',
+                'og:locale': 'en_US',
+                'article:published_time': post.article?.published_at_datetime,
+                'article:modified_time': post.article?.updated_at_datetime,
+                'article:section': 'Sports',
+                'article:author': 'Sportzpoint',
+
+                // Basic Twitter tags (as fallback)
+                'twitter:card': 'summary_large_image',
+                'twitter:image': featuredImage,
+                'twitter:title': title,
+                'twitter:description': description,
+                'twitter:site': '@sportz_point',
+            },
+            alternates: {
+                canonical: url,
+            },
+            robots: {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-video-preview': -1,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                },
+            },
         };
     } catch (error) {
         console.error('Error fetching metadata:', error);
+        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+        
         return {
-            title: 'Error',
-            description: 'Unable to fetch metadata',
+            title: 'Sportzpoint - Latest Sports News & Updates',
+            description: 'Read the latest sports news and updates on Sportzpoint',
+            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com'),
+            openGraph: {
+                title: 'Sportzpoint - Latest Sports News & Updates',
+                description: 'Read the latest sports news and updates on Sportzpoint',
+                url: process.env.NEXT_PUBLIC_WEBSITE_URL,
+                siteName: 'Sportzpoint',
+                images: [
+                    {
+                        url: defaultImage,
+                        width: 1200,
+                        height: 630,
+                        alt: 'Sportzpoint',
+                        type: 'image/jpeg',
+                        secureUrl: defaultImage,
+                    }
+                ],
+                locale: 'en_US',
+                type: 'website',
+            },
+            other: {
+                'description': 'Read the latest sports news and updates on Sportzpoint',
+                'image': defaultImage,
+                'og:title': 'Sportzpoint - Latest Sports News & Updates',
+                'og:description': 'Read the latest sports news and updates on Sportzpoint',
+                'og:image': defaultImage,
+                'og:image:secure_url': defaultImage,
+                'og:image:width': '1200',
+                'og:image:height': '630',
+                'og:image:type': 'image/jpeg',
+                'og:url': process.env.NEXT_PUBLIC_WEBSITE_URL,
+                'og:type': 'website',
+                'og:site_name': 'Sportzpoint',
+                'og:locale': 'en_US',
+            },
         };
     }
 }
-
-
-
-
 export default Page;
