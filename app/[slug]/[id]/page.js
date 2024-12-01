@@ -97,7 +97,7 @@ export async function generateMetadata({ params }) {
         const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
         const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
 
-        const metadata = {
+        return {
             title,
             description,
             metadataBase: new URL(baseUrl),
@@ -117,30 +117,13 @@ export async function generateMetadata({ params }) {
                 locale: 'en_US',
                 type: 'article',
             },
-            // Explicitly set all required Twitter meta tags
-            other: {
-                // Essential Twitter card tags
-                'twitter:card': 'summary_large_image',
-                'twitter:site': '@sportz_point',
-                'twitter:creator': '@sportz_point',
-                'twitter:title': title.substring(0, 70),
-                'twitter:description': description.substring(0, 200),
-                'twitter:image': featuredImage,
-                
-                // Additional Twitter image tags
-                'twitter:image:alt': title,
-                
-                // Force Twitter to recognize as article
-                'twitter:label1': 'Written by',
-                'twitter:data1': 'Sportzpoint',
-                
-                // OpenGraph fallbacks
-                'og:title': title,
-                'og:description': description,
-                'og:image': featuredImage,
-                'og:url': url,
-                'og:type': 'article',
-                'og:site_name': 'Sportzpoint',
+            twitter: {
+                card: 'summary_large_image',
+                site: '@sportz_point',
+                creator: '@sportz_point',
+                title,
+                description,
+                images: featuredImage,
             },
             alternates: {
                 canonical: url,
@@ -156,10 +139,18 @@ export async function generateMetadata({ params }) {
                     'max-snippet': -1,
                 },
             },
+            // Basic meta tags that Twitter often falls back to
+            other: {
+                'description': description,
+                'image': featuredImage,
+                'twitter:image': featuredImage,
+                'twitter:card': 'summary_large_image',
+                'twitter:site': '@sportz_point',
+                'twitter:creator': '@sportz_point',
+                'twitter:title': title,
+                'twitter:description': description,
+            },
         };
-
-        return metadata;
-
     } catch (error) {
         console.error('Error fetching metadata:', error);
         const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
@@ -184,14 +175,23 @@ export async function generateMetadata({ params }) {
                 locale: 'en_US',
                 type: 'website',
             },
+            twitter: {
+                card: 'summary_large_image',
+                site: '@sportz_point',
+                creator: '@sportz_point',
+                title: 'Sportzpoint - Latest Sports News & Updates',
+                description: 'Read the latest sports news and updates on Sportzpoint',
+                images: defaultImage,
+            },
             other: {
+                'description': 'Read the latest sports news and updates on Sportzpoint',
+                'image': defaultImage,
+                'twitter:image': defaultImage,
                 'twitter:card': 'summary_large_image',
                 'twitter:site': '@sportz_point',
                 'twitter:creator': '@sportz_point',
                 'twitter:title': 'Sportzpoint - Latest Sports News & Updates',
                 'twitter:description': 'Read the latest sports news and updates on Sportzpoint',
-                'twitter:image': defaultImage,
-                'twitter:image:alt': 'Sportzpoint',
             },
         };
     }
