@@ -99,11 +99,15 @@ export async function generateMetadata({ params }) {
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
         const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
         const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
+
+        // Ensure the base URL is valid
+        const metadataBase = baseUrl.startsWith('http') ? new URL(baseUrl) : new URL('https://sportzpoint.com');
 
         return {
             title: title,
             description: description,
-            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL),
+            metadataBase,
             openGraph: {
                 title: title,
                 description: description,
@@ -151,11 +155,13 @@ export async function generateMetadata({ params }) {
         const defaultTitle = 'Sportzpoint - Latest Sports News & Updates';
         const defaultDesc = 'Read the latest sports news and updates on Sportzpoint';
         const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
+        const metadataBase = baseUrl.startsWith('http') ? new URL(baseUrl) : new URL('https://sportzpoint.com');
         
         return {
             title: defaultTitle,
             description: defaultDesc,
-            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL),
+            metadataBase,
             openGraph: {
                 title: defaultTitle,
                 description: defaultDesc,
