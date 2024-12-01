@@ -394,8 +394,8 @@ const BlogPost = ({ postData, index }) => {
               </Link>
 
               <ShareButtons
-                url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.primary_category[0]?.slug}/${postData.slug}`}
-                title={postData.title}
+                url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ''}/${postData?.slug || ''}`}
+                title={postData?.title || ''}
                 onClick
               />
             </div>
