@@ -101,6 +101,7 @@ export async function generateMetadata({ params }) {
             title,
             description,
             metadataBase: new URL(baseUrl),
+            // Comprehensive OpenGraph metadata
             openGraph: {
                 title,
                 description,
@@ -112,18 +113,46 @@ export async function generateMetadata({ params }) {
                         width: 1200,
                         height: 630,
                         alt: title,
+                        type: 'image/jpeg',
+                        secureUrl: featuredImage,
                     }
                 ],
                 locale: 'en_US',
                 type: 'article',
+                publishedTime: post.article?.published_at_datetime,
+                modifiedTime: post.article?.updated_at_datetime,
+                section: 'Sports',
+                authors: ['Sportzpoint'],
             },
-            twitter: {
-                card: 'summary_large_image',
-                site: '@sportz_point',
-                creator: '@sportz_point',
-                title,
-                description,
-                images: featuredImage,
+            // Basic meta tags for broader compatibility
+            other: {
+                // Standard meta tags
+                'description': description,
+                'image': featuredImage,
+                
+                // OpenGraph specific
+                'og:title': title,
+                'og:description': description,
+                'og:image': featuredImage,
+                'og:image:secure_url': featuredImage,
+                'og:image:width': '1200',
+                'og:image:height': '630',
+                'og:image:type': 'image/jpeg',
+                'og:url': url,
+                'og:type': 'article',
+                'og:site_name': 'Sportzpoint',
+                'og:locale': 'en_US',
+                'article:published_time': post.article?.published_at_datetime,
+                'article:modified_time': post.article?.updated_at_datetime,
+                'article:section': 'Sports',
+                'article:author': 'Sportzpoint',
+
+                // Basic Twitter tags (as fallback)
+                'twitter:card': 'summary_large_image',
+                'twitter:image': featuredImage,
+                'twitter:title': title,
+                'twitter:description': description,
+                'twitter:site': '@sportz_point',
             },
             alternates: {
                 canonical: url,
@@ -138,17 +167,6 @@ export async function generateMetadata({ params }) {
                     'max-image-preview': 'large',
                     'max-snippet': -1,
                 },
-            },
-            // Basic meta tags that Twitter often falls back to
-            other: {
-                'description': description,
-                'image': featuredImage,
-                'twitter:image': featuredImage,
-                'twitter:card': 'summary_large_image',
-                'twitter:site': '@sportz_point',
-                'twitter:creator': '@sportz_point',
-                'twitter:title': title,
-                'twitter:description': description,
             },
         };
     } catch (error) {
@@ -170,28 +188,27 @@ export async function generateMetadata({ params }) {
                         width: 1200,
                         height: 630,
                         alt: 'Sportzpoint',
+                        type: 'image/jpeg',
+                        secureUrl: defaultImage,
                     }
                 ],
                 locale: 'en_US',
                 type: 'website',
             },
-            twitter: {
-                card: 'summary_large_image',
-                site: '@sportz_point',
-                creator: '@sportz_point',
-                title: 'Sportzpoint - Latest Sports News & Updates',
-                description: 'Read the latest sports news and updates on Sportzpoint',
-                images: defaultImage,
-            },
             other: {
                 'description': 'Read the latest sports news and updates on Sportzpoint',
                 'image': defaultImage,
-                'twitter:image': defaultImage,
-                'twitter:card': 'summary_large_image',
-                'twitter:site': '@sportz_point',
-                'twitter:creator': '@sportz_point',
-                'twitter:title': 'Sportzpoint - Latest Sports News & Updates',
-                'twitter:description': 'Read the latest sports news and updates on Sportzpoint',
+                'og:title': 'Sportzpoint - Latest Sports News & Updates',
+                'og:description': 'Read the latest sports news and updates on Sportzpoint',
+                'og:image': defaultImage,
+                'og:image:secure_url': defaultImage,
+                'og:image:width': '1200',
+                'og:image:height': '630',
+                'og:image:type': 'image/jpeg',
+                'og:url': process.env.NEXT_PUBLIC_WEBSITE_URL,
+                'og:type': 'website',
+                'og:site_name': 'Sportzpoint',
+                'og:locale': 'en_US',
             },
         };
     }
