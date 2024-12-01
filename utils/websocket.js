@@ -19,7 +19,7 @@ export const useWebSocket = () => {
 
     newSocket.onopen = () => {
       setIsConnected(true)
-      console.log("WebSocket connection established")
+      // WebSocket connection established
       setRetries(0) // Reset retries on successful connection
     }
 
@@ -32,18 +32,18 @@ export const useWebSocket = () => {
           // handle live blog updates here
         }
       } catch (error) {
-        console.error("Error parsing WebSocket message:", error)
+        // Error parsing WebSocket message
       }
     }
 
     newSocket.onclose = () => {
       setIsConnected(false)
-      console.log("WebSocket connection closed")
+      // WebSocket connection closed
       handleReconnect()  // Handle reconnection on close
     }
 
     newSocket.onerror = (error) => {
-      console.error("WebSocket error:", error)
+      // WebSocket error
       handleReconnect()  // Handle reconnection on error
     }
 
@@ -54,12 +54,12 @@ export const useWebSocket = () => {
   const handleReconnect = () => {
     if (retries < MAX_RETRIES) {
       setRetries((prev) => prev + 1)
-      console.log(`Attempting to reconnect... (${retries + 1}/${MAX_RETRIES})`)
+      // Attempting to reconnect...
       setTimeout(() => {
         createWebSocket()  // Attempt to reconnect
       }, RETRY_DELAY * Math.pow(2, retries))  // Exponential backoff
     } else {
-      console.error("Max reconnect attempts reached. Could not establish WebSocket connection.")
+      // Max reconnect attempts reached. Could not establish WebSocket connection.
     }
   }
 
@@ -79,7 +79,7 @@ export const useWebSocket = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify(message))
     } else {
-      console.warn("Cannot send message, WebSocket is not open")
+      // Cannot send message, WebSocket is not open
     }
   }
 

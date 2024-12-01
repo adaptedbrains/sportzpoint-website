@@ -12,25 +12,14 @@ const WebStory = ({ story }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-  }, [story, currentPage]);
-
-  useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
-  useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
 
-  useEffect(() => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress(prev => Math.min(prev + 1, 100));
@@ -39,7 +28,11 @@ const WebStory = ({ story }) => {
       }
     }, 50);
 
-    return () => clearInterval(timer);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      document.body.style.overflow = 'unset';
+      clearInterval(timer);
+    };
   }, [progress, currentPage]);
 
   const handleNext = () => {
@@ -108,8 +101,8 @@ const WebStory = ({ story }) => {
           >
             <div className="relative w-full h-full">
               <Image
-                src={story[currentPage]?.banner_image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].banner_image}` : '/placeholder.jpg'}
-                alt={story[currentPage]?.title || 'Story image'}
+                src={story[currentPage]?.pages[0]?.image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}` : '/placeholder.jpg'}
+                alt={story[currentPage]?.pages[0]?.heading || 'Story image'}
                 fill
                 sizes="(max-width: 540px) 100vw, 540px"
                 priority={true}
@@ -122,10 +115,10 @@ const WebStory = ({ story }) => {
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">
-                  {story[currentPage]?.title}
+                  {story[currentPage]?.pages[0]?.heading}
                 </h1>
                 <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-                  {story[currentPage]?.description}
+                  {story[currentPage]?.pages[0]?.description}
                 </p>
               </div>
             </div>

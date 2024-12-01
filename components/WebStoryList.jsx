@@ -46,6 +46,7 @@ const WebStoriesList = ({ webStories }) => {
                 />
                 {/* Category Badge */}
                 <div className="absolute top-2 left-2 z-10">
+                  
                   {story.categories.slice(0, 1).map((c, i) => (
                     <span 
                       key={i} 
@@ -54,6 +55,7 @@ const WebStoriesList = ({ webStories }) => {
                       aria-label={`Category: ${c.name || "Uncategorized"}`}
                     >
                       {c.name || "Uncategorized"}
+
                     </span>
                   ))}
                 </div>
