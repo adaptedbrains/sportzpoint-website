@@ -85,27 +85,35 @@ export async function generateMetadata({ params }) {
             `${process.env.NEXT_PUBLIC_API_URL}/article/slug/${id}`
         );
 
-        // Get the featured image URL - ensure it's an absolute URL
+        // Get the featured image URL - ensure it's an absolute URL and properly cached
         const getAbsoluteImageUrl = (path) => {
             if (!path) return `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
             if (path.startsWith('http')) return path;
-            return `https://dmpsza32x691.cloudfront.net/${path}`;
+            // Add a timestamp to force social media platforms to refresh the image
+            const timestamp = new Date().getTime();
+            return `https://dmpsza32x691.cloudfront.net/${path}?v=${timestamp}`;
         };
 
-        // Prepare metadata values with proper fallbacks
+        // Pre-fetch the image to ensure it's in CloudFront's cache
+        const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
+        try {
+            await fetch(featuredImage, { 
+                method: 'HEAD',
+                cache: 'force-cache'
+            });
+        } catch (error) {
+            console.error('Error pre-fetching image:', error);
+        }
+
         const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
-        const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
         const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
         const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
 
         return {
-            // Basic metadata
             title,
             description,
             metadataBase: new URL(baseUrl),
-
-            // OpenGraph metadata (for Facebook, WhatsApp, LinkedIn, etc.)
             openGraph: {
                 title,
                 description,
@@ -118,21 +126,22 @@ export async function generateMetadata({ params }) {
                         height: 630,
                         alt: title,
                         type: 'image/jpeg',
+                        // Force social platforms to fetch a fresh copy
+                        'og:image:url': featuredImage,
                     }
                 ],
                 locale: 'en_US',
                 type: 'article',
             },
-
-            // Twitter specific metadata
             twitter: {
                 card: 'summary_large_image',
                 title,
                 description,
                 images: [featuredImage],
+                // Additional Twitter-specific image properties
+                'twitter:image': featuredImage,
+                'twitter:image:src': featuredImage,
             },
-
-            // Additional metadata for better SEO
             alternates: {
                 canonical: url,
             },
@@ -147,9 +156,17 @@ export async function generateMetadata({ params }) {
                     'max-snippet': -1,
                 },
             },
+            // Additional image-specific meta tags
+            other: {
+                'og:image:secure_url': featuredImage,
+                'og:image:type': 'image/jpeg',
+                'og:image:width': '1200',
+                'og:image:height': '630',
+            },
         };
     } catch (error) {
         console.error('Error fetching metadata:', error);
+        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
         return {
             title: 'Sportzpoint - Latest Sports News & Updates',
             description: 'Read the latest sports news and updates on Sportzpoint',
@@ -161,15 +178,24 @@ export async function generateMetadata({ params }) {
                 siteName: 'Sportzpoint',
                 images: [
                     {
-                        url: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`,
+                        url: defaultImage,
                         width: 1200,
                         height: 630,
                         alt: 'Sportzpoint',
                         type: 'image/jpeg',
+                        'og:image:url': defaultImage,
                     }
                 ],
                 locale: 'en_US',
                 type: 'website',
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: 'Sportzpoint - Latest Sports News & Updates',
+                description: 'Read the latest sports news and updates on Sportzpoint',
+                images: [defaultImage],
+                'twitter:image': defaultImage,
+                'twitter:image:src': defaultImage,
             },
         };
     }
