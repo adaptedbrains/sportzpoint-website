@@ -57,25 +57,24 @@ const WebStory = ({ story }) => {
   });
 
   return (
-    <div 
+    <div
       {...handlers}
       className="fixed inset-0 w-screen h-screen bg-black z-50"
       role="region"
       aria-label="Web Story Viewer"
     >
-      <div className="relative w-full h-full max-w-[540px] mx-auto">
+      <div className="relative w-full h-full max-w-[440px] mx-auto">
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2">
           {story.map((_, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="flex-1 h-1 bg-gray-500/30 rounded overflow-hidden"
             >
-              <div 
-                className={`h-full bg-white transition-all duration-100 ease-linear ${
-                  index === currentPage ? 'w-[' + progress + '%]' : 
+              <div
+                className={`h-full bg-white transition-all duration-100 ease-linear ${index === currentPage ? 'w-[' + progress + '%]' :
                   index < currentPage ? 'w-full' : 'w-0'
-                }`}
+                  }`}
               />
             </div>
           ))}
@@ -99,19 +98,22 @@ const WebStory = ({ story }) => {
             transition={{ duration: 0.3 }}
             className="relative w-full h-full"
           >
-            <div className="relative w-full h-full">
-              <Image
-                src={story[currentPage]?.pages[0]?.image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}` : '/placeholder.jpg'}
-                alt={story[currentPage]?.pages[0]?.heading || 'Story image'}
-                fill
-                sizes="(max-width: 540px) 100vw, 540px"
-                priority={true}
-                quality={90}
-                className="object-cover"
-                aria-hidden="false"
-              />
-              <div 
-                className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/50 to-transparent"
+            <div className="relative w-full md:w-[95%] sm:w-full lg:w-[95%] flex  justify-center  h-full">
+              <div className="aspect-[9/16] relative w-full lg:ml-5">
+                <Image
+                  src={story[currentPage]?.pages[0]?.image ? `https://dmpsza32x691.cloudfront.net/${story[currentPage].pages[0].image}` : '/placeholder.jpg'}
+                  alt={story[currentPage]?.pages[0]?.heading || 'Story image'}
+                  fill
+                  sizes="(max-width: 540px) 100vw, 540px"
+                  priority={true}
+                  quality={100}
+                  objectPosition="center"
+                  objectFit="contain"
+                  aria-hidden="false"
+                />
+              </div>
+              <div
+                className="absolute  w-[105%] bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/50 to-transparent"
                 aria-live="polite"
               >
                 <h1 className="text-white text-xl sm:text-2xl font-bold mb-3 leading-tight">

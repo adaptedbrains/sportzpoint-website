@@ -355,19 +355,20 @@ const BlogPost = ({ postData, index }) => {
                 <FaUserCircle size={35} color="gray" />
               )}
               <div className="flex flex-col">
-                <Link
-                  href={`/author/${postData.author?.slug}`}
-                  className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
-                >
-                  {/* {postData.author?.name} */}
 
-                  {postData.credits?.map((c, i) => (
-                    <span key={i}>
+
+                {postData.credits?.map((c, i) => (
+                  <Link
+                    key={i}
+                    href={`/author/${c._id}`}
+                    className="text-sm font-thin capitalize hover:text-green-800 transition-colors"
+                  >
+                    <span >
                       {c.name}
                       {i < postData.credits.length - 1 ? ", " : ""}
                     </span>
-                  ))}
-                </Link>
+                  </Link>
+                ))}
                 <p className="text-zinc-500 text-[11px]">
                   {postData.published_at_datetime &&
                     convertToIST(postData.published_at_datetime)}
@@ -394,9 +395,8 @@ const BlogPost = ({ postData, index }) => {
               </Link>
 
               <ShareButtons
-                url={`https://sportzpoint.com/${
-                  postData?.categories?.[0]?.slug || ""
-                }/${postData?.slug || ""}`}
+                url={`https://sportzpoint.com/${postData?.categories?.[0]?.slug || ""
+                  }/${postData?.slug || ""}`}
                 title={postData?.title || ""}
                 onClick
               />
