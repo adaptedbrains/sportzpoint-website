@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /static/*
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+Sitemap: https://sportzpoint.com/api/sitemaps/webcontent
+Sitemap: https://sportzpoint.com/api/sitemaps/category
+Sitemap: https://sportzpoint.com/api/sitemaps/news
+Sitemap: https://sportzpoint.com/api/sitemaps/webstory
