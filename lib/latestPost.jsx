@@ -2,7 +2,7 @@ export async function latestPost(url) {
     try {
         const result = await fetch(`${url}`, {
             next: {
-                revalidate: 1
+                revalidate: 600
             }
         });
         

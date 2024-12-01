@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { convertToIST } from "@/util/convertToIST";
 import Image from "next/image";
 import Link from "next/link";
@@ -113,9 +113,7 @@ const FullWidthArticleCard = ({ article }) => (
                 href={`/${category.slug}`}
                 className="bg-green-200 rounded text-green-800 text-xs font-semibold px-2 py-0.5"
               >
-                {category.name === "Sports"
-                  ? ""
-                  : category.name || "Uncategorized"}
+                {category.name}
               </Link>
             ))}
         </div>
@@ -316,18 +314,15 @@ const BlogPost = ({ postData, index }) => {
               </div>
             )}
             {uniqueRenderingCategory &&
-              uniqueRenderingCategory.map(
-                (category, index) =>
-                  category.name !== "Sports" && (
-                    <Link
-                      href={`/${category.slug}`}
-                      key={index}
-                      className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
-                    >
-                      {category.name}
-                    </Link>
-                  )
-              )}
+              uniqueRenderingCategory.map((category, index) => (
+                <Link
+                  href={`/${category.slug}`}
+                  key={index}
+                  className="bg-green-200 rounded text-green-800 font-semibold px-4 py-1"
+                >
+                  {category.name}
+                </Link>
+              ))}
           </div>
 
           <h2 className="text-3xl font-semibold text-start my-4">
@@ -392,11 +387,9 @@ const BlogPost = ({ postData, index }) => {
                 />
                 Follow Us
               </Link>
-
               <ShareButtons
                 url={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/${postData.primary_category[0]?.slug}/${postData.slug}`}
                 title={postData.title}
-                onClick
               />
             </div>
           </div>

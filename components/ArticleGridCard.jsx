@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation"; // Import useRouter from next/navig
 const ArticleGridCard = ({ post }) => {
   const router = useRouter();
 
+  
+
   if (!post) {
     return (
       <div className="text-center text-red-600 font-semibold">
@@ -27,10 +29,11 @@ const ArticleGridCard = ({ post }) => {
 
     router.push(`/${categorySlug}/${postSlug}`);
   };
-  const renderingCategory = [...post.primary_category, ...post.categories];
+  const renderingCategory=[...post.primary_category,...post.categories]
   const uniqueRenderingCategory = Array.from(
-    new Map(renderingCategory.map((item) => [item._id, item])).values()
+    new Map(renderingCategory.map(item => [item._id, item])).values()
   );
+
 
   return (
     <div
@@ -65,18 +68,14 @@ const ArticleGridCard = ({ post }) => {
               LIVE
             </span>
           )}
-
-          {uniqueRenderingCategory.map(
-            (c, i) =>
-              c.name &&
-              c.name !== "Sports" && (
-                <div key={i}>
-                  <span className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded">
-                    {c.name || "Uncategorized"}
-                  </span>
-                </div>
-              )
-          )}
+          {uniqueRenderingCategory && uniqueRenderingCategory.map((c, i) => (
+            <span
+              key={i}
+              className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
+            >
+              {c.name || "Uncategorized"}
+            </span>
+          ))}
         </div>
 
         {/* Title */}

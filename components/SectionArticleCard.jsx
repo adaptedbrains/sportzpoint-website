@@ -14,9 +14,9 @@ const SectionArticleCard = ({ post }) => {
     router.push(`/${post.primary_category[0].slug}/${post.slug}`);
   };
 
-  const renderingCategory = [...post.primary_category, ...post.categories];
+  const renderingCategory=[...post.primary_category,...post.categories]
   const uniqueRenderingCategory = Array.from(
-    new Map(renderingCategory.map((item) => [item._id, item])).values()
+    new Map(renderingCategory.map(item => [item._id, item])).values()
   );
 
   return (
@@ -48,17 +48,15 @@ const SectionArticleCard = ({ post }) => {
               LIVE
             </span>
           )}
-          {uniqueRenderingCategory.map(
-            (c, i) =>
-              c.name &&
-              c.name !== "Sports" && (
-                <div key={i}>
-                  <span className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded">
-                    {c.name || "Uncategorized"}
-                  </span>
-                </div>
-              )
-          )}
+          {uniqueRenderingCategory && uniqueRenderingCategory.map((c, i) => (
+            <span
+              key={i}
+              className="text-[10px] font-medium text-[#006356] bg-[#006356]/10 px-2 py-0.5 rounded"
+            >
+              {c.name || "Uncategorized"}
+            </span>
+          ))}
+          
         </div>
 
         <h2 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-3">
@@ -71,13 +69,12 @@ const SectionArticleCard = ({ post }) => {
 
         <div className="mt-auto">
           <p className="text-xs text-gray-600 truncate">
-            By{" "}
-            {post.credits?.map((c, i) => (
-              <span key={i}>
-                {c.name}
-                {i < post.credits.length - 1 ? ", " : ""}
-              </span>
-            ))}
+            By {post.credits?.map((c, i) => (
+                    <span key={i}>
+                      {c.name}
+                      {i < post.credits.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
           </p>
           <div className="flex items-center text-[10px] text-gray-500 mt-1">
             <span className="truncate">
