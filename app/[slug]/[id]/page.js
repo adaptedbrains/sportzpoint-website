@@ -101,7 +101,7 @@ export async function generateMetadata({ params }) {
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
         const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
 
-        const metadata = {
+        return {
             title,
             description,
             metadataBase: new URL(baseUrl),
@@ -120,43 +120,38 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'article',
             },
-            twitter: {
-                card: 'summary_large_image',
-                site: '@sportz_point',
-                title,
-                description,
-                images: featuredImage,
+            // Using Next.js head tags for Twitter Cards
+            other: {
+                // Required Twitter Card tags
+                'twitter:card': 'summary_large_image',
+                'twitter:site': '@sportz_point',
+                // Optional but recommended tags
+                'twitter:title': title.substring(0, 70), // Twitter recommends title < 70 chars
+                'twitter:description': description.substring(0, 200), // Twitter recommends description < 200 chars
+                'twitter:image': featuredImage,
+                // Additional engagement tags
+                'twitter:creator': '@sportz_point',
+                // Ensure proper URL parsing
+                'twitter:url': url,
             },
             alternates: {
                 canonical: url,
             },
         };
-
-        // Add basic meta tags for better compatibility
-        metadata.other = {
-            // Twitter fallback tags
-            'twitter:card': 'summary_large_image',
-            'twitter:site': '@sportz_point',
-            'twitter:creator': '@sportz_point',
-            'twitter:title': title,
-            'twitter:description': description,
-            'twitter:image': featuredImage,
-        };
-
-        return metadata;
-
     } catch (error) {
         console.error('Error fetching metadata:', error);
         const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/+$/, '') || 'https://sportzpoint.com';
         const defaultImage = `${baseUrl}/default-og-image.jpg`;
+        const defaultTitle = 'Sportzpoint - Latest Sports News & Updates';
+        const defaultDesc = 'Read the latest sports news and updates on Sportzpoint';
         
         return {
-            title: 'Sportzpoint - Latest Sports News & Updates',
-            description: 'Read the latest sports news and updates on Sportzpoint',
+            title: defaultTitle,
+            description: defaultDesc,
             metadataBase: new URL(baseUrl),
             openGraph: {
-                title: 'Sportzpoint - Latest Sports News & Updates',
-                description: 'Read the latest sports news and updates on Sportzpoint',
+                title: defaultTitle,
+                description: defaultDesc,
                 url: baseUrl,
                 siteName: 'Sportzpoint',
                 images: [
@@ -169,20 +164,18 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'website',
             },
-            twitter: {
-                card: 'summary_large_image',
-                site: '@sportz_point',
-                title: 'Sportzpoint - Latest Sports News & Updates',
-                description: 'Read the latest sports news and updates on Sportzpoint',
-                images: defaultImage,
-            },
             other: {
+                // Required Twitter Card tags
                 'twitter:card': 'summary_large_image',
                 'twitter:site': '@sportz_point',
-                'twitter:creator': '@sportz_point',
-                'twitter:title': 'Sportzpoint - Latest Sports News & Updates',
-                'twitter:description': 'Read the latest sports news and updates on Sportzpoint',
+                // Optional but recommended tags
+                'twitter:title': defaultTitle.substring(0, 70),
+                'twitter:description': defaultDesc.substring(0, 200),
                 'twitter:image': defaultImage,
+                // Additional engagement tags
+                'twitter:creator': '@sportz_point',
+                // Ensure proper URL parsing
+                'twitter:url': baseUrl,
             },
             alternates: {
                 canonical: baseUrl,
