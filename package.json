@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:bun": "bun --bun run dev",
+    "build:bun": "bun --bun run build",
+    "start:bun": "bun --bun run start",
+    "lint:bun": "bun --bun run lint"
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -35,5 +39,8 @@
     "framer-motion": {
       "react": "19.0.0-rc-66855b96-20241106"
     }
-  }
+  },
+  "trustedDependencies": [
+    "sharp"
+  ]
 }
