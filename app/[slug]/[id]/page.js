@@ -120,11 +120,17 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'article',
             },
-            twitter: {
-                card: 'summary_large_image',
-                title,
-                description,
-                images: [featuredImage],
+            other: {
+                'twitter:card': 'summary_large_image',
+                'twitter:site': '@sportz_point',
+                'twitter:title': title,
+                'twitter:description': description,
+                'twitter:image': featuredImage,
+                'twitter:image:alt': title,
+                'twitter:domain': baseUrl.replace(/^https?:\/\//, ''),
+                'twitter:url': url,
+                'twitter:app:name:iphone': 'Sportzpoint',
+                'twitter:app:id:iphone': process.env.NEXT_PUBLIC_IOS_APP_ID || '',
             },
             alternates: {
                 canonical: url,
@@ -154,11 +160,15 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'website',
             },
-            twitter: {
-                card: 'summary_large_image',
-                title: 'Sportzpoint - Latest Sports News & Updates',
-                description: 'Read the latest sports news and updates on Sportzpoint',
-                images: [defaultImage],
+            other: {
+                'twitter:card': 'summary_large_image',
+                'twitter:site': '@sportz_point',
+                'twitter:title': 'Sportzpoint - Latest Sports News & Updates',
+                'twitter:description': 'Read the latest sports news and updates on Sportzpoint',
+                'twitter:image': defaultImage,
+                'twitter:image:alt': 'Sportzpoint',
+                'twitter:domain': baseUrl.replace(/^https?:\/\//, ''),
+                'twitter:url': baseUrl,
             },
             alternates: {
                 canonical: baseUrl,
