@@ -91,17 +91,20 @@ export async function generateMetadata({ params }) {
             return `https://dmpsza32x691.cloudfront.net/${path}`;
         };
 
+        // Clean up the base URL to avoid double slashes
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/+$/, '') || 'https://sportzpoint.com';
+        const cleanSlug = slug?.replace(/^\/+|\/+$/g, '');
+        const cleanId = id?.replace(/^\/+|\/+$/g, '');
+        const url = `${baseUrl}/${cleanSlug}/${cleanId}`;
+
         const title = post.article?.title || 'Sportzpoint - Latest Sports News & Updates';
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
         const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
-        const url = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${slug}/${id}`;
-        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com';
 
         return {
             title,
             description,
             metadataBase: new URL(baseUrl),
-            // Comprehensive OpenGraph metadata
             openGraph: {
                 title,
                 description,
@@ -113,74 +116,43 @@ export async function generateMetadata({ params }) {
                         width: 1200,
                         height: 630,
                         alt: title,
-                        type: 'image/jpeg',
-                        secureUrl: featuredImage,
                     }
                 ],
-                locale: 'en_US',
                 type: 'article',
-                publishedTime: post.article?.published_at_datetime,
-                modifiedTime: post.article?.updated_at_datetime,
-                section: 'Sports',
-                authors: ['Sportzpoint'],
             },
-            // Basic meta tags for broader compatibility
+            // Using Next.js head tags for Twitter Cards
             other: {
-                // Standard meta tags
-                'description': description,
-                'image': featuredImage,
-                
-                // OpenGraph specific
-                'og:title': title,
-                'og:description': description,
-                'og:image': featuredImage,
-                'og:image:secure_url': featuredImage,
-                'og:image:width': '1200',
-                'og:image:height': '630',
-                'og:image:type': 'image/jpeg',
-                'og:url': url,
-                'og:type': 'article',
-                'og:site_name': 'Sportzpoint',
-                'og:locale': 'en_US',
-                'article:published_time': post.article?.published_at_datetime,
-                'article:modified_time': post.article?.updated_at_datetime,
-                'article:section': 'Sports',
-                'article:author': 'Sportzpoint',
-
-                // Basic Twitter tags (as fallback)
+                // Required Twitter Card tags
                 'twitter:card': 'summary_large_image',
-                'twitter:image': featuredImage,
-                'twitter:title': title,
-                'twitter:description': description,
                 'twitter:site': '@sportz_point',
+                // Optional but recommended tags
+                'twitter:title': title.substring(0, 70), // Twitter recommends title < 70 chars
+                'twitter:description': description.substring(0, 200), // Twitter recommends description < 200 chars
+                'twitter:image': featuredImage,
+                // Additional engagement tags
+                'twitter:creator': '@sportz_point',
+                // Ensure proper URL parsing
+                'twitter:url': url,
             },
             alternates: {
                 canonical: url,
             },
-            robots: {
-                index: true,
-                follow: true,
-                googleBot: {
-                    index: true,
-                    follow: true,
-                    'max-video-preview': -1,
-                    'max-image-preview': 'large',
-                    'max-snippet': -1,
-                },
-            },
         };
     } catch (error) {
         console.error('Error fetching metadata:', error);
-        const defaultImage = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/default-og-image.jpg`;
+        const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/+$/, '') || 'https://sportzpoint.com';
+        const defaultImage = `${baseUrl}/default-og-image.jpg`;
+        const defaultTitle = 'Sportzpoint - Latest Sports News & Updates';
+        const defaultDesc = 'Read the latest sports news and updates on Sportzpoint';
         
         return {
-            title: 'Sportzpoint - Latest Sports News & Updates',
-            description: 'Read the latest sports news and updates on Sportzpoint',
-            metadataBase: new URL(process.env.NEXT_PUBLIC_WEBSITE_URL || 'https://sportzpoint.com'),
+            title: defaultTitle,
+            description: defaultDesc,
+            metadataBase: new URL(baseUrl),
             openGraph: {
-                title: 'Sportzpoint - Latest Sports News & Updates',
-                description: 'Read the latest sports news and updates on Sportzpoint',
-                url: process.env.NEXT_PUBLIC_WEBSITE_URL,
+                title: defaultTitle,
+                description: defaultDesc,
+                url: baseUrl,
                 siteName: 'Sportzpoint',
                 images: [
                     {
@@ -188,27 +160,25 @@ export async function generateMetadata({ params }) {
                         width: 1200,
                         height: 630,
                         alt: 'Sportzpoint',
-                        type: 'image/jpeg',
-                        secureUrl: defaultImage,
                     }
                 ],
-                locale: 'en_US',
                 type: 'website',
             },
             other: {
-                'description': 'Read the latest sports news and updates on Sportzpoint',
-                'image': defaultImage,
-                'og:title': 'Sportzpoint - Latest Sports News & Updates',
-                'og:description': 'Read the latest sports news and updates on Sportzpoint',
-                'og:image': defaultImage,
-                'og:image:secure_url': defaultImage,
-                'og:image:width': '1200',
-                'og:image:height': '630',
-                'og:image:type': 'image/jpeg',
-                'og:url': process.env.NEXT_PUBLIC_WEBSITE_URL,
-                'og:type': 'website',
-                'og:site_name': 'Sportzpoint',
-                'og:locale': 'en_US',
+                // Required Twitter Card tags
+                'twitter:card': 'summary_large_image',
+                'twitter:site': '@sportz_point',
+                // Optional but recommended tags
+                'twitter:title': defaultTitle.substring(0, 70),
+                'twitter:description': defaultDesc.substring(0, 200),
+                'twitter:image': defaultImage,
+                // Additional engagement tags
+                'twitter:creator': '@sportz_point',
+                // Ensure proper URL parsing
+                'twitter:url': baseUrl,
+            },
+            alternates: {
+                canonical: baseUrl,
             },
         };
     }
