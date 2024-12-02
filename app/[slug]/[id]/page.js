@@ -101,7 +101,7 @@ export async function generateMetadata({ params }) {
         const description = post.article?.seo_desc || post.article?.excerpt || 'Read the latest sports news and updates on Sportzpoint';
         const featuredImage = getAbsoluteImageUrl(post.article?.featured_image || post.article?.banner_image);
 
-        return {
+        const metadata = {
             title,
             description,
             metadataBase: new URL(baseUrl),
@@ -120,22 +120,31 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'article',
             },
-            other: {
-                'twitter:card': 'summary_large_image',
-                'twitter:site': '@sportz_point',
-                'twitter:title': title,
-                'twitter:description': description,
-                'twitter:image': featuredImage,
-                'twitter:image:alt': title,
-                'twitter:domain': baseUrl.replace(/^https?:\/\//, ''),
-                'twitter:url': url,
-                'twitter:app:name:iphone': 'Sportzpoint',
-                'twitter:app:id:iphone': process.env.NEXT_PUBLIC_IOS_APP_ID || '',
+            twitter: {
+                card: 'summary_large_image',
+                site: '@sportz_point',
+                title,
+                description,
+                images: featuredImage,
             },
             alternates: {
                 canonical: url,
             },
         };
+
+        // Add basic meta tags for better compatibility
+        metadata.other = {
+            // Twitter fallback tags
+            'twitter:card': 'summary_large_image',
+            'twitter:site': '@sportz_point',
+            'twitter:creator': '@sportz_point',
+            'twitter:title': title,
+            'twitter:description': description,
+            'twitter:image': featuredImage,
+        };
+
+        return metadata;
+
     } catch (error) {
         console.error('Error fetching metadata:', error);
         const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/+$/, '') || 'https://sportzpoint.com';
@@ -160,15 +169,20 @@ export async function generateMetadata({ params }) {
                 ],
                 type: 'website',
             },
+            twitter: {
+                card: 'summary_large_image',
+                site: '@sportz_point',
+                title: 'Sportzpoint - Latest Sports News & Updates',
+                description: 'Read the latest sports news and updates on Sportzpoint',
+                images: defaultImage,
+            },
             other: {
                 'twitter:card': 'summary_large_image',
                 'twitter:site': '@sportz_point',
+                'twitter:creator': '@sportz_point',
                 'twitter:title': 'Sportzpoint - Latest Sports News & Updates',
                 'twitter:description': 'Read the latest sports news and updates on Sportzpoint',
                 'twitter:image': defaultImage,
-                'twitter:image:alt': 'Sportzpoint',
-                'twitter:domain': baseUrl.replace(/^https?:\/\//, ''),
-                'twitter:url': baseUrl,
             },
             alternates: {
                 canonical: baseUrl,
